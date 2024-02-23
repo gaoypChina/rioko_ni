@@ -23,6 +23,16 @@ class CountryPolygons with _$CountryPolygons {
   List<fm.Polygon> get polygons {
     List<fm.Polygon> result = [];
     for (Feature feature in featureCollection.features) {
+      if (feature.geometry is Polygon) {
+        List<LatLng> points = [];
+        (feature.geometry as Polygon).exterior?.positions.forEach((position) {
+          points.add(LatLng(position.y, position.x));
+        });
+        return [
+          fm.Polygon(
+              points: points, borderColor: Colors.red, borderStrokeWidth: 2.0)
+        ];
+      }
       if (feature.geometry is MultiPolygon) {
         var multiPolygon = feature.geometry as MultiPolygon;
         for (Polygon polygon in multiPolygon.polygons) {
