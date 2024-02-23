@@ -1,0 +1,33 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "rioko_ni",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/main.dart",
+            "toolArgs": [
+                "--dart-define-from-file=env.json"
+            ],
+            "flutterMode": "debug"
+        },
+        {
+            "name": "rioko_ni (profile mode)",
+            "request": "launch",
+            "type": "dart",
+            "toolArgs": [
+                "--dart-define-from-file=env.json"
+            ],
+            "flutterMode": "profile"
+        },
+        {
+            "name": "rioko_ni (release mode)",
+            "request": "launch",
+            "type": "dart",
+            "toolArgs": [
+                "--dart-define-from-file=env.json"
+            ],
+            "flutterMode": "release"
+        }
+    ]
+}
