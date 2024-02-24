@@ -15,7 +15,7 @@ class MapBuilder {
       interactionOptions: interactionOptions,
       initialZoom: initialZoom ?? 5,
       backgroundColor: backgroundColor ?? const Color(0x00000000),
-      minZoom: minZoom ?? 2,
+      minZoom: minZoom ?? 4,
       maxZoom: maxZoom ?? 17,
     );
   }

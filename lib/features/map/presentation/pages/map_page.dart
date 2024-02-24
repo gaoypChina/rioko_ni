@@ -15,11 +15,14 @@ class MapPage extends StatelessWidget {
       backgroundColor: const Color.fromARGB(255, 33, 70, 54),
       body: BlocBuilder<MapCubit, MapState>(
         builder: (context, state) {
+          _cubit.getPointsNumber();
           return _buildMap(context);
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _cubit.displayPolygons,
+        onPressed: () {
+          _cubit.displayPolygons();
+        },
         backgroundColor: const Color.fromARGB(255, 50, 168, 109),
         child: const Icon(Icons.polyline),
       ),

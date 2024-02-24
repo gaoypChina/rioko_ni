@@ -35,12 +35,22 @@ class MapCubit extends Cubit<MapState> {
   List<CountryPolygons> wantCountryPolygons = [];
 
   void displayPolygons() {
-    beenCountryPolygons.add(
-        countriesGeoData.firstWhere((country) => country.countryCode == 'POL'));
-    wantCountryPolygons.add(
-        countriesGeoData.firstWhere((country) => country.countryCode == 'HUN'));
+    beenCountryPolygons.addAll(
+      countriesGeoData.getRange(0, countriesGeoData.length ~/ 2),
+    );
+    wantCountryPolygons.addAll(
+      countriesGeoData.getRange(
+          countriesGeoData.length ~/ 2, countriesGeoData.length),
+    );
     emit(MapDisplayCountriesData(
         beenCountries: beenCountryPolygons,
         wantCountries: wantCountryPolygons));
+  }
+
+  void getPointsNumber() {
+    final points = countriesGeoData.map((c) => c.pointsNumber);
+    if (points.isNotEmpty) {
+      debugPrint(points.reduce((value, element) => value + element).toString());
+    }
   }
 }
