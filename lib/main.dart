@@ -6,7 +6,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() {
   registerDependencies();
-  runApp(const RiokoNi());
+  runApp(
+    MultiBlocProvider(providers: [
+      BlocProvider<MapCubit>(
+        create: (BuildContext context) => locator<MapCubit>(),
+      ),
+    ], child: const RiokoNi()),
+  );
 }
 
 class RiokoNi extends StatefulWidget {
@@ -19,6 +25,12 @@ class RiokoNi extends StatefulWidget {
 
 class _RiokoNiState extends State<RiokoNi> {
   @override
+  void initState() {
+    locator<MapCubit>().getCountryPolygons();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return MaterialApp(
       navigatorKey: RiokoNi.navigatorKey,
@@ -26,14 +38,7 @@ class _RiokoNiState extends State<RiokoNi> {
         primarySwatch: Colors.blue,
       ),
       debugShowCheckedModeBanner: false,
-      home: MultiBlocProvider(
-        providers: [
-          BlocProvider<MapCubit>(
-            create: (BuildContext context) => locator<MapCubit>(),
-          ),
-        ],
-        child: const HomePage(),
-      ),
+      home: const HomePage(),
     );
   }
 }

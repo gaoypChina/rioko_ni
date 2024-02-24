@@ -11,6 +11,15 @@ final class MapError extends MapState {
 }
 
 final class MapFetchedCountryPolygons extends MapState {
-  final CountryPolygons polygons;
+  final List<CountryPolygons> polygons;
   MapFetchedCountryPolygons(this.polygons);
+}
+
+final class MapDisplayCountriesData extends MapState {
+  final List<CountryPolygons> beenCountries;
+  final List<CountryPolygons> wantCountries;
+  MapDisplayCountriesData({
+    required this.beenCountries,
+    required this.wantCountries,
+  });
 }

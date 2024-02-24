@@ -19,10 +19,7 @@ class MapPage extends StatelessWidget {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          _cubit.getPolandPolygon();
-          _cubit.getHungaryPolygon();
-        },
+        onPressed: _cubit.displayPolygons,
         backgroundColor: const Color.fromARGB(255, 50, 168, 109),
         child: const Icon(Icons.polyline),
       ),

@@ -15,13 +15,10 @@ class MapRepositoryImpl with ExceptionHandler implements MapRepository {
     required this.localDataSource,
   });
   @override
-  Future<Either<Failure, CountryPolygons>> getCountryPolygons({
-    required String countryCode,
-  }) async {
+  Future<Either<Failure, List<CountryPolygons>>> getCountryPolygons() async {
     return await execute(() async {
-      final result =
-          await localDataSource.getCountryPolygons(countryCode: countryCode);
-      return result.toEntity();
+      final result = await localDataSource.getCountryPolygons();
+      return result.map((country) => country.toEntity()).toList();
     });
   }
 }

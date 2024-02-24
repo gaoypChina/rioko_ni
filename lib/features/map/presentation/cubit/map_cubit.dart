@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rioko_ni/core/domain/usecase.dart';
 
 import 'package:rioko_ni/features/map/domain/entities/country_polygons.dart';
 import 'package:rioko_ni/features/map/domain/usecases/get_country_polygons.dart';
@@ -15,39 +16,31 @@ class MapCubit extends Cubit<MapState> {
   String get urlTemplate =>
       "https://api.mapbox.com/styles/v1/mister-lucifer/cls7n0t4g00zh01qsdc652wos/tiles/256/{z}/{x}/{y}{r}?access_token={accessToken}";
 
-  List<CountryPolygons> beenCountryPolygons = [];
+  List<CountryPolygons> countriesGeoData = [];
 
-  List<CountryPolygons> wantCountryPolygons = [];
-
-  Future<void> getPolandPolygon() async {
-    await getCountryPolygonUsecase.call('POL').then(
+  Future getCountryPolygons() async {
+    await getCountryPolygonUsecase.call(NoParams()).then(
           (result) => result.fold(
-            (failure) {
-              debugPrint(failure.fullMessage);
-              emit(MapError(failure.message));
-            },
+            (failure) => emit(MapError(failure.message)),
             (countryPolygons) {
-              debugPrint(countryPolygons.toString());
-              beenCountryPolygons.add(countryPolygons);
+              countriesGeoData = countryPolygons;
               emit(MapFetchedCountryPolygons(countryPolygons));
             },
           ),
         );
   }
 
-  Future<void> getHungaryPolygon() async {
-    await getCountryPolygonUsecase.call('HUN').then(
-          (result) => result.fold(
-            (failure) {
-              debugPrint(failure.fullMessage);
-              emit(MapError(failure.message));
-            },
-            (countryPolygons) {
-              debugPrint(countryPolygons.toString());
-              wantCountryPolygons.add(countryPolygons);
-              emit(MapFetchedCountryPolygons(countryPolygons));
-            },
-          ),
-        );
+  List<CountryPolygons> beenCountryPolygons = [];
+
+  List<CountryPolygons> wantCountryPolygons = [];
+
+  void displayPolygons() {
+    beenCountryPolygons.add(
+        countriesGeoData.firstWhere((country) => country.countryCode == 'POL'));
+    wantCountryPolygons.add(
+        countriesGeoData.firstWhere((country) => country.countryCode == 'HUN'));
+    emit(MapDisplayCountriesData(
+        beenCountries: beenCountryPolygons,
+        wantCountries: wantCountryPolygons));
   }
 }
