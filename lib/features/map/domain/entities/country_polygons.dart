@@ -20,8 +20,13 @@ class CountryPolygons with _$CountryPolygons {
         featureCollection: featureCollection,
       );
 
-  List<fm.Polygon> get polygons {
+  List<fm.Polygon> polygons({
+    Color? borderColor,
+    double? borderWidth,
+  }) {
     List<fm.Polygon> result = [];
+    borderColor ??= Colors.red;
+    borderWidth ??= 2.0;
     for (Feature feature in featureCollection.features) {
       if (feature.geometry is Polygon) {
         List<LatLng> points = [];
@@ -30,7 +35,10 @@ class CountryPolygons with _$CountryPolygons {
         });
         return [
           fm.Polygon(
-              points: points, borderColor: Colors.red, borderStrokeWidth: 2.0)
+            points: points,
+            borderColor: borderColor,
+            borderStrokeWidth: borderWidth,
+          )
         ];
       }
       if (feature.geometry is MultiPolygon) {
@@ -46,33 +54,15 @@ class CountryPolygons with _$CountryPolygons {
             result = [
               ...result,
               fm.Polygon(
-                  points: points,
-                  borderColor: Colors.red,
-                  borderStrokeWidth: 2.0)
+                points: points,
+                borderColor: borderColor,
+                borderStrokeWidth: borderWidth,
+              )
             ];
           }
         }
       }
     }
     return result;
-  }
-
-  fm.Polygon get polygon {
-    List<LatLng> points = [];
-    for (Feature feature in featureCollection.features) {
-      if (feature.geometry is MultiPolygon) {
-        var multiPolygon = feature.geometry as MultiPolygon;
-        for (Polygon polygon in multiPolygon.polygons) {
-          polygon.exterior?.positions.forEach((position) {
-            points.add(LatLng(position.y, position.x));
-          });
-        }
-      }
-    }
-    return fm.Polygon(
-        points: points,
-        color: Colors.red,
-        borderColor: Colors.red,
-        borderStrokeWidth: 5.0);
   }
 }

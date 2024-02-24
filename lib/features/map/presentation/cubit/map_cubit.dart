@@ -15,7 +15,9 @@ class MapCubit extends Cubit<MapState> {
   String get urlTemplate =>
       "https://api.mapbox.com/styles/v1/mister-lucifer/cls7n0t4g00zh01qsdc652wos/tiles/256/{z}/{x}/{y}{r}?access_token={accessToken}";
 
-  CountryPolygons? countryPolygons;
+  List<CountryPolygons> beenCountryPolygons = [];
+
+  List<CountryPolygons> wantCountryPolygons = [];
 
   Future<void> getPolandPolygon() async {
     await getCountryPolygonUsecase.call('POL').then(
@@ -26,7 +28,23 @@ class MapCubit extends Cubit<MapState> {
             },
             (countryPolygons) {
               debugPrint(countryPolygons.toString());
-              this.countryPolygons = countryPolygons;
+              beenCountryPolygons.add(countryPolygons);
+              emit(MapFetchedCountryPolygons(countryPolygons));
+            },
+          ),
+        );
+  }
+
+  Future<void> getHungaryPolygon() async {
+    await getCountryPolygonUsecase.call('HUN').then(
+          (result) => result.fold(
+            (failure) {
+              debugPrint(failure.fullMessage);
+              emit(MapError(failure.message));
+            },
+            (countryPolygons) {
+              debugPrint(countryPolygons.toString());
+              wantCountryPolygons.add(countryPolygons);
               emit(MapFetchedCountryPolygons(countryPolygons));
             },
           ),

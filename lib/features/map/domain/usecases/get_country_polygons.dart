@@ -9,8 +9,9 @@ class GetCountryPolygons extends UseCase<CountryPolygons, String> {
 
   GetCountryPolygons(this.repository);
 
+  /// [ISO 3166-1 alpha-3] countryCode as params
   @override
-  Future<Either<Failure, CountryPolygons>> call(String countryCode) async {
-    return await repository.getCountryPolygons(countryCode: countryCode);
+  Future<Either<Failure, CountryPolygons>> call(String params) async {
+    return await repository.getCountryPolygons(countryCode: params);
   }
 }
