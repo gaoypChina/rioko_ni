@@ -9,10 +9,11 @@ import 'package:rioko_ni/features/map/data/datasources/map_remote_data_source_im
 import 'package:rioko_ni/features/map/data/repositories/map_repository_impl.dart';
 import 'package:rioko_ni/features/map/domain/usecases/get_country_polygons.dart';
 import 'package:rioko_ni/features/map/presentation/cubit/map_cubit.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 final locator = GetIt.instance;
 
-void registerDependencies() {
+void registerDependencies() async {
   const connectTimeout = Duration(seconds: 60);
   const receiveTimeout = Duration(seconds: 120);
   final gadmDio = Dio(
@@ -53,8 +54,11 @@ void registerDependencies() {
       CountriesClient(locator.get<Dio>(instanceName: 'countries')));
   locator.registerSingleton<MapRemoteDataSourceImpl>(
       MapRemoteDataSourceImpl(client: locator<GADMClient>()));
+  locator.registerSingleton<SharedPreferences>(
+      await SharedPreferences.getInstance());
   locator.registerSingleton<MapLocalDataSourceImpl>(
-      const MapLocalDataSourceImpl());
+    MapLocalDataSourceImpl(sharedPreferences: locator<SharedPreferences>()),
+  );
   locator.registerSingleton<MapRepositoryImpl>(MapRepositoryImpl(
     remoteDataSource: locator<MapRemoteDataSourceImpl>(),
     localDataSource: locator<MapLocalDataSourceImpl>(),

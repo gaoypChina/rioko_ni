@@ -7,6 +7,11 @@ import 'package:rioko_ni/features/map/domain/usecases/get_country_polygons.dart'
 
 part 'map_state.dart';
 
+enum Countries {
+  been,
+  want,
+}
+
 class MapCubit extends Cubit<MapState> {
   final GetCountryPolygons getCountryPolygonUsecase;
   MapCubit({
