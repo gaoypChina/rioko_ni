@@ -70,6 +70,60 @@ class MapCubit extends Cubit<MapState> {
 
   List<CountryPolygons> wantCountryPolygons = [];
 
+  int get asianCountriesNumber =>
+      beenCountryPolygons.where((c) => c.region == 'Asia').length;
+  int get allAsianCountriesNumber =>
+      countriesGeoData.where((c) => c.region == 'Asia').length;
+  double get asiaPercentage {
+    if (allAsianCountriesNumber == 0) return 0;
+    return asianCountriesNumber / allAsianCountriesNumber * 100;
+  }
+
+  int get europeCountriesNumber =>
+      beenCountryPolygons.where((c) => c.region == 'Europe').length;
+  int get allEuropeCountriesNumber =>
+      countriesGeoData.where((c) => c.region == 'Europe').length;
+  double get europePercentage {
+    if (allEuropeCountriesNumber == 0) return 0;
+    return europeCountriesNumber / allEuropeCountriesNumber * 100;
+  }
+
+  int get northAmericaCountriesNumber =>
+      beenCountryPolygons.where((c) => c.region == 'North America').length;
+  int get allNorthAmericaCountriesNumber =>
+      countriesGeoData.where((c) => c.region == 'North America').length;
+  double get northAmericaPercentage {
+    if (allNorthAmericaCountriesNumber == 0) return 0;
+    return northAmericaCountriesNumber / allNorthAmericaCountriesNumber * 100;
+  }
+
+  int get southAmericaCountriesNumber =>
+      beenCountryPolygons.where((c) => c.region == 'South America').length;
+  int get allSouthAmericaCountriesNumber =>
+      countriesGeoData.where((c) => c.region == 'South America').length;
+  double get southAmericaPercentage {
+    if (allSouthAmericaCountriesNumber == 0) return 0;
+    return southAmericaCountriesNumber / allSouthAmericaCountriesNumber * 100;
+  }
+
+  int get africaCountriesNumber =>
+      beenCountryPolygons.where((c) => c.region == 'Africa').length;
+  int get allAfricaCountriesNumber =>
+      countriesGeoData.where((c) => c.region == 'Africa').length;
+  double get africaPercentage {
+    if (allAfricaCountriesNumber == 0) return 0;
+    return africaCountriesNumber / allAfricaCountriesNumber * 100;
+  }
+
+  int get oceaniaCountriesNumber =>
+      beenCountryPolygons.where((c) => c.region == 'Oceania').length;
+  int get allOceaniaCountriesNumber =>
+      countriesGeoData.where((c) => c.region == 'Oceania').length;
+  double get oceaniaPercentage {
+    if (allOceaniaCountriesNumber == 0) return 0;
+    return oceaniaCountriesNumber / allOceaniaCountriesNumber * 100;
+  }
+
   void getPointsNumber() {
     final points = countriesGeoData.map((c) => c.pointsNumber);
     if (points.isNotEmpty) {
