@@ -4,8 +4,9 @@ import 'package:rioko_ni/features/map/presentation/cubit/map_cubit.dart';
 import 'package:rioko_ni/features/map/presentation/pages/map_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-void main() {
-  registerDependencies();
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await registerDependencies();
   runApp(
     MultiBlocProvider(providers: [
       BlocProvider<MapCubit>(

@@ -15,10 +15,10 @@ final class MapFetchedCountryPolygons extends MapState {
   MapFetchedCountryPolygons(this.polygons);
 }
 
-final class MapDisplayCountriesData extends MapState {
+final class MapReadCountriesData extends MapState {
   final List<CountryPolygons> beenCountries;
   final List<CountryPolygons> wantCountries;
-  MapDisplayCountriesData({
+  MapReadCountriesData({
     required this.beenCountries,
     required this.wantCountries,
   });

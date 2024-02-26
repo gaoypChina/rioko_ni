@@ -6,7 +6,6 @@ import 'package:rioko_ni/features/map/data/datasources/map_remote_data_source.da
 import 'package:rioko_ni/features/map/domain/entities/country_polygons.dart';
 import 'package:rioko_ni/features/map/domain/repositories/map_repository.dart';
 import 'package:rioko_ni/features/map/domain/usecases/save_countries_locally.dart';
-import 'package:rioko_ni/features/map/presentation/cubit/map_cubit.dart';
 
 class MapRepositoryImpl with ExceptionHandler implements MapRepository {
   final MapRemoteDataSource remoteDataSource;
@@ -35,11 +34,10 @@ class MapRepositoryImpl with ExceptionHandler implements MapRepository {
   }
 
   @override
-  Future<Either<Failure, ManageCountriesLocallyParams>> readCountriesLocally({
-    required Countries params,
-  }) async {
+  Future<Either<Failure, ManageCountriesLocallyParams>>
+      readCountriesLocally() async {
     return await execute(() async {
-      final data = await localDataSource.readCountriesLocally(params: params);
+      final data = await localDataSource.readCountriesLocally();
       return data;
     });
   }

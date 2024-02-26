@@ -1,6 +1,5 @@
 import 'package:rioko_ni/features/map/data/models/country_polygons_model.dart';
 import 'package:rioko_ni/features/map/domain/usecases/save_countries_locally.dart';
-import 'package:rioko_ni/features/map/presentation/cubit/map_cubit.dart';
 
 abstract class MapLocalDataSource {
   Future<List<CountryPolygonsModel>> getCountryPolygons();
@@ -8,7 +7,5 @@ abstract class MapLocalDataSource {
     required ManageCountriesLocallyParams params,
   });
 
-  Future<ManageCountriesLocallyParams> readCountriesLocally({
-    required Countries params,
-  });
+  Future<ManageCountriesLocallyParams> readCountriesLocally();
 }

@@ -19,13 +19,6 @@ class MapPage extends StatelessWidget {
           return _buildMap(context);
         },
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          _cubit.displayPolygons();
-        },
-        backgroundColor: const Color.fromARGB(255, 50, 168, 109),
-        child: const Icon(Icons.polyline),
-      ),
     );
   }
 

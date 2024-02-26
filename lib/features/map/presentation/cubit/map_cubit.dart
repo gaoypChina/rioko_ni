@@ -4,6 +4,8 @@ import 'package:rioko_ni/core/domain/usecase.dart';
 
 import 'package:rioko_ni/features/map/domain/entities/country_polygons.dart';
 import 'package:rioko_ni/features/map/domain/usecases/get_country_polygons.dart';
+import 'package:rioko_ni/features/map/domain/usecases/read_countries_locally.dart';
+import 'package:rioko_ni/features/map/domain/usecases/save_countries_locally.dart';
 
 part 'map_state.dart';
 
@@ -14,8 +16,12 @@ enum Countries {
 
 class MapCubit extends Cubit<MapState> {
   final GetCountryPolygons getCountryPolygonUsecase;
+  final ReadCountriesLocally readCountriesLocallyUsecase;
+  final SaveCountriesLocally saveCountriesLocallyUsecase;
   MapCubit({
     required this.getCountryPolygonUsecase,
+    required this.readCountriesLocallyUsecase,
+    required this.saveCountriesLocallyUsecase,
   }) : super(MapInitial());
 
   String get urlTemplate =>
@@ -35,22 +41,23 @@ class MapCubit extends Cubit<MapState> {
         );
   }
 
+  Future getLocalCountryData() async {
+    await readCountriesLocallyUsecase.call(NoParams()).then(
+          (result) => result.fold(
+            (failure) => MapError(failure.message),
+            (data) {
+              final countries = countriesGeoData
+                  .where((c) => data.beenCodes.contains(c.countryCode))
+                  .toList();
+              beenCountryPolygons = countries;
+            },
+          ),
+        );
+  }
+
   List<CountryPolygons> beenCountryPolygons = [];
 
   List<CountryPolygons> wantCountryPolygons = [];
-
-  void displayPolygons() {
-    beenCountryPolygons.addAll(
-      countriesGeoData.getRange(0, countriesGeoData.length ~/ 2),
-    );
-    wantCountryPolygons.addAll(
-      countriesGeoData.getRange(
-          countriesGeoData.length ~/ 2, countriesGeoData.length),
-    );
-    emit(MapDisplayCountriesData(
-        beenCountries: beenCountryPolygons,
-        wantCountries: wantCountryPolygons));
-  }
 
   void getPointsNumber() {
     final points = countriesGeoData.map((c) => c.pointsNumber);
