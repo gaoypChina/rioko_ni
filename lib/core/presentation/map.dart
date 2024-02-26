@@ -82,7 +82,10 @@ class Map extends StatelessWidget {
     return Container(
       height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
-      color: const Color.fromARGB(255, 33, 70, 54),
+      decoration: BoxDecoration(
+        color: const Color.fromARGB(255, 33, 70, 54),
+        border: Border.all(color: Colors.black, width: 2),
+      ),
       child: _buildMap(context),
     );
   }

@@ -52,6 +52,7 @@ dependencies:
   shared_preferences: ^2.2.2
   toastification: ^1.2.1
   sliding_up_panel: ^2.0.0+1
+  countries_world_map: ^1.1.1
 
 dev_dependencies:
   flutter_test:
