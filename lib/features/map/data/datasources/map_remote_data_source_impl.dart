@@ -24,6 +24,9 @@ class MapRemoteDataSourceImpl implements MapRemoteDataSource {
       return CountryPolygonsModel(
         countryCode: countryCode,
         featureCollection: featureCollection,
+        region: '',
+        subregion: '',
+        name: '',
       );
     } on ServerException {
       rethrow;

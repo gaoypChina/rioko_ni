@@ -1,25 +1,21 @@
 part of 'map_cubit.dart';
 
-@immutable
-sealed class MapState {}
+@freezed
+class MapState with _$MapState {
+  const factory MapState.initial() = _Initial;
 
-final class MapInitial extends MapState {}
+  const factory MapState.fetchedCountryPolygons(
+      List<CountryPolygons> polygons) = _FetchedCountryPolygons;
 
-final class MapError extends MapState {
-  final String message;
-  MapError(this.message);
-}
+  const factory MapState.readCountriesData({
+    required List<CountryPolygons> been,
+    required List<CountryPolygons> want,
+  }) = _ReadCountriesData;
 
-final class MapFetchedCountryPolygons extends MapState {
-  final List<CountryPolygons> polygons;
-  MapFetchedCountryPolygons(this.polygons);
-}
+  const factory MapState.savedCountriesData({
+    required List<CountryPolygons> been,
+    required List<CountryPolygons> want,
+  }) = _SavedCountriesData;
 
-final class MapReadCountriesData extends MapState {
-  final List<CountryPolygons> beenCountries;
-  final List<CountryPolygons> wantCountries;
-  MapReadCountriesData({
-    required this.beenCountries,
-    required this.wantCountries,
-  });
+  const factory MapState.error(String message) = _Error;
 }

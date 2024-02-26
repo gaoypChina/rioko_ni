@@ -14,11 +14,19 @@ class CountryPolygons with _$CountryPolygons {
   factory CountryPolygons({
     required FeatureCollection featureCollection,
     required String countryCode,
+    required String region,
+    required String subregion,
+
+    /// English name
+    required String name,
   }) = _CountryPolygons;
 
   CountryPolygonsModel toModel() => CountryPolygonsModel(
         countryCode: countryCode,
         featureCollection: featureCollection,
+        region: region,
+        subregion: subregion,
+        name: name,
       );
 
   /// Generates Flutter Map polygons from GeoJSON features.

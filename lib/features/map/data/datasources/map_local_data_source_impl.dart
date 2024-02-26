@@ -13,20 +13,33 @@ class MapLocalDataSourceImpl implements MapLocalDataSource {
     required this.sharedPreferences,
   });
 
-  static String get countriesPath => 'assets/geo/countries.json';
+  static String get countriesGeoDataPath => 'assets/data/geo/countries.json';
+  static String get countriesInfoDataPath => 'assets/data/countries_info.json';
 
   @override
   Future<List<CountryPolygonsModel>> getCountryPolygons() async {
     try {
-      final countriesData = await rootBundle.loadString(countriesPath);
-      final data = jsonDecode(countriesData) as Map<String, dynamic>;
-      final featureCollection = FeatureCollection.fromData(data);
+      final countriesGeoData =
+          await rootBundle.loadString(countriesGeoDataPath);
+      final countriesInfoData =
+          await rootBundle.loadString(countriesInfoDataPath);
+      final geoData = jsonDecode(countriesGeoData) as Map<String, dynamic>;
+      final infoData =
+          List<Map<String, dynamic>>.from(jsonDecode(countriesInfoData));
+      final featureCollection = FeatureCollection.fromData(geoData);
       return featureCollection.features
-          .map((feature) => CountryPolygonsModel(
-                countryCode: feature.properties["ISO_A3"],
-                featureCollection: FeatureCollection([feature]),
-              ))
-          .toList();
+          .where((feature) => feature.properties["ISO_A3"] != "-99")
+          .map((feature) {
+        final cca3 = feature.properties["ISO_A3"];
+        final info = infoData.firstWhere((e) => e["cca3"] == cca3);
+        return CountryPolygonsModel(
+          countryCode: cca3,
+          featureCollection: FeatureCollection([feature]),
+          region: info["region"] ?? '',
+          subregion: info["subregion"] ?? '',
+          name: info["name"] ?? '',
+        );
+      }).toList();
     } catch (e, stack) {
       throw RequestException(e.toString(), stack: stack);
     }
@@ -38,8 +51,12 @@ class MapLocalDataSourceImpl implements MapLocalDataSource {
   }) async {
     try {
       await sharedPreferences.setStringList(
-        params.type!.name,
+        'been',
         params.beenCodes,
+      );
+      await sharedPreferences.setStringList(
+        'want',
+        params.wantCodes,
       );
     } catch (e, stack) {
       throw RequestException(e.toString(), stack: stack);
@@ -52,7 +69,7 @@ class MapLocalDataSourceImpl implements MapLocalDataSource {
       final beenCodes = sharedPreferences.getStringList('been');
       final wantCodes = sharedPreferences.getStringList('want');
 
-      return ManageCountriesLocallyParams.read(
+      return ManageCountriesLocallyParams(
         beenCodes: beenCodes ?? [],
         wantCodes: wantCodes ?? [],
       );

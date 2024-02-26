@@ -25,9 +25,10 @@ class RiokoNi extends StatefulWidget {
 }
 
 class _RiokoNiState extends State<RiokoNi> {
+  final _mapCubit = locator<MapCubit>();
   @override
   void initState() {
-    locator<MapCubit>().getCountryPolygons();
+    _mapCubit.getCountryPolygons().then((_) => _mapCubit.getLocalCountryData());
     super.initState();
   }
 

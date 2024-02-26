@@ -10,10 +10,16 @@ class CountryPolygonsModel with _$CountryPolygonsModel {
   factory CountryPolygonsModel({
     required FeatureCollection featureCollection,
     required String countryCode,
+    required String region,
+    required String subregion,
+    required String name,
   }) = _CountryPolygonsModel;
 
   CountryPolygons toEntity() => CountryPolygons(
         countryCode: countryCode,
         featureCollection: featureCollection,
+        region: region,
+        subregion: subregion,
+        name: name,
       );
 }
