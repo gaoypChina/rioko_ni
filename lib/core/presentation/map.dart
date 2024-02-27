@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:rioko_ni/core/extensions/iterable2.dart';
-import 'package:rioko_ni/features/map/domain/entities/country_polygons.dart';
+import 'package:rioko_ni/features/map/domain/entities/country.dart';
 
 class MapBuilder {
   MapOptions getMapOptions({
@@ -26,8 +26,8 @@ class MapBuilder {
   Widget build(
     BuildContext context, {
     required String urlTemplate,
-    required List<CountryPolygons> beenCountries,
-    required List<CountryPolygons> wantCountries,
+    required List<Country> beenCountries,
+    required List<Country> wantCountries,
   }) {
     final mapOptions = getMapOptions(
       interactionOptions: const InteractionOptions(

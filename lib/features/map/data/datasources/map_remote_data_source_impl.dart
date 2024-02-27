@@ -2,7 +2,7 @@ import 'package:geobase/geobase.dart';
 import 'package:rioko_ni/core/data/gadm_client.dart';
 import 'package:rioko_ni/core/errors/exception.dart';
 import 'package:rioko_ni/features/map/data/datasources/map_remote_data_source.dart';
-import 'package:rioko_ni/features/map/data/models/country_polygons_model.dart';
+import 'package:rioko_ni/features/map/data/models/country_model.dart';
 
 class MapRemoteDataSourceImpl implements MapRemoteDataSource {
   final GADMClient client;
@@ -10,7 +10,7 @@ class MapRemoteDataSourceImpl implements MapRemoteDataSource {
   const MapRemoteDataSourceImpl({required this.client});
 
   @override
-  Future<CountryPolygonsModel> getCountryPolygons({
+  Future<CountryModel> getCountries({
     required String countryCode,
   }) async {
     try {
@@ -21,7 +21,7 @@ class MapRemoteDataSourceImpl implements MapRemoteDataSource {
             stack: StackTrace.current);
       }
       final featureCollection = FeatureCollection.fromData(httpResponse.data);
-      return CountryPolygonsModel(
+      return CountryModel(
         countryCode: countryCode,
         featureCollection: featureCollection,
         region: '',

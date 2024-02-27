@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rioko_ni/core/config/app_sizes.dart';
 
 class StatsUI extends StatelessWidget {
@@ -71,7 +72,7 @@ class StatsUI extends StatelessWidget {
                             style: style,
                           ),
                           Text(
-                            'Not want: $notWant',
+                            'Lived: $notWant',
                             style: style,
                           ),
                         ],
@@ -91,10 +92,11 @@ class StatsUI extends StatelessWidget {
                           color: Colors.tealAccent.withOpacity(0.7), width: 1),
                       borderRadius: BorderRadius.circular(AppSizes.radius),
                     ),
+                    padding: const EdgeInsets.only(bottom: 1),
                     child: const Center(
-                      child: Icon(
-                        Icons.menu_book,
-                        color: Colors.white,
+                      child: FaIcon(
+                        FontAwesomeIcons.chartPie,
+                        size: 20,
                       ),
                     ),
                   ),

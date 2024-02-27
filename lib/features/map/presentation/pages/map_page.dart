@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rioko_ni/core/injector.dart';
 import 'package:rioko_ni/core/presentation/map.dart';
+import 'package:rioko_ni/core/presentation/widgets/animated_fab.dart';
 import 'package:rioko_ni/features/map/presentation/cubit/map_cubit.dart';
+import 'package:rioko_ni/features/map/presentation/widgets/search_country_dialog.dart';
 import 'package:rioko_ni/features/map/presentation/widgets/stats_ui.dart';
 import 'package:rioko_ni/features/map/presentation/widgets/world_statistics_map.dart';
 import 'package:toastification/toastification.dart';
@@ -84,20 +87,30 @@ class _MapPageState extends State<MapPage> {
           );
         },
       ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: AnimatedFAB(
         onPressed: () {
-          _cubit.saveCountriesLocally(
-            beenCountries: [
-              ..._cubit.countriesGeoData.getRange(10, 50),
-              ..._cubit.countriesGeoData.getRange(110, 150),
-            ],
-            wantCountries: [
-              ..._cubit.countriesGeoData.getRange(51, 110),
-              ..._cubit.countriesGeoData.getRange(151, 210),
-            ],
+          showGeneralDialog(
+            barrierColor: Colors.black.withOpacity(0.5),
+            transitionBuilder: (context, a1, a2, widget) {
+              return Opacity(
+                opacity: a1.value,
+                child: const SearchCountryDialog(
+                  countries: [],
+                ),
+              );
+            },
+            transitionDuration: const Duration(milliseconds: 200),
+            barrierDismissible: true,
+            barrierLabel: '',
+            context: context,
+            pageBuilder: (context, animation1, animation2) => const SizedBox(),
           );
         },
-        child: Icon(Icons.abc_outlined),
+        icon: const FaIcon(
+          FontAwesomeIcons.magnifyingGlass,
+          size: 20,
+        ),
       ),
     );
   }

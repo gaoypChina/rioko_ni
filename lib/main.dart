@@ -36,8 +36,22 @@ class _RiokoNiState extends State<RiokoNi> {
   Widget build(BuildContext context) {
     return MaterialApp(
       navigatorKey: RiokoNi.navigatorKey,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+      theme: ThemeData.dark(
+        useMaterial3: true,
+      ).copyWith(
+        colorScheme:
+            ColorScheme.fromSeed(seedColor: Colors.tealAccent).copyWith(
+          background: Colors.black,
+          secondary: Colors.tealAccent,
+        ),
+        floatingActionButtonTheme: const FloatingActionButtonThemeData(
+          backgroundColor: Colors.black,
+          foregroundColor: Colors.white,
+        ),
+        iconTheme: const IconThemeData(
+          color: Colors.white,
+        ),
+        primaryColor: Colors.teal,
       ),
       debugShowCheckedModeBanner: false,
       home: const HomePage(),

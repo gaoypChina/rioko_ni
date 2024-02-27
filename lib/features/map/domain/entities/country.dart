@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:rioko_ni/core/extensions/polygon2.dart';
-import 'package:rioko_ni/features/map/data/models/country_polygons_model.dart';
+import 'package:rioko_ni/features/map/data/models/country_model.dart';
 import 'package:flutter_map/flutter_map.dart' as fm;
 import 'package:geobase/geobase.dart';
 import 'package:latlong2/latlong.dart';
 
-part 'country_polygons.freezed.dart';
+part 'country.freezed.dart';
 
 @freezed
-class CountryPolygons with _$CountryPolygons {
-  const CountryPolygons._();
-  factory CountryPolygons({
+class Country with _$Country {
+  const Country._();
+  factory Country({
+    /// GeoJson data
     required FeatureCollection featureCollection,
     required String countryCode,
     required String region,
@@ -21,7 +22,7 @@ class CountryPolygons with _$CountryPolygons {
     required String name,
   }) = _CountryPolygons;
 
-  CountryPolygonsModel toModel() => CountryPolygonsModel(
+  CountryModel toModel() => CountryModel(
         countryCode: countryCode,
         featureCollection: featureCollection,
         region: region,

@@ -47,13 +47,13 @@ dependencies:
   freezed_annotation: ^2.4.1
   pretty_dio_logger: ^1.3.1
   proj4dart: ^2.1.0
-  country_picker: ^2.0.23
   polybool: ^0.2.0
   shared_preferences: ^2.2.2
   toastification: ^1.2.1
   sliding_up_panel: ^2.0.0+1
   countries_world_map: ^1.1.1
   percent_indicator: ^4.2.3
+  font_awesome_flutter: ^10.7.0
 
 dev_dependencies:
   flutter_test:
