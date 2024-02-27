@@ -82,6 +82,12 @@ class _MapPageState extends State<MapPage> {
                   setState(() {});
                 },
                 lowerTopUI: showTopBehindDrawer,
+                onTap: () {
+                  _cubit.saveCountriesLocally(
+                    beenCountries: _cubit.countries.getRange(50, 110).toList(),
+                    wantCountries: [],
+                  );
+                },
               ),
             ],
           );
