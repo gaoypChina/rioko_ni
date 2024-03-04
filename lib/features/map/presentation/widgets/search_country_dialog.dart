@@ -23,6 +23,7 @@ class _SearchCountryDialogState extends State<SearchCountryDialog>
 
   @override
   void initState() {
+    isPopping = false;
     searchController = TextEditingController();
     _controller = AnimationController(
       vsync: this,
@@ -43,11 +44,15 @@ class _SearchCountryDialogState extends State<SearchCountryDialog>
     super.dispose();
   }
 
+  bool isPopping = false;
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () {
+        if (isPopping) return;
+        isPopping = true;
         _controller.reverse();
         Future.delayed(
             const Duration(milliseconds: 600), Navigator.of(context).pop);
@@ -84,6 +89,15 @@ class _SearchCountryDialogState extends State<SearchCountryDialog>
                   controller: searchController,
                   style: Theme.of(context).textTheme.titleLarge,
                   decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Theme.of(context)
+                            .colorScheme
+                            .secondary
+                            .withOpacity(0.8),
+                      ),
+                      borderRadius: BorderRadius.circular(AppSizes.radius / 2),
+                    ),
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(
                         color: Theme.of(context)
@@ -93,7 +107,15 @@ class _SearchCountryDialogState extends State<SearchCountryDialog>
                       ),
                       borderRadius: BorderRadius.circular(AppSizes.radius / 2),
                     ),
-                    label: const Text('Search country'),
+                    labelText: 'Search country',
+                    labelStyle: Theme.of(context)
+                        .textTheme
+                        .titleLarge
+                        ?.copyWith(
+                            color: Theme.of(context)
+                                .colorScheme
+                                .secondary
+                                .withOpacity(0.8)),
                   ),
                 ),
               ),
