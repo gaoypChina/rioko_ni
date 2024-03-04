@@ -19,8 +19,11 @@ class _SearchCountryDialogState extends State<SearchCountryDialog>
   late AnimationController _controller;
   late Animation<double> _animation;
 
+  late TextEditingController searchController;
+
   @override
   void initState() {
+    searchController = TextEditingController();
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 700),
@@ -36,6 +39,7 @@ class _SearchCountryDialogState extends State<SearchCountryDialog>
   @override
   void dispose() {
     _controller.dispose();
+    searchController.dispose();
     super.dispose();
   }
 
@@ -73,27 +77,24 @@ class _SearchCountryDialogState extends State<SearchCountryDialog>
                   top: size.height * 0.15,
                 ),
                 height: 60,
+                color:
+                    Theme.of(context).colorScheme.background.withOpacity(0.7),
                 width: double.infinity,
-                decoration: BoxDecoration(
-                  color:
-                      Theme.of(context).colorScheme.background.withOpacity(0.7),
-                  border: Border.all(
-                    color: Theme.of(context)
-                        .colorScheme
-                        .secondary
-                        .withOpacity(0.8),
-                  ),
-                  borderRadius: BorderRadius.circular(AppSizes.radius / 2),
-                ),
-                alignment: Alignment.centerLeft,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: AppSizes.paddingDouble,
-                  vertical: AppSizes.padding,
-                ),
-                child: Text(
-                  'Search a country',
+                child: TextField(
+                  controller: searchController,
                   style: Theme.of(context).textTheme.titleLarge,
-                  textAlign: TextAlign.left,
+                  decoration: InputDecoration(
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Theme.of(context)
+                            .colorScheme
+                            .secondary
+                            .withOpacity(0.8),
+                      ),
+                      borderRadius: BorderRadius.circular(AppSizes.radius / 2),
+                    ),
+                    label: const Text('Search country'),
+                  ),
                 ),
               ),
             ),
