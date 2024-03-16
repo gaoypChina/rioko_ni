@@ -1,3 +1,5 @@
+import 'package:country_code/country_code.dart';
+import 'package:country_flags/country_flags.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:rioko_ni/core/extensions/polygon2.dart';
@@ -8,27 +10,33 @@ import 'package:latlong2/latlong.dart';
 
 part 'country.freezed.dart';
 
-@freezed
+enum CountryStatus { none, been, want }
+
+@unfreezed
 class Country with _$Country {
   const Country._();
   factory Country({
     /// GeoJson data
     required FeatureCollection featureCollection,
-    required String countryCode,
+    required CountryCode countryCode,
     required String region,
     required String subregion,
 
     /// English name
     required String name,
+    @Default(CountryStatus.none) CountryStatus status,
   }) = _CountryPolygons;
 
   CountryModel toModel() => CountryModel(
-        countryCode: countryCode,
+        countryCode: countryCode.alpha3,
         featureCollection: featureCollection,
         region: region,
         subregion: subregion,
         name: name,
       );
+
+  String get alpha2 => countryCode.alpha2;
+  String get alpha3 => countryCode.alpha3;
 
   /// Generates Flutter Map polygons from GeoJSON features.
   ///
@@ -154,5 +162,19 @@ class Country with _$Country {
     }
 
     return -1;
+  }
+
+  Widget flag({
+    double scale = 1,
+    double borderRadius = 0,
+  }) {
+    const double height = 48;
+    const double width = 62;
+    return CountryFlag.fromCountryCode(
+      alpha2,
+      height: height * scale,
+      width: width * scale,
+      borderRadius: borderRadius,
+    );
   }
 }

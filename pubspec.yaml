@@ -54,6 +54,8 @@ dependencies:
   countries_world_map: ^1.1.1
   percent_indicator: ^4.2.3
   font_awesome_flutter: ^10.7.0
+  country_flags: ^2.2.0
+  country_code: ^1.0.0
 
 dev_dependencies:
   flutter_test:

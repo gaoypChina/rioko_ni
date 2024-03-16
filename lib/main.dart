@@ -52,6 +52,10 @@ class _RiokoNiState extends State<RiokoNi> {
           color: Colors.white,
         ),
         primaryColor: Colors.teal,
+        textTheme: const TextTheme(
+          titleMedium: TextStyle(color: Colors.white),
+          titleSmall: TextStyle(color: Colors.white70),
+        ),
       ),
       debugShowCheckedModeBanner: false,
       home: const HomePage(),

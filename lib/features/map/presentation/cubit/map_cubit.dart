@@ -43,6 +43,15 @@ class MapCubit extends Cubit<MapState> {
         );
   }
 
+  List<Country> countriesByString(String text) {
+    final result = countries
+        .where((country) =>
+            country.name.toLowerCase().contains(text.toLowerCase()) ||
+            country.region.toLowerCase().contains(text.toLowerCase()))
+        .toList();
+    return result;
+  }
+
   Future getLocalCountryData() async {
     debugPrint('start');
     await readCountriesLocallyUsecase.call(NoParams()).then(
@@ -137,8 +146,8 @@ class MapCubit extends Cubit<MapState> {
   }) async {
     await saveCountriesLocallyUsecase
         .call(ManageCountriesLocallyParams(
-          beenCodes: beenCountries.map((c) => c.countryCode).toList(),
-          wantCodes: wantCountries.map((c) => c.countryCode).toList(),
+          beenCodes: beenCountries.map((c) => c.alpha3).toList(),
+          wantCodes: wantCountries.map((c) => c.alpha3).toList(),
         ))
         .then(
           (result) => result.fold(

@@ -1,3 +1,4 @@
+import 'package:country_code/country_code.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:geobase/geobase.dart';
 import 'package:rioko_ni/features/map/domain/entities/country.dart';
@@ -16,7 +17,7 @@ class CountryModel with _$CountryModel {
   }) = _CountryPolygonsModel;
 
   Country toEntity() => Country(
-        countryCode: countryCode,
+        countryCode: CountryCode.parse(countryCode),
         featureCollection: featureCollection,
         region: region,
         subregion: subregion,
