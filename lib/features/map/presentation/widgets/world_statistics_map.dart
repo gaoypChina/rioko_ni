@@ -116,7 +116,7 @@ class WorldStatisticsMap extends StatelessWidget {
                   padding: const EdgeInsets.only(bottom: AppSizes.padding),
                   child: Text(
                     label,
-                    style: TextStyle(color: Colors.white),
+                    style: const TextStyle(color: Colors.white),
                   ),
                 ),
           footer: footer
@@ -124,7 +124,7 @@ class WorldStatisticsMap extends StatelessWidget {
                   padding: const EdgeInsets.only(top: AppSizes.padding),
                   child: Text(
                     label,
-                    style: TextStyle(color: Colors.white),
+                    style: const TextStyle(color: Colors.white),
                   ),
                 )
               : null,

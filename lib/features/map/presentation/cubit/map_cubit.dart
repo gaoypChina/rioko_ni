@@ -59,10 +59,10 @@ class MapCubit extends Cubit<MapState> {
             (failure) => MapState.error(failure.message),
             (data) {
               final beenCountries = countries
-                  .where((c) => data.beenCodes.contains(c.countryCode))
+                  .where((c) => data.beenCodes.contains(c.alpha3))
                   .toList();
               final wantCountries = countries
-                  .where((c) => data.wantCodes.contains(c.countryCode))
+                  .where((c) => data.wantCodes.contains(c.alpha3))
                   .toList();
               beenCountryPolygons = beenCountries;
               wantCountryPolygons = wantCountries;

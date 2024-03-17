@@ -33,7 +33,6 @@ class _SearchCountryDialogState extends State<SearchCountryDialog>
   void initState() {
     isPopping = false;
     searchedCountries = _cubit.countries;
-    _listKey.currentState?.insertAllItems(0, searchedCountries.length);
     searchController = TextEditingController();
     _controller = AnimationController(
       vsync: this,
@@ -43,7 +42,11 @@ class _SearchCountryDialogState extends State<SearchCountryDialog>
       parent: _controller,
       curve: Curves.fastEaseInToSlowEaseOut,
     );
-    Future.delayed(const Duration(milliseconds: 200), _controller.forward);
+    _listKey.currentState?.initState();
+    Future.delayed(const Duration(milliseconds: 200), () {
+      _controller.forward();
+    });
+
     super.initState();
   }
 
@@ -98,24 +101,19 @@ class _SearchCountryDialogState extends State<SearchCountryDialog>
                 child: TextField(
                   controller: searchController,
                   onChanged: (value) {
-                    final searchedCountries = _cubit.countriesByString(value);
-                    final difference = this
-                        .searchedCountries
-                        .toSet()
-                        .difference(searchedCountries.toSet())
-                        .toList();
-                    for (Country country in difference) {
-                      final index = this.searchedCountries.indexOf(country);
+                    for (int i = 0; i < searchedCountries.length; i++) {
                       _listKey.currentState?.removeItem(
-                        index,
+                        0,
                         (context, animation) => _buildCountryItem(
                           context,
-                          country: country,
+                          country: searchedCountries[0],
                           animation: animation,
                         ),
                       );
-                      this.searchedCountries.removeAt(index);
                     }
+                    searchedCountries = _cubit.countriesByString(value);
+                    _listKey.currentState
+                        ?.insertAllItems(0, searchedCountries.length);
 
                     setState(() {});
                   },
@@ -173,16 +171,16 @@ class _SearchCountryDialogState extends State<SearchCountryDialog>
                     top: AppSizes.paddingDouble,
                   ),
                   child: AnimatedList(
-                    initialItemCount: searchedCountries.length,
+                    initialItemCount: _cubit.countries.length,
                     shrinkWrap: true,
                     padding: const EdgeInsets.only(
                       bottom: AppSizes.paddingQuadruple,
                     ),
                     itemBuilder: (context, i, animation) {
-                      final country = searchedCountries[i];
+                      if (i >= searchedCountries.length) return SizedBox();
                       return _buildCountryItem(
                         context,
-                        country: country,
+                        country: searchedCountries.elementAt(i),
                         animation: animation,
                       );
                     },
@@ -199,51 +197,36 @@ class _SearchCountryDialogState extends State<SearchCountryDialog>
   Widget _buildCountryItem(
     BuildContext context, {
     required Country country,
-    required Animation animation,
+    required Animation<double> animation,
   }) {
-    return AnimatedBuilder(
-      animation: animation,
-      builder: (context, child) {
-        return Transform.translate(
-          offset: Offset(
-            50 * (1 - _animation.value),
-            0,
-          ),
-          child: Opacity(
-            opacity: _animation.value,
-            child: child,
-          ),
-        );
-      },
-      child: Container(
-        margin: const EdgeInsets.symmetric(
-          horizontal: AppSizes.paddingDouble,
-          vertical: AppSizes.paddingHalf,
+    return Container(
+      margin: const EdgeInsets.symmetric(
+        horizontal: AppSizes.paddingDouble,
+        vertical: AppSizes.paddingHalf,
+      ),
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.secondary.withOpacity(0.1),
+        border: Border.all(
+          color: Theme.of(context).colorScheme.secondary.withOpacity(0.8),
         ),
-        decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.secondary.withOpacity(0.1),
-          border: Border.all(
-            color: Theme.of(context).colorScheme.secondary.withOpacity(0.8),
-          ),
-          borderRadius: BorderRadius.circular(AppSizes.radiusHalf),
-        ),
-        child: ListTile(
-          leading: Container(
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: Theme.of(context).colorScheme.secondary.withOpacity(0.8),
-              ),
+        borderRadius: BorderRadius.circular(AppSizes.radiusHalf),
+      ),
+      child: ListTile(
+        leading: Container(
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: Theme.of(context).colorScheme.secondary.withOpacity(0.8),
             ),
-            child: country.flag(scale: 0.5),
           ),
-          title: Text(
-            country.name,
-            style: Theme.of(context).textTheme.titleMedium,
-          ),
-          subtitle: Text(
-            country.region,
-            style: Theme.of(context).textTheme.titleSmall,
-          ),
+          child: country.flag(scale: 0.5),
+        ),
+        title: Text(
+          country.name,
+          style: Theme.of(context).textTheme.titleMedium,
+        ),
+        subtitle: Text(
+          country.region,
+          style: Theme.of(context).textTheme.titleSmall,
         ),
       ),
     );
