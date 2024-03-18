@@ -69,8 +69,8 @@ class _MapPageState extends State<MapPage> {
                 child: _buildMap(context),
               ),
               StatsUI(
-                been: _cubit.beenCountryPolygons.length,
-                want: _cubit.wantCountryPolygons.length,
+                been: _cubit.beenCountries.length,
+                want: _cubit.wantCountries.length,
                 notWant: 0,
                 toggleTopBehindDrawer: () async {
                   showTopBehindDrawer = !showTopBehindDrawer;
@@ -83,10 +83,7 @@ class _MapPageState extends State<MapPage> {
                 },
                 lowerTopUI: showTopBehindDrawer,
                 onTap: () {
-                  _cubit.saveCountriesLocally(
-                    beenCountries: _cubit.countries.getRange(50, 110).toList(),
-                    wantCountries: [],
-                  );
+                  _cubit.saveCountriesLocally();
                 },
               ),
             ],
@@ -125,8 +122,8 @@ class _MapPageState extends State<MapPage> {
     return MapBuilder().build(
       context,
       urlTemplate: _cubit.urlTemplate,
-      beenCountries: _cubit.beenCountryPolygons,
-      wantCountries: _cubit.wantCountryPolygons,
+      beenCountries: _cubit.beenCountries,
+      wantCountries: _cubit.wantCountries,
     );
   }
 }

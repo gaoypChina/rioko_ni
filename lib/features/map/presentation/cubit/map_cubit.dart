@@ -58,14 +58,12 @@ class MapCubit extends Cubit<MapState> {
           (result) => result.fold(
             (failure) => MapState.error(failure.message),
             (data) {
-              final beenCountries = countries
+              countries
                   .where((c) => data.beenCodes.contains(c.alpha3))
-                  .toList();
-              final wantCountries = countries
+                  .forEach((country) => country.status = CountryStatus.been);
+              countries
                   .where((c) => data.wantCodes.contains(c.alpha3))
-                  .toList();
-              beenCountryPolygons = beenCountries;
-              wantCountryPolygons = wantCountries;
+                  .forEach((country) => country.status = CountryStatus.want);
               emit(MapState.readCountriesData(
                 been: beenCountries,
                 want: wantCountries,
@@ -75,12 +73,14 @@ class MapCubit extends Cubit<MapState> {
         );
   }
 
-  List<Country> beenCountryPolygons = [];
+  List<Country> get beenCountries =>
+      countries.where((c) => c.status == CountryStatus.been).toList();
 
-  List<Country> wantCountryPolygons = [];
+  List<Country> get wantCountries =>
+      countries.where((c) => c.status == CountryStatus.want).toList();
 
   int get asianCountriesNumber =>
-      beenCountryPolygons.where((c) => c.region == 'Asia').length;
+      beenCountries.where((c) => c.region == 'Asia').length;
   int get allAsianCountriesNumber =>
       countries.where((c) => c.region == 'Asia').length;
   double get asiaPercentage {
@@ -89,7 +89,7 @@ class MapCubit extends Cubit<MapState> {
   }
 
   int get europeCountriesNumber =>
-      beenCountryPolygons.where((c) => c.region == 'Europe').length;
+      beenCountries.where((c) => c.region == 'Europe').length;
   int get allEuropeCountriesNumber =>
       countries.where((c) => c.region == 'Europe').length;
   double get europePercentage {
@@ -98,7 +98,7 @@ class MapCubit extends Cubit<MapState> {
   }
 
   int get northAmericaCountriesNumber =>
-      beenCountryPolygons.where((c) => c.region == 'North America').length;
+      beenCountries.where((c) => c.region == 'North America').length;
   int get allNorthAmericaCountriesNumber =>
       countries.where((c) => c.region == 'North America').length;
   double get northAmericaPercentage {
@@ -107,7 +107,7 @@ class MapCubit extends Cubit<MapState> {
   }
 
   int get southAmericaCountriesNumber =>
-      beenCountryPolygons.where((c) => c.region == 'South America').length;
+      beenCountries.where((c) => c.region == 'South America').length;
   int get allSouthAmericaCountriesNumber =>
       countries.where((c) => c.region == 'South America').length;
   double get southAmericaPercentage {
@@ -116,7 +116,7 @@ class MapCubit extends Cubit<MapState> {
   }
 
   int get africaCountriesNumber =>
-      beenCountryPolygons.where((c) => c.region == 'Africa').length;
+      beenCountries.where((c) => c.region == 'Africa').length;
   int get allAfricaCountriesNumber =>
       countries.where((c) => c.region == 'Africa').length;
   double get africaPercentage {
@@ -125,7 +125,7 @@ class MapCubit extends Cubit<MapState> {
   }
 
   int get oceaniaCountriesNumber =>
-      beenCountryPolygons.where((c) => c.region == 'Oceania').length;
+      beenCountries.where((c) => c.region == 'Oceania').length;
   int get allOceaniaCountriesNumber =>
       countries.where((c) => c.region == 'Oceania').length;
   double get oceaniaPercentage {
@@ -140,10 +140,7 @@ class MapCubit extends Cubit<MapState> {
     }
   }
 
-  Future saveCountriesLocally({
-    required List<Country> beenCountries,
-    required List<Country> wantCountries,
-  }) async {
+  Future saveCountriesLocally() async {
     await saveCountriesLocallyUsecase
         .call(ManageCountriesLocallyParams(
           beenCodes: beenCountries.map((c) => c.alpha3).toList(),
