@@ -49,12 +49,12 @@ class MapBuilder {
         polygonCulling: true,
         polygons: [
           ...Iterable2(beenCountries.map((country) => country.polygons(
-                        borderColor: Colors.tealAccent,
+                        borderColor: Theme.of(context).colorScheme.onPrimary,
                       )))
                   .reduceOrNull((value, element) => [...value, ...element]) ??
               [],
           ...Iterable2(wantCountries.map((country) => country.polygons(
-                        borderColor: Colors.purpleAccent,
+                        borderColor: Theme.of(context).colorScheme.onSecondary,
                       )))
                   .reduceOrNull((value, element) => [...value, ...element]) ??
               [],

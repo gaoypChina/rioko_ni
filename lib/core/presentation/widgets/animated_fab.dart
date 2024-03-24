@@ -71,7 +71,7 @@ class _AnimatedFABState extends State<AnimatedFAB>
         child: Container(
           decoration: BoxDecoration(
             color: Theme.of(context).colorScheme.background,
-            border: Border.all(color: Theme.of(context).colorScheme.secondary),
+            border: Border.all(color: Theme.of(context).colorScheme.onPrimary),
             borderRadius: BorderRadius.circular(AppSizes.bigRadius),
           ),
           padding: const EdgeInsets.all(AppSizes.paddingDouble),

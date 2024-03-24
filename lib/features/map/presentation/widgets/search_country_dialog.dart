@@ -30,7 +30,7 @@ class _SearchCountryDialogState extends State<SearchCountryDialog>
   final _cubit = locator<MapCubit>();
 
   Color get borderColor =>
-      Theme.of(context).colorScheme.secondary.withOpacity(0.8);
+      Theme.of(context).colorScheme.onPrimary.withOpacity(0.8);
 
   @override
   void initState() {
@@ -217,18 +217,18 @@ class _SearchCountryDialogState extends State<SearchCountryDialog>
         vertical: AppSizes.paddingHalf,
       ),
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.secondary.withOpacity(0.1),
+        color: Theme.of(context).colorScheme.onPrimary.withOpacity(0.1),
         border: Border.all(
-          color: Theme.of(context).colorScheme.secondary.withOpacity(0.8),
+          color: borderColor,
         ),
         borderRadius: BorderRadius.circular(AppSizes.radiusHalf),
       ),
       child: ListTile(
-        onTap: () => const CountryManagementDialog().show(context),
+        onTap: () => CountryManagementDialog(country: country).show(context),
         leading: Container(
           decoration: BoxDecoration(
             border: Border.all(
-              color: Theme.of(context).colorScheme.secondary.withOpacity(0.8),
+              color: borderColor,
             ),
           ),
           child: country.flag(scale: 0.5),

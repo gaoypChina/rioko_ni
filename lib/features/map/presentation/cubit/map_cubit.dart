@@ -158,4 +158,12 @@ class MapCubit extends Cubit<MapState> {
   }
 
   void error(String error) => emit(MapState.error(error));
+
+  void updateCountryStatus({
+    required Country country,
+    required CountryStatus status,
+  }) {
+    countries.firstWhere((c) => c.alpha3 == country.alpha3).status = status;
+    emit(MapState.updatedCountryStatus(country: country, status: status));
+  }
 }

@@ -42,7 +42,10 @@ class _RiokoNiState extends State<RiokoNi> {
         colorScheme:
             ColorScheme.fromSeed(seedColor: Colors.tealAccent).copyWith(
           background: Colors.black,
-          secondary: Colors.tealAccent,
+          primary: Colors.teal,
+          onPrimary: Colors.tealAccent,
+          secondary: Colors.purple,
+          onSecondary: Colors.purpleAccent,
         ),
         floatingActionButtonTheme: const FloatingActionButtonThemeData(
           backgroundColor: Colors.black,

@@ -17,5 +17,10 @@ class MapState with _$MapState {
     required List<Country> want,
   }) = _SavedCountriesData;
 
+  const factory MapState.updatedCountryStatus({
+    required Country country,
+    required CountryStatus status,
+  }) = _UpdatedCountryStatus;
+
   const factory MapState.error(String message) = _Error;
 }
