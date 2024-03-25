@@ -28,6 +28,7 @@ class MapBuilder {
     required String urlTemplate,
     required List<Country> beenCountries,
     required List<Country> wantCountries,
+    required List<Country> livedCountries,
   }) {
     final mapOptions = getMapOptions(
       interactionOptions: const InteractionOptions(
@@ -49,12 +50,17 @@ class MapBuilder {
         polygonCulling: true,
         polygons: [
           ...Iterable2(beenCountries.map((country) => country.polygons(
-                        borderColor: Theme.of(context).colorScheme.onPrimary,
+                        borderColor: country.status.color,
                       )))
                   .reduceOrNull((value, element) => [...value, ...element]) ??
               [],
           ...Iterable2(wantCountries.map((country) => country.polygons(
-                        borderColor: Theme.of(context).colorScheme.onSecondary,
+                        borderColor: country.status.color,
+                      )))
+                  .reduceOrNull((value, element) => [...value, ...element]) ??
+              [],
+          ...Iterable2(livedCountries.map((country) => country.polygons(
+                        borderColor: country.status.color,
                       )))
                   .reduceOrNull((value, element) => [...value, ...element]) ??
               [],

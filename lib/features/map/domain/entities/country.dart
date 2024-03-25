@@ -7,6 +7,7 @@ import 'package:rioko_ni/features/map/data/models/country_model.dart';
 import 'package:flutter_map/flutter_map.dart' as fm;
 import 'package:geobase/geobase.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:rioko_ni/main.dart';
 
 part 'country.freezed.dart';
 
@@ -15,6 +16,24 @@ enum CountryStatus {
   been,
   want,
   lived,
+}
+
+extension CountryStatusExtension on CountryStatus {
+  Color get color {
+    final context = RiokoNi.navigatorKey.currentContext;
+    if (context == null) return Colors.transparent;
+    final scheme = Theme.of(context).colorScheme;
+    switch (this) {
+      case CountryStatus.been:
+        return scheme.onPrimary;
+      case CountryStatus.want:
+        return scheme.onSecondary;
+      case CountryStatus.lived:
+        return scheme.onTertiary;
+      default:
+        return Colors.transparent;
+    }
+  }
 }
 
 @unfreezed

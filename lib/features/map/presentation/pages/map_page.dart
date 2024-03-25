@@ -73,7 +73,7 @@ class _MapPageState extends State<MapPage> {
               StatsUI(
                 been: _cubit.beenCountries.length,
                 want: _cubit.wantCountries.length,
-                notWant: 0,
+                lived: _cubit.livedCountries.length,
                 toggleTopBehindDrawer: () async {
                   showTopBehindDrawer = !showTopBehindDrawer;
                   setState(() {});
@@ -121,6 +121,7 @@ class _MapPageState extends State<MapPage> {
       urlTemplate: _cubit.urlTemplate,
       beenCountries: _cubit.beenCountries,
       wantCountries: _cubit.wantCountries,
+      livedCountries: _cubit.livedCountries,
     );
   }
 }

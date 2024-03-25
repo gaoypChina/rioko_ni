@@ -79,6 +79,9 @@ class MapCubit extends Cubit<MapState> {
   List<Country> get wantCountries =>
       countries.where((c) => c.status == CountryStatus.want).toList();
 
+  List<Country> get livedCountries =>
+      countries.where((c) => c.status == CountryStatus.lived).toList();
+
   // Asia
 
   int get beenAsianCountriesNumber =>

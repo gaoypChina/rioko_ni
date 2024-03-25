@@ -5,14 +5,14 @@ import 'package:rioko_ni/core/config/app_sizes.dart';
 class StatsUI extends StatelessWidget {
   final int been;
   final int want;
-  final int notWant;
+  final int lived;
   final void Function() toggleTopBehindDrawer;
   final bool lowerTopUI;
 
   const StatsUI({
     required this.been,
     required this.want,
-    required this.notWant,
+    required this.lived,
     required this.toggleTopBehindDrawer,
     required this.lowerTopUI,
     super.key,
@@ -72,7 +72,7 @@ class StatsUI extends StatelessWidget {
                             style: style,
                           ),
                           Text(
-                            'Lived: $notWant',
+                            'Lived: $lived',
                             style: style,
                           ),
                         ],

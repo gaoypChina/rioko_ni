@@ -113,7 +113,7 @@ class _CountryManagementDialogState extends State<CountryManagementDialog>
                       setState(() {});
                     },
                     label: "Been there!",
-                    color: Theme.of(context).colorScheme.onPrimary,
+                    color: CountryStatus.been.color,
                     selected: widget.country.status == CountryStatus.been,
                   ),
                 ),
@@ -161,13 +161,40 @@ class _CountryManagementDialogState extends State<CountryManagementDialog>
                       setState(() {});
                     },
                     label: "Want to travel",
-                    color: Theme.of(context).colorScheme.onSecondary,
+                    color: CountryStatus.want.color,
                     selected: widget.country.status == CountryStatus.want,
                   ),
                 ),
               ),
             ],
-          )
+          ),
+          AnimatedBuilder(
+            animation: _animation,
+            builder: (context, child) {
+              return Transform.translate(
+                offset: Offset(
+                  0,
+                  -50 * (1 - _animation.value),
+                ),
+                child: Opacity(opacity: _animation.value, child: child),
+              );
+            },
+            child: _buildButton(
+              context,
+              icon: FontAwesomeIcons.houseFlag,
+              onPressed: () {
+                if (widget.country.status == CountryStatus.lived) {
+                  widget.country.status = CountryStatus.none;
+                } else {
+                  widget.country.status = CountryStatus.lived;
+                }
+                setState(() {});
+              },
+              label: "Want to travel",
+              color: CountryStatus.lived.color,
+              selected: widget.country.status == CountryStatus.lived,
+            ),
+          ),
         ],
       ),
     );

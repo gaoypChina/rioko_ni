@@ -46,6 +46,8 @@ class _RiokoNiState extends State<RiokoNi> {
           onPrimary: Colors.tealAccent,
           secondary: Colors.purple,
           onSecondary: Colors.purpleAccent,
+          tertiary: Colors.lime,
+          onTertiary: Colors.limeAccent,
         ),
         floatingActionButtonTheme: const FloatingActionButtonThemeData(
           backgroundColor: Colors.black,
