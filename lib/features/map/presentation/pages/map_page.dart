@@ -49,14 +49,16 @@ class _MapPageState extends State<MapPage> {
             children: [
               WorldStatisticsMap(
                 northAmericaPercentage:
-                    showPercentages ? _cubit.northAmericaPercentage : 0,
+                    showPercentages ? _cubit.beenNorthAmericaPercentage : 0,
                 southAmericaPercentage:
-                    showPercentages ? _cubit.southAmericaPercentage : 0,
-                europePercentage: showPercentages ? _cubit.europePercentage : 0,
-                africaPercentage: showPercentages ? _cubit.africaPercentage : 0,
-                asiaPercentage: showPercentages ? _cubit.asiaPercentage : 0,
+                    showPercentages ? _cubit.beenSouthAmericaPercentage : 0,
+                europePercentage:
+                    showPercentages ? _cubit.beenEuropePercentage : 0,
+                africaPercentage:
+                    showPercentages ? _cubit.beenAfricaPercentage : 0,
+                asiaPercentage: showPercentages ? _cubit.beenAsiaPercentage : 0,
                 oceaniaPercentage:
-                    showPercentages ? _cubit.oceaniaPercentage : 0,
+                    showPercentages ? _cubit.beenOceaniaPercentage : 0,
               ),
               AnimatedContainer(
                 duration: const Duration(milliseconds: 500),
@@ -82,9 +84,6 @@ class _MapPageState extends State<MapPage> {
                   setState(() {});
                 },
                 lowerTopUI: showTopBehindDrawer,
-                onTap: () {
-                  _cubit.saveCountriesLocally();
-                },
               ),
             ],
           );
@@ -98,9 +97,7 @@ class _MapPageState extends State<MapPage> {
             transitionBuilder: (context, a1, a2, widget) {
               return Opacity(
                 opacity: a1.value,
-                child: const SearchCountryDialog(
-                  countries: [],
-                ),
+                child: const SearchCountryDialog(),
               );
             },
             transitionDuration: const Duration(milliseconds: 200),

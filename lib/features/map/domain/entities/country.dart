@@ -10,7 +10,12 @@ import 'package:latlong2/latlong.dart';
 
 part 'country.freezed.dart';
 
-enum CountryStatus { none, been, want }
+enum CountryStatus {
+  none,
+  been,
+  want,
+  lived,
+}
 
 @unfreezed
 class Country with _$Country {

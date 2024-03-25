@@ -79,59 +79,129 @@ class MapCubit extends Cubit<MapState> {
   List<Country> get wantCountries =>
       countries.where((c) => c.status == CountryStatus.want).toList();
 
-  int get asianCountriesNumber =>
+  // Asia
+
+  int get beenAsianCountriesNumber =>
       beenCountries.where((c) => c.region == 'Asia').length;
+  double get beenAsiaPercentage {
+    if (allAsianCountriesNumber == 0) return 0;
+    return beenAsianCountriesNumber / allAsianCountriesNumber * 100;
+  }
+
+  int get wantAsianCountriesNumber =>
+      wantCountries.where((c) => c.region == 'Asia').length;
+  double get wantAsiaPercentage {
+    if (allAsianCountriesNumber == 0) return 0;
+    return wantAsianCountriesNumber / allAsianCountriesNumber * 100;
+  }
+
   int get allAsianCountriesNumber =>
       countries.where((c) => c.region == 'Asia').length;
-  double get asiaPercentage {
-    if (allAsianCountriesNumber == 0) return 0;
-    return asianCountriesNumber / allAsianCountriesNumber * 100;
+
+  // Europe
+
+  int get beenEuropeCountriesNumber =>
+      beenCountries.where((c) => c.region == 'Europe').length;
+  double get beenEuropePercentage {
+    if (allEuropeCountriesNumber == 0) return 0;
+    return beenEuropeCountriesNumber / allEuropeCountriesNumber * 100;
   }
 
-  int get europeCountriesNumber =>
+  int get wantEuropeCountriesNumber =>
       beenCountries.where((c) => c.region == 'Europe').length;
+  double get wantEuropePercentage {
+    if (allEuropeCountriesNumber == 0) return 0;
+    return wantEuropeCountriesNumber / allEuropeCountriesNumber * 100;
+  }
+
   int get allEuropeCountriesNumber =>
       countries.where((c) => c.region == 'Europe').length;
-  double get europePercentage {
-    if (allEuropeCountriesNumber == 0) return 0;
-    return europeCountriesNumber / allEuropeCountriesNumber * 100;
-  }
 
-  int get northAmericaCountriesNumber =>
-      beenCountries.where((c) => c.region == 'North America').length;
-  int get allNorthAmericaCountriesNumber =>
-      countries.where((c) => c.region == 'North America').length;
-  double get northAmericaPercentage {
+  // North America
+
+  int get beenNorthAmericaCountriesNumber =>
+      beenCountries.where((c) => c.subregion == 'North America').length;
+  double get beenNorthAmericaPercentage {
     if (allNorthAmericaCountriesNumber == 0) return 0;
-    return northAmericaCountriesNumber / allNorthAmericaCountriesNumber * 100;
+    return beenNorthAmericaCountriesNumber /
+        allNorthAmericaCountriesNumber *
+        100;
   }
 
-  int get southAmericaCountriesNumber =>
-      beenCountries.where((c) => c.region == 'South America').length;
-  int get allSouthAmericaCountriesNumber =>
-      countries.where((c) => c.region == 'South America').length;
-  double get southAmericaPercentage {
+  int get wantNorthAmericaCountriesNumber =>
+      wantCountries.where((c) => c.subregion == 'North America').length;
+  double get wantNorthAmericaPercentage {
+    if (allNorthAmericaCountriesNumber == 0) return 0;
+    return wantNorthAmericaCountriesNumber /
+        allNorthAmericaCountriesNumber *
+        100;
+  }
+
+  int get allNorthAmericaCountriesNumber =>
+      countries.where((c) => c.subregion == 'North America').length;
+
+  // South America
+
+  int get beenSouthAmericaCountriesNumber =>
+      beenCountries.where((c) => c.subregion == 'South America').length;
+  double get beenSouthAmericaPercentage {
     if (allSouthAmericaCountriesNumber == 0) return 0;
-    return southAmericaCountriesNumber / allSouthAmericaCountriesNumber * 100;
+    return beenSouthAmericaCountriesNumber /
+        allSouthAmericaCountriesNumber *
+        100;
   }
 
-  int get africaCountriesNumber =>
+  int get wantSouthAmericaCountriesNumber =>
+      beenCountries.where((c) => c.subregion == 'South America').length;
+  double get wantSouthAmericaPercentage {
+    if (allSouthAmericaCountriesNumber == 0) return 0;
+    return wantSouthAmericaCountriesNumber /
+        allSouthAmericaCountriesNumber *
+        100;
+  }
+
+  int get allSouthAmericaCountriesNumber =>
+      countries.where((c) => c.subregion == 'South America').length;
+
+  // Africa
+
+  int get beenAfricaCountriesNumber =>
       beenCountries.where((c) => c.region == 'Africa').length;
+  double get beenAfricaPercentage {
+    if (allAfricaCountriesNumber == 0) return 0;
+    return beenAfricaCountriesNumber / allAfricaCountriesNumber * 100;
+  }
+
+  int get wantAfricaCountriesNumber =>
+      wantCountries.where((c) => c.region == 'Africa').length;
+  double get wantAfricaPercentage {
+    if (allAfricaCountriesNumber == 0) return 0;
+    return wantAfricaCountriesNumber / allAfricaCountriesNumber * 100;
+  }
+
   int get allAfricaCountriesNumber =>
       countries.where((c) => c.region == 'Africa').length;
-  double get africaPercentage {
-    if (allAfricaCountriesNumber == 0) return 0;
-    return africaCountriesNumber / allAfricaCountriesNumber * 100;
+
+  // Oceania
+
+  int get beenOceaniaCountriesNumber =>
+      beenCountries.where((c) => c.region == 'Oceania').length;
+  double get beenOceaniaPercentage {
+    if (allOceaniaCountriesNumber == 0) return 0;
+    return beenOceaniaCountriesNumber / allOceaniaCountriesNumber * 100;
   }
 
-  int get oceaniaCountriesNumber =>
-      beenCountries.where((c) => c.region == 'Oceania').length;
+  int get wantOceaniaCountriesNumber =>
+      wantCountries.where((c) => c.region == 'Oceania').length;
+  double get wantOceaniaPercentage {
+    if (allOceaniaCountriesNumber == 0) return 0;
+    return wantOceaniaCountriesNumber / allOceaniaCountriesNumber * 100;
+  }
+
   int get allOceaniaCountriesNumber =>
       countries.where((c) => c.region == 'Oceania').length;
-  double get oceaniaPercentage {
-    if (allOceaniaCountriesNumber == 0) return 0;
-    return oceaniaCountriesNumber / allOceaniaCountriesNumber * 100;
-  }
+
+  // -----
 
   void getPointsNumber() {
     final points = countries.map((c) => c.pointsNumber);
@@ -164,6 +234,7 @@ class MapCubit extends Cubit<MapState> {
     required CountryStatus status,
   }) {
     countries.firstWhere((c) => c.alpha3 == country.alpha3).status = status;
+    saveCountriesLocally();
     emit(MapState.updatedCountryStatus(country: country, status: status));
   }
 }

@@ -7,12 +7,7 @@ import 'package:rioko_ni/features/map/presentation/cubit/map_cubit.dart';
 import 'package:rioko_ni/features/map/presentation/widgets/country_management_dialog.dart';
 
 class SearchCountryDialog extends StatefulWidget {
-  final List<Country> countries;
-
-  const SearchCountryDialog({
-    required this.countries,
-    super.key,
-  });
+  const SearchCountryDialog({super.key});
 
   @override
   State<SearchCountryDialog> createState() => _SearchCountryDialogState();

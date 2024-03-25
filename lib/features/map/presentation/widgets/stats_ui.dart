@@ -8,7 +8,6 @@ class StatsUI extends StatelessWidget {
   final int notWant;
   final void Function() toggleTopBehindDrawer;
   final bool lowerTopUI;
-  final void Function() onTap;
 
   const StatsUI({
     required this.been,
@@ -16,7 +15,6 @@ class StatsUI extends StatelessWidget {
     required this.notWant,
     required this.toggleTopBehindDrawer,
     required this.lowerTopUI,
-    required this.onTap,
     super.key,
   });
 
@@ -46,42 +44,38 @@ class StatsUI extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(
-                  child: GestureDetector(
-                    onTap: onTap,
-                    child: Container(
-                      height: 50,
-                      alignment: Alignment.topCenter,
-                      margin: const EdgeInsets.only(right: AppSizes.padding),
-                      padding: const EdgeInsets.symmetric(
-                        vertical: AppSizes.padding,
-                        horizontal: AppSizes.paddingTriple,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.black45,
-                        border: Border.all(
-                            color: Colors.tealAccent.withOpacity(0.7),
-                            width: 1),
-                        borderRadius: BorderRadius.circular(AppSizes.radius),
-                      ),
-                      child: Center(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              'Been: $been',
-                              style: style,
-                            ),
-                            Text(
-                              'Want: $want',
-                              style: style,
-                            ),
-                            Text(
-                              'Lived: $notWant',
-                              style: style,
-                            ),
-                          ],
-                        ),
+                  child: Container(
+                    height: 50,
+                    alignment: Alignment.topCenter,
+                    margin: const EdgeInsets.only(right: AppSizes.padding),
+                    padding: const EdgeInsets.symmetric(
+                      vertical: AppSizes.padding,
+                      horizontal: AppSizes.paddingTriple,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.black45,
+                      border: Border.all(
+                          color: Colors.tealAccent.withOpacity(0.7), width: 1),
+                      borderRadius: BorderRadius.circular(AppSizes.radius),
+                    ),
+                    child: Center(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Been: $been',
+                            style: style,
+                          ),
+                          Text(
+                            'Want: $want',
+                            style: style,
+                          ),
+                          Text(
+                            'Lived: $notWant',
+                            style: style,
+                          ),
+                        ],
                       ),
                     ),
                   ),
