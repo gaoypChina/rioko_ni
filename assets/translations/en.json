@@ -1,0 +1,12 @@
+{
+    "core": {
+        "errors": {
+            "socketException": "No Internet connection",
+            "httpException": "No service found",
+            "formatException": "Invalid response format",
+            "locationDisabled": "Location services are disabled",
+            "locationDenied": "Location permissions are denied",
+            "locationForeverDenied": "Location permissions are permanently denied, we cannot request permissions"
+        }
+    }
+}
