@@ -22,5 +22,8 @@ class MapState with _$MapState {
     required CountryStatus status,
   }) = _UpdatedCountryStatus;
 
+  const factory MapState.setCurrentPosition(LatLng position) =
+      _SetCurrentPosition;
+
   const factory MapState.error(String message) = _Error;
 }

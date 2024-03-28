@@ -29,6 +29,7 @@ class MapBuilder {
     required List<Country> beenCountries,
     required List<Country> wantCountries,
     required List<Country> livedCountries,
+    required MapController controller,
   }) {
     final mapOptions = getMapOptions(
       interactionOptions: const InteractionOptions(
@@ -70,6 +71,7 @@ class MapBuilder {
     return Map(
       mapOptions: mapOptions,
       layers: layers,
+      controller: controller,
     );
   }
 }
@@ -77,9 +79,11 @@ class MapBuilder {
 class Map extends StatelessWidget {
   final MapOptions mapOptions;
   final List<Widget> layers;
+  final MapController? controller;
   const Map({
     required this.mapOptions,
     required this.layers,
+    required this.controller,
     super.key,
   });
 
@@ -99,6 +103,7 @@ class Map extends StatelessWidget {
   Widget _buildMap(BuildContext context) {
     return FlutterMap(
       options: mapOptions,
+      mapController: controller,
       children: layers,
     );
   }

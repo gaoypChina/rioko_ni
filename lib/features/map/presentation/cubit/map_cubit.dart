@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:rioko_ni/core/domain/usecase.dart';
+import 'package:rioko_ni/core/errors/failure.dart';
+import 'package:rioko_ni/core/utils/geolocation_handler.dart';
 
 import 'package:rioko_ni/features/map/domain/entities/country.dart';
 import 'package:rioko_ni/features/map/domain/usecases/get_countries.dart';
@@ -31,6 +34,11 @@ class MapCubit extends Cubit<MapState> {
 
   List<Country> countries = [];
 
+  void load() async {
+    _getCurrentPosition();
+    await getCountryPolygons().then((_) => getLocalCountryData());
+  }
+
   Future getCountryPolygons() async {
     await getCountryPolygonUsecase.call(NoParams()).then(
           (result) => result.fold(
@@ -53,7 +61,6 @@ class MapCubit extends Cubit<MapState> {
   }
 
   Future getLocalCountryData() async {
-    debugPrint('start');
     await readCountriesLocallyUsecase.call(NoParams()).then(
           (result) => result.fold(
             (failure) => MapState.error(failure.message),
@@ -239,5 +246,17 @@ class MapCubit extends Cubit<MapState> {
     countries.firstWhere((c) => c.alpha3 == country.alpha3).status = status;
     saveCountriesLocally();
     emit(MapState.updatedCountryStatus(country: country, status: status));
+  }
+
+  void _getCurrentPosition() async {
+    try {
+      final position = await GeoLocationHandler.determinePosition();
+      final latLng = LatLng(position.latitude, position.longitude);
+      emit(MapState.setCurrentPosition(latLng));
+    } on PermissionFailure catch (e) {
+      emit(MapState.error(e.message));
+    } catch (e) {
+      emit(MapState.error('$e'));
+    }
   }
 }

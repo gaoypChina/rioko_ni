@@ -28,7 +28,7 @@ class _RiokoNiState extends State<RiokoNi> {
   final _mapCubit = locator<MapCubit>();
   @override
   void initState() {
-    _mapCubit.getCountryPolygons().then((_) => _mapCubit.getLocalCountryData());
+    _mapCubit.load();
     super.initState();
   }
 

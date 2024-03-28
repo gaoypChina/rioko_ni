@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rioko_ni/core/injector.dart';
 import 'package:rioko_ni/core/presentation/map.dart';
@@ -24,6 +25,20 @@ class _MapPageState extends State<MapPage> {
 
   bool showPercentages = false;
 
+  late MapController mapController;
+
+  @override
+  void initState() {
+    mapController = MapController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    mapController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,6 +55,8 @@ class _MapPageState extends State<MapPage> {
               autoCloseDuration: const Duration(seconds: 5),
               alignment: Alignment.topCenter,
             ),
+            setCurrentPosition: (position) =>
+                mapController.move(position, mapController.camera.zoom),
             orElse: () {},
           );
         },
@@ -122,6 +139,7 @@ class _MapPageState extends State<MapPage> {
       beenCountries: _cubit.beenCountries,
       wantCountries: _cubit.wantCountries,
       livedCountries: _cubit.livedCountries,
+      controller: mapController,
     );
   }
 }
