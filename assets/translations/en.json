@@ -8,5 +8,26 @@
             "locationDenied": "Location permissions are denied",
             "locationForeverDenied": "Location permissions are permanently denied, we cannot request permissions"
         }
+    },
+    "map": {
+        "statsUI": {
+            "labels": {
+                "been": "Been",
+                "want": "Want",
+                "lived": "Lived"
+            }
+        },
+        "countryManagement": {
+            "labels": {
+                "been": "Been there!",
+                "want": "Want to travel",
+                "lived": "Lived there"
+            }
+        },
+        "searchCountry": {
+            "labels": {
+                "searchCountry": "Search country"
+            }
+        }
     }
 }

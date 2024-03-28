@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -43,6 +44,8 @@ class _CountryManagementDialogState extends State<CountryManagementDialog>
   late Animation<double> _animation;
 
   bool isPopping = false;
+
+  String get l10n => 'map.countryManagement';
 
   @override
   void initState() {
@@ -112,7 +115,7 @@ class _CountryManagementDialogState extends State<CountryManagementDialog>
                       }
                       setState(() {});
                     },
-                    label: "Been there!",
+                    label: tr('$l10n.labels.been'),
                     color: CountryStatus.been.color,
                     selected: widget.country.status == CountryStatus.been,
                   ),
@@ -160,7 +163,7 @@ class _CountryManagementDialogState extends State<CountryManagementDialog>
                       }
                       setState(() {});
                     },
-                    label: "Want to travel",
+                    label: tr('$l10n.labels.want'),
                     color: CountryStatus.want.color,
                     selected: widget.country.status == CountryStatus.want,
                   ),
@@ -168,31 +171,34 @@ class _CountryManagementDialogState extends State<CountryManagementDialog>
               ),
             ],
           ),
-          AnimatedBuilder(
-            animation: _animation,
-            builder: (context, child) {
-              return Transform.translate(
-                offset: Offset(
-                  0,
-                  -50 * (1 - _animation.value),
-                ),
-                child: Opacity(opacity: _animation.value, child: child),
-              );
-            },
-            child: _buildButton(
-              context,
-              icon: FontAwesomeIcons.houseFlag,
-              onPressed: () {
-                if (widget.country.status == CountryStatus.lived) {
-                  widget.country.status = CountryStatus.none;
-                } else {
-                  widget.country.status = CountryStatus.lived;
-                }
-                setState(() {});
+          SizedBox(
+            height: 150,
+            child: AnimatedBuilder(
+              animation: _animation,
+              builder: (context, child) {
+                return Transform.translate(
+                  offset: Offset(
+                    0,
+                    50 * (1 - _animation.value),
+                  ),
+                  child: Opacity(opacity: _animation.value, child: child),
+                );
               },
-              label: "Want to travel",
-              color: CountryStatus.lived.color,
-              selected: widget.country.status == CountryStatus.lived,
+              child: _buildButton(
+                context,
+                icon: FontAwesomeIcons.houseFlag,
+                onPressed: () {
+                  if (widget.country.status == CountryStatus.lived) {
+                    widget.country.status = CountryStatus.none;
+                  } else {
+                    widget.country.status = CountryStatus.lived;
+                  }
+                  setState(() {});
+                },
+                label: tr('$l10n.labels.lived'),
+                color: CountryStatus.lived.color,
+                selected: widget.country.status == CountryStatus.lived,
+              ),
             ),
           ),
         ],

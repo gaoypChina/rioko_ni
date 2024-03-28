@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:rioko_ni/core/injector.dart';
 import 'package:rioko_ni/features/map/presentation/cubit/map_cubit.dart';
@@ -8,11 +9,20 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await registerDependencies();
   runApp(
-    MultiBlocProvider(providers: [
-      BlocProvider<MapCubit>(
-        create: (BuildContext context) => locator<MapCubit>(),
+    EasyLocalization(
+      supportedLocales: const [Locale('en', 'US'), Locale('pl', 'PL')],
+      path:
+          'assets/translations', // <-- change the path of the translation files
+      fallbackLocale: const Locale('en', 'US'),
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider<MapCubit>(
+            create: (BuildContext context) => locator<MapCubit>(),
+          ),
+        ],
+        child: const RiokoNi(),
       ),
-    ], child: const RiokoNi()),
+    ),
   );
 }
 
@@ -63,6 +73,9 @@ class _RiokoNiState extends State<RiokoNi> {
         ),
       ),
       debugShowCheckedModeBanner: false,
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
+      locale: context.locale,
       home: const HomePage(),
     );
   }

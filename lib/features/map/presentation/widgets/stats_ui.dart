@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rioko_ni/core/config/app_sizes.dart';
@@ -27,6 +28,8 @@ class StatsUI extends StatelessWidget {
   double getTopMargin(BuildContext context) =>
       AppSizes.paddingTriple +
       (lowerTopUI ? MediaQuery.of(context).size.height * 0.3 : 0);
+
+  String get l10n => 'map.statsUI';
 
   @override
   Widget build(BuildContext context) {
@@ -64,15 +67,15 @@ class StatsUI extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Text(
-                            'Been: $been',
+                            "${tr('$l10n.labels.been')}: $been",
                             style: style,
                           ),
                           Text(
-                            'Want: $want',
+                            "${tr('$l10n.labels.want')}: $want",
                             style: style,
                           ),
                           Text(
-                            'Lived: $lived',
+                            "${tr('$l10n.labels.lived')}: $lived",
                             style: style,
                           ),
                         ],
