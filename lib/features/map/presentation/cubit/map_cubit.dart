@@ -54,9 +54,13 @@ class MapCubit extends Cubit<MapState> {
 
   List<Country> countriesByString(String text) {
     final result = countries
-        .where((country) => tr('countries.${country.alpha3}')
-            .toLowerCase()
-            .contains(text.toLowerCase()))
+        .where(
+          (country) =>
+              tr('countries.${country.alpha3}')
+                  .toLowerCase()
+                  .contains(text.toLowerCase()) ||
+              country.region.name.contains(text.toLowerCase()),
+        )
         .toList();
     return result;
   }

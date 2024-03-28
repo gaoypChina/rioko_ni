@@ -233,7 +233,6 @@ class _CountryManagementDialogState extends State<CountryManagementDialog>
     required String label,
     required Color color,
     required bool selected,
-    EdgeInsets margin = const EdgeInsets.all(AppSizes.paddingDouble),
   }) {
     return GestureDetector(
       onTap: onPressed,
