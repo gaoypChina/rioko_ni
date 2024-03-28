@@ -24,14 +24,14 @@ class MapLocalDataSourceImpl implements MapLocalDataSource {
           await rootBundle.loadString(countriesGeoDataPath);
       final regionsData = await rootBundle.loadString(regionsDataPath);
       final geoData = jsonDecode(countriesGeoData) as Map<String, dynamic>;
-      final regions = Map<String, List<String>>.from(jsonDecode(regionsData));
+      final regions = Map<String, List<dynamic>>.from(jsonDecode(regionsData));
       final featureCollection = FeatureCollection.fromData(geoData);
       return featureCollection.features
           .where((feature) => feature.properties["ISO_A3"] != "-99")
           .map((feature) {
         final cca3 = feature.properties["ISO_A3"];
         final regionName = regions.keys.firstWhere(
-          (key) => regions[key]!.contains(cca3),
+          (key) => regions[key]!.cast<String>().contains(cca3),
         );
         return CountryModel(
           countryCode: cca3,
