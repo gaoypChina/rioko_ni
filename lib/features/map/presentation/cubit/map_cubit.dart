@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -53,9 +54,9 @@ class MapCubit extends Cubit<MapState> {
 
   List<Country> countriesByString(String text) {
     final result = countries
-        .where((country) =>
-            country.name.toLowerCase().contains(text.toLowerCase()) ||
-            country.region.toLowerCase().contains(text.toLowerCase()))
+        .where((country) => tr('countries.${country.alpha3}')
+            .toLowerCase()
+            .contains(text.toLowerCase()))
         .toList();
     return result;
   }
@@ -92,45 +93,45 @@ class MapCubit extends Cubit<MapState> {
   // Asia
 
   int get beenAsianCountriesNumber =>
-      beenCountries.where((c) => c.region == 'Asia').length;
+      beenCountries.where((c) => c.region == Region.asia).length;
   double get beenAsiaPercentage {
     if (allAsianCountriesNumber == 0) return 0;
     return beenAsianCountriesNumber / allAsianCountriesNumber * 100;
   }
 
   int get wantAsianCountriesNumber =>
-      wantCountries.where((c) => c.region == 'Asia').length;
+      wantCountries.where((c) => c.region == Region.asia).length;
   double get wantAsiaPercentage {
     if (allAsianCountriesNumber == 0) return 0;
     return wantAsianCountriesNumber / allAsianCountriesNumber * 100;
   }
 
   int get allAsianCountriesNumber =>
-      countries.where((c) => c.region == 'Asia').length;
+      countries.where((c) => c.region == Region.asia).length;
 
   // Europe
 
   int get beenEuropeCountriesNumber =>
-      beenCountries.where((c) => c.region == 'Europe').length;
+      beenCountries.where((c) => c.region == Region.europe).length;
   double get beenEuropePercentage {
     if (allEuropeCountriesNumber == 0) return 0;
     return beenEuropeCountriesNumber / allEuropeCountriesNumber * 100;
   }
 
   int get wantEuropeCountriesNumber =>
-      beenCountries.where((c) => c.region == 'Europe').length;
+      beenCountries.where((c) => c.region == Region.europe).length;
   double get wantEuropePercentage {
     if (allEuropeCountriesNumber == 0) return 0;
     return wantEuropeCountriesNumber / allEuropeCountriesNumber * 100;
   }
 
   int get allEuropeCountriesNumber =>
-      countries.where((c) => c.region == 'Europe').length;
+      countries.where((c) => c.region == Region.europe).length;
 
   // North America
 
   int get beenNorthAmericaCountriesNumber =>
-      beenCountries.where((c) => c.subregion == 'North America').length;
+      beenCountries.where((c) => c.region == Region.northAmerica).length;
   double get beenNorthAmericaPercentage {
     if (allNorthAmericaCountriesNumber == 0) return 0;
     return beenNorthAmericaCountriesNumber /
@@ -139,7 +140,7 @@ class MapCubit extends Cubit<MapState> {
   }
 
   int get wantNorthAmericaCountriesNumber =>
-      wantCountries.where((c) => c.subregion == 'North America').length;
+      wantCountries.where((c) => c.region == Region.northAmerica).length;
   double get wantNorthAmericaPercentage {
     if (allNorthAmericaCountriesNumber == 0) return 0;
     return wantNorthAmericaCountriesNumber /
@@ -148,12 +149,12 @@ class MapCubit extends Cubit<MapState> {
   }
 
   int get allNorthAmericaCountriesNumber =>
-      countries.where((c) => c.subregion == 'North America').length;
+      countries.where((c) => c.region == Region.northAmerica).length;
 
   // South America
 
   int get beenSouthAmericaCountriesNumber =>
-      beenCountries.where((c) => c.subregion == 'South America').length;
+      beenCountries.where((c) => c.region == Region.southAmerica).length;
   double get beenSouthAmericaPercentage {
     if (allSouthAmericaCountriesNumber == 0) return 0;
     return beenSouthAmericaCountriesNumber /
@@ -162,7 +163,7 @@ class MapCubit extends Cubit<MapState> {
   }
 
   int get wantSouthAmericaCountriesNumber =>
-      beenCountries.where((c) => c.subregion == 'South America').length;
+      beenCountries.where((c) => c.region == Region.southAmerica).length;
   double get wantSouthAmericaPercentage {
     if (allSouthAmericaCountriesNumber == 0) return 0;
     return wantSouthAmericaCountriesNumber /
@@ -171,45 +172,45 @@ class MapCubit extends Cubit<MapState> {
   }
 
   int get allSouthAmericaCountriesNumber =>
-      countries.where((c) => c.subregion == 'South America').length;
+      countries.where((c) => c.region == Region.southAmerica).length;
 
   // Africa
 
   int get beenAfricaCountriesNumber =>
-      beenCountries.where((c) => c.region == 'Africa').length;
+      beenCountries.where((c) => c.region == Region.africa).length;
   double get beenAfricaPercentage {
     if (allAfricaCountriesNumber == 0) return 0;
     return beenAfricaCountriesNumber / allAfricaCountriesNumber * 100;
   }
 
   int get wantAfricaCountriesNumber =>
-      wantCountries.where((c) => c.region == 'Africa').length;
+      wantCountries.where((c) => c.region == Region.africa).length;
   double get wantAfricaPercentage {
     if (allAfricaCountriesNumber == 0) return 0;
     return wantAfricaCountriesNumber / allAfricaCountriesNumber * 100;
   }
 
   int get allAfricaCountriesNumber =>
-      countries.where((c) => c.region == 'Africa').length;
+      countries.where((c) => c.region == Region.africa).length;
 
   // Oceania
 
   int get beenOceaniaCountriesNumber =>
-      beenCountries.where((c) => c.region == 'Oceania').length;
+      beenCountries.where((c) => c.region == Region.oceania).length;
   double get beenOceaniaPercentage {
     if (allOceaniaCountriesNumber == 0) return 0;
     return beenOceaniaCountriesNumber / allOceaniaCountriesNumber * 100;
   }
 
   int get wantOceaniaCountriesNumber =>
-      wantCountries.where((c) => c.region == 'Oceania').length;
+      wantCountries.where((c) => c.region == Region.oceania).length;
   double get wantOceaniaPercentage {
     if (allOceaniaCountriesNumber == 0) return 0;
     return wantOceaniaCountriesNumber / allOceaniaCountriesNumber * 100;
   }
 
   int get allOceaniaCountriesNumber =>
-      countries.where((c) => c.region == 'Oceania').length;
+      countries.where((c) => c.region == Region.oceania).length;
 
   // -----
 

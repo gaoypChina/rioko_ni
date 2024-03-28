@@ -11,16 +11,12 @@ class CountryModel with _$CountryModel {
   factory CountryModel({
     required FeatureCollection featureCollection,
     required String countryCode,
-    required String region,
-    required String subregion,
-    required String name,
+    required Region region,
   }) = _CountryPolygonsModel;
 
   Country toEntity() => Country(
         countryCode: CountryCode.parse(countryCode),
         featureCollection: featureCollection,
         region: region,
-        subregion: subregion,
-        name: name,
       );
 }

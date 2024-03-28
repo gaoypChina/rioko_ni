@@ -1,1 +1,33 @@
-{}
+{
+    "core": {
+        "errors": {
+            "socketException": "Brak połączenia z Internetem",
+            "httpException": "Nie znaleziono usługi",
+            "formatException": "Nieprawidłowy format odpowiedzi",
+            "locationDisabled": "Usługi lokalizacji są wyłączone",
+            "locationDenied": "Odmówiono uprawnień do lokalizacji",
+            "locationForeverDenied": "Uprawnienia do lokalizacji są trwale odrzucone, nie możemy zażądać uprawnień"
+        }
+    },
+    "map": {
+        "statsUI": {
+            "labels": {
+                "been": "Byłem",
+                "want": "Będę",
+                "lived": "Żyłem"
+            }
+        },
+        "countryManagement": {
+            "labels": {
+                "been": "Zwiedziłem!",
+                "want": "Chcę zwiedzić!",
+                "lived": "Żyłem tam!"
+            }
+        },
+        "searchCountry": {
+            "labels": {
+                "searchCountry": "Wyszukaj kraju"
+            }
+        }
+    }
+}

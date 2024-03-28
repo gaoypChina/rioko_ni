@@ -1,5 +1,6 @@
 import 'package:country_code/country_code.dart';
 import 'package:country_flags/country_flags.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:rioko_ni/core/extensions/polygon2.dart';
@@ -16,6 +17,58 @@ enum CountryStatus {
   been,
   want,
   lived,
+}
+
+enum Region {
+  northAmerica,
+  southAmerica,
+  europe,
+  africa,
+  asia,
+  oceania,
+  antarctic,
+}
+
+extension RegionExtension on Region {
+  static Region fromString(String name) {
+    switch (name) {
+      case 'Asia':
+        return Region.asia;
+      case 'Africa':
+        return Region.africa;
+      case 'North America':
+        return Region.northAmerica;
+      case 'South America':
+        return Region.southAmerica;
+      case 'Oceania':
+        return Region.oceania;
+      case 'Antarctic':
+        return Region.antarctic;
+      case 'Europe':
+        return Region.europe;
+      default:
+        return Region.asia;
+    }
+  }
+
+  String get name {
+    switch (this) {
+      case Region.africa:
+        return tr('regions.africa');
+      case Region.antarctic:
+        return tr('regions.antartic');
+      case Region.asia:
+        return tr('regions.asia');
+      case Region.europe:
+        return tr('regions.europe');
+      case Region.northAmerica:
+        return tr('regions.northAmerica');
+      case Region.southAmerica:
+        return tr('regions.southAmerica');
+      case Region.oceania:
+        return tr('regions.oceania');
+    }
+  }
 }
 
 extension CountryStatusExtension on CountryStatus {
@@ -43,11 +96,7 @@ class Country with _$Country {
     /// GeoJson data
     required FeatureCollection featureCollection,
     required CountryCode countryCode,
-    required String region,
-    required String subregion,
-
-    /// English name
-    required String name,
+    required Region region,
     @Default(CountryStatus.none) CountryStatus status,
   }) = _CountryPolygons;
 
@@ -55,8 +104,6 @@ class Country with _$Country {
         countryCode: countryCode.alpha3,
         featureCollection: featureCollection,
         region: region,
-        subregion: subregion,
-        name: name,
       );
 
   String get alpha2 => countryCode.alpha2;

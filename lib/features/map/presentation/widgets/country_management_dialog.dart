@@ -85,123 +85,114 @@ class _CountryManagementDialogState extends State<CountryManagementDialog>
 
   Dialog _buildDialog(BuildContext context) {
     return Dialog(
-      child: Column(
-        key: _dialogKey,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Expanded(
-                child: AnimatedBuilder(
-                  animation: _animation,
-                  builder: (context, child) {
-                    return Transform.translate(
-                      offset: Offset(
-                        -50 * (1 - _animation.value),
-                        0,
-                      ),
-                      child: Opacity(opacity: _animation.value, child: child),
-                    );
-                  },
-                  child: _buildButton(
-                    context,
-                    icon: FontAwesomeIcons.trophy,
-                    onPressed: () {
-                      if (widget.country.status == CountryStatus.been) {
-                        widget.country.status = CountryStatus.none;
-                      } else {
-                        widget.country.status = CountryStatus.been;
-                      }
-                      setState(() {});
+      insetPadding: const EdgeInsets.all(AppSizes.paddingDouble),
+      child: Padding(
+        padding: const EdgeInsets.all(AppSizes.paddingDouble),
+        child: Column(
+          key: _dialogKey,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: AnimatedBuilder(
+                    animation: _animation,
+                    builder: (context, child) {
+                      return Transform.translate(
+                        offset: Offset(
+                          -50 * (1 - _animation.value),
+                          0,
+                        ),
+                        child: Opacity(opacity: _animation.value, child: child),
+                      );
                     },
-                    label: tr('$l10n.labels.been'),
-                    color: CountryStatus.been.color,
-                    selected: widget.country.status == CountryStatus.been,
-                  ),
-                ),
-              ),
-              AnimatedBuilder(
-                animation: _animation,
-                builder: (context, child) {
-                  return Transform.translate(
-                    offset: Offset(
-                      0,
-                      -50 * (1 - _animation.value),
+                    child: _buildButton(
+                      context,
+                      icon: FontAwesomeIcons.trophy,
+                      onPressed: () {
+                        if (widget.country.status == CountryStatus.been) {
+                          widget.country.status = CountryStatus.none;
+                        } else {
+                          widget.country.status = CountryStatus.been;
+                        }
+                        setState(() {});
+                      },
+                      label: tr('$l10n.labels.been'),
+                      color: CountryStatus.been.color,
+                      selected: widget.country.status == CountryStatus.been,
                     ),
-                    child: Opacity(opacity: _animation.value, child: child),
-                  );
-                },
-                child: const SizedBox(
-                  height: 50,
-                  child: VerticalDivider(
-                    color: Colors.white,
-                    thickness: 1,
                   ),
                 ),
-              ),
-              Expanded(
-                child: AnimatedBuilder(
-                  animation: _animation,
-                  builder: (context, child) {
-                    return Transform.translate(
-                      offset: Offset(
-                        50 * (1 - _animation.value),
-                        0,
-                      ),
-                      child: Opacity(opacity: _animation.value, child: child),
-                    );
-                  },
-                  child: _buildButton(
-                    context,
-                    icon: FontAwesomeIcons.suitcase,
-                    onPressed: () {
-                      if (widget.country.status == CountryStatus.want) {
-                        widget.country.status = CountryStatus.none;
-                      } else {
-                        widget.country.status = CountryStatus.want;
-                      }
-                      setState(() {});
+                Expanded(
+                  child: AnimatedBuilder(
+                    animation: _animation,
+                    builder: (context, child) {
+                      return Transform.translate(
+                        offset: Offset(
+                          50 * (1 - _animation.value),
+                          0,
+                        ),
+                        child: Opacity(opacity: _animation.value, child: child),
+                      );
                     },
-                    label: tr('$l10n.labels.want'),
-                    color: CountryStatus.want.color,
-                    selected: widget.country.status == CountryStatus.want,
+                    child: _buildButton(
+                      context,
+                      icon: FontAwesomeIcons.suitcase,
+                      onPressed: () {
+                        if (widget.country.status == CountryStatus.want) {
+                          widget.country.status = CountryStatus.none;
+                        } else {
+                          widget.country.status = CountryStatus.want;
+                        }
+                        setState(() {});
+                      },
+                      label: tr('$l10n.labels.want'),
+                      color: CountryStatus.want.color,
+                      selected: widget.country.status == CountryStatus.want,
+                    ),
                   ),
                 ),
-              ),
-            ],
-          ),
-          SizedBox(
-            height: 150,
-            child: AnimatedBuilder(
-              animation: _animation,
-              builder: (context, child) {
-                return Transform.translate(
-                  offset: Offset(
-                    0,
-                    50 * (1 - _animation.value),
-                  ),
-                  child: Opacity(opacity: _animation.value, child: child),
-                );
-              },
-              child: _buildButton(
-                context,
-                icon: FontAwesomeIcons.houseFlag,
-                onPressed: () {
-                  if (widget.country.status == CountryStatus.lived) {
-                    widget.country.status = CountryStatus.none;
-                  } else {
-                    widget.country.status = CountryStatus.lived;
-                  }
-                  setState(() {});
-                },
-                label: tr('$l10n.labels.lived'),
-                color: CountryStatus.lived.color,
-                selected: widget.country.status == CountryStatus.lived,
-              ),
+              ],
             ),
-          ),
-        ],
+            Row(
+              children: [
+                const Expanded(child: SizedBox()),
+                Expanded(
+                  flex: 2,
+                  child: AnimatedBuilder(
+                    animation: _animation,
+                    builder: (context, child) {
+                      return Transform.translate(
+                        offset: Offset(
+                          0,
+                          50 * (1 - _animation.value),
+                        ),
+                        child: Opacity(opacity: _animation.value, child: child),
+                      );
+                    },
+                    child: _buildButton(
+                      context,
+                      icon: FontAwesomeIcons.houseFlag,
+                      onPressed: () {
+                        if (widget.country.status == CountryStatus.lived) {
+                          widget.country.status = CountryStatus.none;
+                        } else {
+                          widget.country.status = CountryStatus.lived;
+                        }
+                        setState(() {});
+                      },
+                      label: tr('$l10n.labels.lived'),
+                      color: CountryStatus.lived.color,
+                      selected: widget.country.status == CountryStatus.lived,
+                    ),
+                  ),
+                ),
+                const Expanded(child: SizedBox()),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -242,6 +233,7 @@ class _CountryManagementDialogState extends State<CountryManagementDialog>
     required String label,
     required Color color,
     required bool selected,
+    EdgeInsets margin = const EdgeInsets.all(AppSizes.paddingDouble),
   }) {
     return GestureDetector(
       onTap: onPressed,
@@ -257,7 +249,7 @@ class _CountryManagementDialogState extends State<CountryManagementDialog>
             ),
             borderRadius: BorderRadius.circular(AppSizes.radius),
           ),
-          margin: const EdgeInsets.all(AppSizes.paddingDouble),
+          padding: const EdgeInsets.symmetric(horizontal: AppSizes.padding),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,

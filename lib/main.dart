@@ -7,13 +7,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
   await registerDependencies();
   runApp(
     EasyLocalization(
-      supportedLocales: const [Locale('en', 'US'), Locale('pl', 'PL')],
-      path:
-          'assets/translations', // <-- change the path of the translation files
-      fallbackLocale: const Locale('en', 'US'),
+      supportedLocales: const [Locale('en'), Locale('pl')],
+      path: 'assets/translations',
+      fallbackLocale: const Locale('en'),
       child: MultiBlocProvider(
         providers: [
           BlocProvider<MapCubit>(

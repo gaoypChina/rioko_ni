@@ -232,11 +232,11 @@ class _SearchCountryDialogState extends State<SearchCountryDialog>
           child: country.flag(scale: 0.5),
         ),
         title: Text(
-          country.name,
+          tr('countries.${country.alpha3}'),
           style: Theme.of(context).textTheme.titleMedium,
         ),
         subtitle: Text(
-          country.region,
+          country.region.name,
           style: Theme.of(context).textTheme.titleSmall,
         ),
       ),
