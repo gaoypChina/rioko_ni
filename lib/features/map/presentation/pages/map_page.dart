@@ -23,7 +23,7 @@ class _MapPageState extends State<MapPage> {
 
   bool showTopBehindDrawer = false;
 
-  bool showPercentages = false;
+  bool showWorldStatistics = false;
 
   late MapController mapController;
 
@@ -66,16 +66,29 @@ class _MapPageState extends State<MapPage> {
             children: [
               WorldStatisticsMap(
                 northAmericaPercentage:
-                    showPercentages ? _cubit.beenNorthAmericaPercentage : 0,
+                    showWorldStatistics ? _cubit.beenNorthAmericaPercentage : 0,
+                northAmericaNumber: _cubit.beenNorthAmericaCountriesNumber,
+                northAmericaAll: _cubit.allNorthAmericaCountriesNumber,
                 southAmericaPercentage:
-                    showPercentages ? _cubit.beenSouthAmericaPercentage : 0,
+                    showWorldStatistics ? _cubit.beenSouthAmericaPercentage : 0,
+                southAmericaNumber: _cubit.beenSouthAmericaCountriesNumber,
+                southAmericaAll: _cubit.allSouthAmericaCountriesNumber,
                 europePercentage:
-                    showPercentages ? _cubit.beenEuropePercentage : 0,
+                    showWorldStatistics ? _cubit.beenEuropePercentage : 0,
+                europeNumber: _cubit.beenEuropeCountriesNumber,
+                europeAll: _cubit.allEuropeCountriesNumber,
                 africaPercentage:
-                    showPercentages ? _cubit.beenAfricaPercentage : 0,
-                asiaPercentage: showPercentages ? _cubit.beenAsiaPercentage : 0,
+                    showWorldStatistics ? _cubit.beenAfricaPercentage : 0,
+                africaNumber: _cubit.beenAfricaCountriesNumber,
+                africaAll: _cubit.allAfricaCountriesNumber,
+                asiaPercentage:
+                    showWorldStatistics ? _cubit.beenAsiaPercentage : 0,
+                asiaNumber: _cubit.beenAsiaCountriesNumber,
+                asiaAll: _cubit.allAsiaCountriesNumber,
                 oceaniaPercentage:
-                    showPercentages ? _cubit.beenOceaniaPercentage : 0,
+                    showWorldStatistics ? _cubit.beenOceaniaPercentage : 0,
+                oceaniaNumber: _cubit.beenOceaniaCountriesNumber,
+                oceaniaAll: _cubit.allOceaniaCountriesNumber,
                 beenCountries: _cubit.beenCountries,
               ),
               AnimatedContainer(
@@ -98,7 +111,7 @@ class _MapPageState extends State<MapPage> {
                   if (!showTopBehindDrawer) {
                     await Future.delayed(const Duration(milliseconds: 500));
                   }
-                  showPercentages = showTopBehindDrawer;
+                  showWorldStatistics = showTopBehindDrawer;
                   setState(() {});
                 },
                 lowerTopUI: showTopBehindDrawer,

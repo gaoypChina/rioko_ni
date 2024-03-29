@@ -100,21 +100,21 @@ class MapCubit extends Cubit<MapState> {
 
   // Asia
 
-  int get beenAsianCountriesNumber =>
+  int get beenAsiaCountriesNumber =>
       beenCountries.where((c) => c.region == Region.asia).length;
   double get beenAsiaPercentage {
-    if (allAsianCountriesNumber == 0) return 0;
-    return beenAsianCountriesNumber / allAsianCountriesNumber * 100;
+    if (allAsiaCountriesNumber == 0) return 0;
+    return beenAsiaCountriesNumber / allAsiaCountriesNumber * 100;
   }
 
   int get wantAsianCountriesNumber =>
       wantCountries.where((c) => c.region == Region.asia).length;
   double get wantAsiaPercentage {
-    if (allAsianCountriesNumber == 0) return 0;
-    return wantAsianCountriesNumber / allAsianCountriesNumber * 100;
+    if (allAsiaCountriesNumber == 0) return 0;
+    return wantAsianCountriesNumber / allAsiaCountriesNumber * 100;
   }
 
-  int get allAsianCountriesNumber =>
+  int get allAsiaCountriesNumber =>
       countries.where((c) => c.region == Region.asia).length;
 
   // Europe
