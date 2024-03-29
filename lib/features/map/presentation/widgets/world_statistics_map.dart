@@ -136,15 +136,33 @@ class _WorldStatisticsMapState extends State<WorldStatisticsMap> {
           SafeArea(
             child: Align(
               alignment: Alignment.topRight,
-              child: GestureDetector(
-                onTap: () => setState(() => showPercentage = !showPercentage),
-                child: Icon(
-                  showPercentage ? Icons.onetwothree : FontAwesomeIcons.percent,
-                  size: 20,
+              child: Padding(
+                padding: const EdgeInsets.all(AppSizes.paddingDouble),
+                child: GestureDetector(
+                  onTap: () => setState(() => showPercentage = !showPercentage),
+                  child: Icon(
+                    showPercentage
+                        ? FontAwesomeIcons.six
+                        : FontAwesomeIcons.percent,
+                    size: 20,
+                  ),
                 ),
               ),
             ),
           ),
+          Align(
+            alignment: Alignment.bottomLeft,
+            child: GestureDetector(
+              onTap: () {
+                // Displaying share statistics page with
+                // https://medium.com/flutter-community/export-your-widget-to-image-with-flutter-dc7ecfa6bafb
+              },
+              child: const Padding(
+                padding: const EdgeInsets.all(AppSizes.paddingDouble),
+                child: Icon(FontAwesomeIcons.arrowUpFromBracket),
+              ),
+            ),
+          )
         ],
       ),
     );

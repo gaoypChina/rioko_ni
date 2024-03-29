@@ -128,14 +128,15 @@ class _MapPageState extends State<MapPage> {
             transitionBuilder: (context, a1, a2, widget) {
               return Opacity(
                 opacity: a1.value,
-                child: const SearchCountryDialog(),
+                child: widget,
               );
             },
             transitionDuration: const Duration(milliseconds: 200),
             barrierDismissible: true,
             barrierLabel: '',
             context: context,
-            pageBuilder: (context, animation1, animation2) => const SizedBox(),
+            pageBuilder: (context, animation1, animation2) =>
+                const SearchCountryDialog(),
           );
         },
         icon: const FaIcon(
