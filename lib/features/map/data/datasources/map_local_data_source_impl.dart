@@ -71,7 +71,7 @@ class MapLocalDataSourceImpl implements MapLocalDataSource {
     try {
       final beenCodes = sharedPreferences.getStringList('been');
       final wantCodes = sharedPreferences.getStringList('want');
-      final livedCodes = sharedPreferences.getStringList('want');
+      final livedCodes = sharedPreferences.getStringList('lived');
 
       return ManageCountriesLocallyParams(
         beenCodes: beenCodes ?? [],
