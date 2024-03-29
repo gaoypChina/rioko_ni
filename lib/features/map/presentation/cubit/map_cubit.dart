@@ -76,9 +76,13 @@ class MapCubit extends Cubit<MapState> {
               countries
                   .where((c) => data.wantCodes.contains(c.alpha3))
                   .forEach((country) => country.status = CountryStatus.want);
+              countries
+                  .where((c) => data.livedCodes.contains(c.alpha3))
+                  .forEach((country) => country.status = CountryStatus.lived);
               emit(MapState.readCountriesData(
                 been: beenCountries,
                 want: wantCountries,
+                lived: livedCountries,
               ));
             },
           ),
@@ -230,6 +234,7 @@ class MapCubit extends Cubit<MapState> {
         .call(ManageCountriesLocallyParams(
           beenCodes: beenCountries.map((c) => c.alpha3).toList(),
           wantCodes: wantCountries.map((c) => c.alpha3).toList(),
+          livedCodes: livedCountries.map((c) => c.alpha3).toList(),
         ))
         .then(
           (result) => result.fold(
@@ -237,6 +242,7 @@ class MapCubit extends Cubit<MapState> {
             (data) => emit(MapState.savedCountriesData(
               been: beenCountries,
               want: wantCountries,
+              lived: livedCountries,
             )),
           ),
         );

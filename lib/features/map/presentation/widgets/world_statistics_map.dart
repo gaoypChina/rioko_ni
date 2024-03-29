@@ -4,6 +4,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:rioko_ni/core/config/app_sizes.dart';
+import 'package:rioko_ni/core/extensions/iterable2.dart';
 import 'package:rioko_ni/features/map/domain/entities/country.dart';
 
 class WorldStatisticsMap extends StatelessWidget {
@@ -52,7 +53,7 @@ class WorldStatisticsMap extends StatelessWidget {
                       c.alpha2.toLowerCase(): c.status.color.withOpacity(0.5),
                     },
                   )
-                  .reduce((value, element) => {...value, ...element}),
+                  .reduceOrNull((value, element) => {...value, ...element}),
             ),
           ),
           _buildContinentSummary(

@@ -57,6 +57,10 @@ class MapLocalDataSourceImpl implements MapLocalDataSource {
         'want',
         params.wantCodes,
       );
+      await sharedPreferences.setStringList(
+        'lived',
+        params.livedCodes,
+      );
     } catch (e, stack) {
       throw RequestException(e.toString(), stack: stack);
     }
@@ -67,10 +71,12 @@ class MapLocalDataSourceImpl implements MapLocalDataSource {
     try {
       final beenCodes = sharedPreferences.getStringList('been');
       final wantCodes = sharedPreferences.getStringList('want');
+      final livedCodes = sharedPreferences.getStringList('want');
 
       return ManageCountriesLocallyParams(
         beenCodes: beenCodes ?? [],
         wantCodes: wantCodes ?? [],
+        livedCodes: livedCodes ?? [],
       );
     } catch (e, stack) {
       throw RequestException(e.toString(), stack: stack);

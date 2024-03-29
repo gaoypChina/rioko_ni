@@ -10,11 +10,13 @@ class MapState with _$MapState {
   const factory MapState.readCountriesData({
     required List<Country> been,
     required List<Country> want,
+    required List<Country> lived,
   }) = _ReadCountriesData;
 
   const factory MapState.savedCountriesData({
     required List<Country> been,
     required List<Country> want,
+    required List<Country> lived,
   }) = _SavedCountriesData;
 
   const factory MapState.updatedCountryStatus({

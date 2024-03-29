@@ -19,11 +19,13 @@ class SaveCountriesLocally extends UseCase<void, ManageCountriesLocallyParams> {
 class ManageCountriesLocallyParams extends Equatable {
   final List<String> beenCodes;
   final List<String> wantCodes;
+  final List<String> livedCodes;
 
   const ManageCountriesLocallyParams({
     required this.beenCodes,
     required this.wantCodes,
+    required this.livedCodes,
   });
   @override
-  List<Object> get props => [beenCodes, wantCodes];
+  List<Object> get props => [beenCodes, wantCodes, livedCodes];
 }
