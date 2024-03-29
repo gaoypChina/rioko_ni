@@ -1,8 +1,10 @@
 import 'package:countries_world_map/countries_world_map.dart';
 import 'package:countries_world_map/data/maps/world_map.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:rioko_ni/core/config/app_sizes.dart';
+import 'package:rioko_ni/features/map/domain/entities/country.dart';
 
 class WorldStatisticsMap extends StatelessWidget {
   final double asiaPercentage;
@@ -11,6 +13,8 @@ class WorldStatisticsMap extends StatelessWidget {
   final double northAmericaPercentage;
   final double southAmericaPercentage;
   final double oceaniaPercentage;
+  final List<Country> countries;
+
   const WorldStatisticsMap({
     required this.africaPercentage,
     required this.asiaPercentage,
@@ -18,8 +22,11 @@ class WorldStatisticsMap extends StatelessWidget {
     required this.northAmericaPercentage,
     required this.oceaniaPercentage,
     required this.southAmericaPercentage,
+    required this.countries,
     super.key,
   });
+
+  String get l10n => 'worldStatisticsMap';
 
   @override
   Widget build(BuildContext context) {
@@ -35,42 +42,50 @@ class WorldStatisticsMap extends StatelessWidget {
               left: AppSizes.paddingSextuple,
               right: AppSizes.paddingQuadruple,
             ),
-            child: const SimpleMap(
+            child: SimpleMap(
               instructions: SMapWorld.instructionsMercator,
               defaultColor: Colors.black,
-              countryBorder: CountryBorder(color: Colors.tealAccent),
+              countryBorder: CountryBorder(color: CountryStatus.been.color),
+              colors: countries
+                  .where((c) => c.status == CountryStatus.been)
+                  .map(
+                    (c) => {
+                      c.alpha2.toLowerCase(): c.status.color.withOpacity(0.5),
+                    },
+                  )
+                  .reduce((value, element) => {...value, ...element}),
             ),
           ),
           _buildContinentSummary(
             alignment: const Alignment(-0.9, -0.3),
-            label: 'North America',
+            label: tr('$l10n.northAmerica'),
             percentage: northAmericaPercentage,
           ),
           _buildContinentSummary(
             alignment: const Alignment(-0.6, 1),
-            label: 'South America',
+            label: tr('$l10n.southAmerica'),
             percentage: southAmericaPercentage,
             footer: true,
           ),
           _buildContinentSummary(
             alignment: const Alignment(0.05, -0.7),
-            label: 'Europe',
+            label: tr('$l10n.europe'),
             percentage: europePercentage,
           ),
           _buildContinentSummary(
             alignment: const Alignment(0.15, 1),
-            label: 'Africa',
+            label: tr('$l10n.africa'),
             percentage: africaPercentage,
             footer: true,
           ),
           _buildContinentSummary(
             alignment: const Alignment(0.5, -0.4),
-            label: 'Asia',
+            label: tr('$l10n.asia'),
             percentage: asiaPercentage,
           ),
           _buildContinentSummary(
             alignment: const Alignment(0.85, 1),
-            label: 'Oceania',
+            label: tr('$l10n.oceania'),
             percentage: oceaniaPercentage,
             footer: true,
           ),

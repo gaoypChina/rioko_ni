@@ -76,6 +76,7 @@ class _MapPageState extends State<MapPage> {
                 asiaPercentage: showPercentages ? _cubit.beenAsiaPercentage : 0,
                 oceaniaPercentage:
                     showPercentages ? _cubit.beenOceaniaPercentage : 0,
+                countries: _cubit.beenCountries,
               ),
               AnimatedContainer(
                 duration: const Duration(milliseconds: 500),

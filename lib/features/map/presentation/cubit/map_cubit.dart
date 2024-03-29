@@ -59,7 +59,7 @@ class MapCubit extends Cubit<MapState> {
               tr('countries.${country.alpha3}')
                   .toLowerCase()
                   .contains(text.toLowerCase()) ||
-              country.region.name.contains(text.toLowerCase()),
+              country.region.name.toLowerCase().contains(text.toLowerCase()),
         )
         .toList();
     return result;
