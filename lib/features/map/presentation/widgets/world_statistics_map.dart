@@ -13,7 +13,7 @@ class WorldStatisticsMap extends StatelessWidget {
   final double northAmericaPercentage;
   final double southAmericaPercentage;
   final double oceaniaPercentage;
-  final List<Country> countries;
+  final List<Country> beenCountries;
 
   const WorldStatisticsMap({
     required this.africaPercentage,
@@ -22,7 +22,7 @@ class WorldStatisticsMap extends StatelessWidget {
     required this.northAmericaPercentage,
     required this.oceaniaPercentage,
     required this.southAmericaPercentage,
-    required this.countries,
+    required this.beenCountries,
     super.key,
   });
 
@@ -46,8 +46,7 @@ class WorldStatisticsMap extends StatelessWidget {
               instructions: SMapWorld.instructionsMercator,
               defaultColor: Colors.black,
               countryBorder: CountryBorder(color: CountryStatus.been.color),
-              colors: countries
-                  .where((c) => c.status == CountryStatus.been)
+              colors: beenCountries
                   .map(
                     (c) => {
                       c.alpha2.toLowerCase(): c.status.color.withOpacity(0.5),
