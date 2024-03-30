@@ -51,3 +51,7 @@ env.json
 
 *.freezed.dart
 *.g.dart
+
+# Keystore
+
+android/app/upload_key

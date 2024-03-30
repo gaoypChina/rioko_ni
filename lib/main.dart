@@ -70,8 +70,20 @@ class _RiokoNiState extends State<RiokoNi> {
         ),
         primaryColor: Colors.teal,
         textTheme: const TextTheme(
-          titleMedium: TextStyle(color: Colors.white),
-          titleSmall: TextStyle(color: Colors.white70),
+          bodyMedium: TextStyle(
+            fontFamily: 'Nasalization',
+          ),
+          titleLarge: TextStyle(
+            fontFamily: 'Nasalization',
+          ),
+          titleMedium: TextStyle(
+            color: Colors.white,
+            fontFamily: 'Nasalization',
+          ),
+          titleSmall: TextStyle(
+            color: Colors.white70,
+            fontFamily: 'Nasalization',
+          ),
         ),
       ),
       debugShowCheckedModeBanner: false,
