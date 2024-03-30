@@ -142,6 +142,15 @@ class _MapPageState extends State<MapPage> {
       wantCountries: _cubit.wantCountries,
       livedCountries: _cubit.livedCountries,
       controller: mapController,
+      onTap: (position, latLng) {
+        if (showTopBehindDrawer == false) return;
+        showTopBehindDrawer = false;
+        setState(() {});
+        Future.delayed(const Duration(milliseconds: 500), () {
+          showWorldStatistics = showTopBehindDrawer;
+          setState(() {});
+        });
+      },
     );
   }
 }

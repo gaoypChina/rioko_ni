@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:rioko_ni/core/extensions/iterable2.dart';
 import 'package:rioko_ni/features/map/domain/entities/country.dart';
 
@@ -10,6 +11,7 @@ class MapBuilder {
     double? maxZoom,
     Color? backgroundColor,
     InteractionOptions? interactionOptions,
+    void Function(TapPosition, LatLng)? onTap,
   }) {
     return MapOptions(
       interactionOptions: interactionOptions,
@@ -20,6 +22,7 @@ class MapBuilder {
       // and flutter_map incorrectly analyzes them and tries to merge them together.
       minZoom: minZoom ?? 3,
       maxZoom: maxZoom ?? 17,
+      onTap: onTap,
     );
   }
 
@@ -30,11 +33,13 @@ class MapBuilder {
     required List<Country> wantCountries,
     required List<Country> livedCountries,
     required MapController controller,
+    void Function(TapPosition, LatLng)? onTap,
   }) {
     final mapOptions = getMapOptions(
       interactionOptions: const InteractionOptions(
         flags: InteractiveFlag.all & ~InteractiveFlag.rotate,
       ),
+      onTap: onTap,
     );
     List<Widget> layers = [];
     layers.add(
