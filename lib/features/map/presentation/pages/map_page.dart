@@ -65,31 +65,18 @@ class _MapPageState extends State<MapPage> {
           return Stack(
             children: [
               WorldStatisticsMap(
-                northAmericaPercentage:
+                naPercentage:
                     showWorldStatistics ? _cubit.beenNorthAmericaPercentage : 0,
-                northAmericaNumber: _cubit.beenNorthAmericaCountriesNumber,
-                northAmericaAll: _cubit.allNorthAmericaCountriesNumber,
-                southAmericaPercentage:
+                saPercentage:
                     showWorldStatistics ? _cubit.beenSouthAmericaPercentage : 0,
-                southAmericaNumber: _cubit.beenSouthAmericaCountriesNumber,
-                southAmericaAll: _cubit.allSouthAmericaCountriesNumber,
-                europePercentage:
+                euPercentage:
                     showWorldStatistics ? _cubit.beenEuropePercentage : 0,
-                europeNumber: _cubit.beenEuropeCountriesNumber,
-                europeAll: _cubit.allEuropeCountriesNumber,
-                africaPercentage:
+                afPercentage:
                     showWorldStatistics ? _cubit.beenAfricaPercentage : 0,
-                africaNumber: _cubit.beenAfricaCountriesNumber,
-                africaAll: _cubit.allAfricaCountriesNumber,
-                asiaPercentage:
+                asPercentage:
                     showWorldStatistics ? _cubit.beenAsiaPercentage : 0,
-                asiaNumber: _cubit.beenAsiaCountriesNumber,
-                asiaAll: _cubit.allAsiaCountriesNumber,
-                oceaniaPercentage:
+                ocPercentage:
                     showWorldStatistics ? _cubit.beenOceaniaPercentage : 0,
-                oceaniaNumber: _cubit.beenOceaniaCountriesNumber,
-                oceaniaAll: _cubit.allOceaniaCountriesNumber,
-                beenCountries: _cubit.beenCountries,
               ),
               AnimatedContainer(
                 duration: const Duration(milliseconds: 500),

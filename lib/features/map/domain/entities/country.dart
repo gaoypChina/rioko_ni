@@ -56,7 +56,7 @@ extension RegionExtension on Region {
       case Region.africa:
         return tr('regions.africa');
       case Region.antarctic:
-        return tr('regions.antartic');
+        return tr('regions.antarctic');
       case Region.asia:
         return tr('regions.asia');
       case Region.europe:

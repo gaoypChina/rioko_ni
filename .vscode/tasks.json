@@ -14,6 +14,11 @@
 			"problemMatcher": [],
 			"label": "dart: build_runner",
 			"detail": ""
+		},
+		{
+			"type": "shell",
+			"command": "flutter pub outdated && flutter pub upgrade outdated_package && flutter clean && flutter pub get",
+			"label": "flutter: update packages",
 		}
 	]
 }

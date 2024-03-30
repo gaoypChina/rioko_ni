@@ -6,60 +6,32 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:rioko_ni/core/config/app_sizes.dart';
 import 'package:rioko_ni/core/extensions/iterable2.dart';
+import 'package:rioko_ni/core/injector.dart';
 import 'package:rioko_ni/features/map/domain/entities/country.dart';
+import 'package:rioko_ni/features/map/presentation/cubit/map_cubit.dart';
+import 'package:rioko_ni/features/map/presentation/widgets/share_dialog.dart';
 
-class WorldStatisticsMap extends StatefulWidget {
-  final double asiaPercentage;
-  final int asiaNumber;
-  final int asiaAll;
-  final double europePercentage;
-  final int europeNumber;
-  final int europeAll;
-  final double africaPercentage;
-  final int africaNumber;
-  final int africaAll;
-  final double northAmericaPercentage;
-  final int northAmericaNumber;
-  final int northAmericaAll;
-  final double southAmericaPercentage;
-  final int southAmericaNumber;
-  final int southAmericaAll;
-  final double oceaniaPercentage;
-  final int oceaniaNumber;
-  final int oceaniaAll;
-  final List<Country> beenCountries;
+class WorldStatisticsMap extends StatelessWidget {
+  final double naPercentage;
+  final double saPercentage;
+  final double euPercentage;
+  final double afPercentage;
+  final double asPercentage;
+  final double ocPercentage;
 
-  const WorldStatisticsMap({
-    required this.africaPercentage,
-    required this.africaNumber,
-    required this.africaAll,
-    required this.asiaPercentage,
-    required this.asiaNumber,
-    required this.asiaAll,
-    required this.europePercentage,
-    required this.europeNumber,
-    required this.europeAll,
-    required this.northAmericaPercentage,
-    required this.northAmericaNumber,
-    required this.northAmericaAll,
-    required this.oceaniaPercentage,
-    required this.oceaniaNumber,
-    required this.oceaniaAll,
-    required this.southAmericaPercentage,
-    required this.southAmericaNumber,
-    required this.southAmericaAll,
-    required this.beenCountries,
+  WorldStatisticsMap({
+    required this.naPercentage,
+    required this.saPercentage,
+    required this.euPercentage,
+    required this.afPercentage,
+    required this.asPercentage,
+    required this.ocPercentage,
     super.key,
   });
 
-  @override
-  State<WorldStatisticsMap> createState() => _WorldStatisticsMapState();
-}
-
-class _WorldStatisticsMapState extends State<WorldStatisticsMap> {
   String get l10n => 'worldStatisticsMap';
 
-  bool showPercentage = false;
+  final _cubit = locator<MapCubit>();
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +51,7 @@ class _WorldStatisticsMapState extends State<WorldStatisticsMap> {
               instructions: SMapWorld.instructionsMercator,
               defaultColor: Colors.black,
               countryBorder: CountryBorder(color: CountryStatus.been.color),
-              colors: widget.beenCountries
+              colors: _cubit.beenCountries
                   .map(
                     (c) => {
                       c.alpha2.toLowerCase(): c.status.color.withOpacity(0.3),
@@ -89,76 +61,66 @@ class _WorldStatisticsMapState extends State<WorldStatisticsMap> {
             ),
           ),
           _buildContinentSummary(
+            context,
             alignment: const Alignment(-0.9, -0.3),
             label: tr('$l10n.northAmerica'),
-            percentage: widget.northAmericaPercentage,
-            number: widget.northAmericaNumber,
-            all: widget.northAmericaAll,
+            percentage: naPercentage,
           ),
           _buildContinentSummary(
+            context,
             alignment: const Alignment(-0.6, 1),
             label: tr('$l10n.southAmerica'),
-            percentage: widget.southAmericaPercentage,
-            number: widget.southAmericaNumber,
-            all: widget.southAmericaAll,
+            percentage: saPercentage,
             footer: true,
           ),
           _buildContinentSummary(
+            context,
             alignment: const Alignment(0.05, -0.7),
             label: tr('$l10n.europe'),
-            percentage: widget.europePercentage,
-            number: widget.europeNumber,
-            all: widget.europeAll,
+            percentage: euPercentage,
           ),
           _buildContinentSummary(
+            context,
             alignment: const Alignment(0.15, 1),
             label: tr('$l10n.africa'),
-            percentage: widget.africaPercentage,
-            number: widget.africaNumber,
-            all: widget.africaAll,
+            percentage: afPercentage,
             footer: true,
           ),
           _buildContinentSummary(
+            context,
             alignment: const Alignment(0.5, -0.4),
             label: tr('$l10n.asia'),
-            percentage: widget.asiaPercentage,
-            number: widget.asiaNumber,
-            all: widget.asiaAll,
+            percentage: asPercentage,
           ),
           _buildContinentSummary(
+            context,
             alignment: const Alignment(0.85, 1),
             label: tr('$l10n.oceania'),
-            percentage: widget.oceaniaPercentage,
-            number: widget.oceaniaNumber,
-            all: widget.oceaniaAll,
+            percentage: ocPercentage,
             footer: true,
-          ),
-          SafeArea(
-            child: Align(
-              alignment: Alignment.topRight,
-              child: Padding(
-                padding: const EdgeInsets.all(AppSizes.paddingDouble),
-                child: GestureDetector(
-                  onTap: () => setState(() => showPercentage = !showPercentage),
-                  child: Icon(
-                    showPercentage
-                        ? FontAwesomeIcons.six
-                        : FontAwesomeIcons.percent,
-                    size: 20,
-                  ),
-                ),
-              ),
-            ),
           ),
           Align(
             alignment: Alignment.bottomLeft,
             child: GestureDetector(
               onTap: () {
-                // Displaying share statistics page with
-                // https://medium.com/flutter-community/export-your-widget-to-image-with-flutter-dc7ecfa6bafb
+                showGeneralDialog(
+                  barrierColor: Colors.black.withOpacity(0.5),
+                  transitionBuilder: (context, a1, a2, widget) {
+                    return Opacity(
+                      opacity: a1.value,
+                      child: widget,
+                    );
+                  },
+                  transitionDuration: const Duration(milliseconds: 200),
+                  barrierDismissible: true,
+                  barrierLabel: '',
+                  context: context,
+                  pageBuilder: (context, animation1, animation2) =>
+                      const ShareDialog(),
+                );
               },
               child: const Padding(
-                padding: const EdgeInsets.all(AppSizes.paddingDouble),
+                padding: EdgeInsets.all(AppSizes.paddingDouble),
                 child: Icon(FontAwesomeIcons.arrowUpFromBracket),
               ),
             ),
@@ -168,12 +130,11 @@ class _WorldStatisticsMapState extends State<WorldStatisticsMap> {
     );
   }
 
-  Widget _buildContinentSummary({
+  Widget _buildContinentSummary(
+    BuildContext context, {
     required Alignment alignment,
     required String label,
     required double percentage,
-    required int number,
-    required int all,
     bool footer = false,
   }) {
     return Align(
@@ -186,9 +147,7 @@ class _WorldStatisticsMapState extends State<WorldStatisticsMap> {
           lineWidth: 5.0,
           percent: percentage / 100,
           center: Text(
-            showPercentage
-                ? "${percentage.toStringAsPrecision(3)}%"
-                : "$number/$all",
+            "${percentage.toStringAsPrecision(3)}%",
             style: const TextStyle(
               color: Colors.white,
               fontSize: 13,
@@ -196,8 +155,9 @@ class _WorldStatisticsMapState extends State<WorldStatisticsMap> {
             ),
             textAlign: TextAlign.center,
           ),
-          progressColor: Colors.tealAccent,
-          backgroundColor: Colors.tealAccent.withOpacity(0.15),
+          progressColor: Theme.of(context).colorScheme.onPrimary,
+          backgroundColor:
+              Theme.of(context).colorScheme.onPrimary.withOpacity(0.15),
           circularStrokeCap: CircularStrokeCap.round,
           curve: Curves.fastEaseInToSlowEaseOut,
           animationDuration: 1000,
