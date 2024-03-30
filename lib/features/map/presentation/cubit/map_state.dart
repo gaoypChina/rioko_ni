@@ -4,6 +4,10 @@ part of 'map_cubit.dart';
 class MapState with _$MapState {
   const factory MapState.initial() = _Initial;
 
+  const factory MapState.loading() = _Loading;
+
+  const factory MapState.gotDir(String dir) = _GotDir;
+
   const factory MapState.fetchedCountryPolygons(List<Country> polygons) =
       _FetchedCountryPolygons;
 

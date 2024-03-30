@@ -61,49 +61,55 @@ class _MapPageState extends State<MapPage> {
           );
         },
         builder: (context, state) {
-          _cubit.getPointsNumber();
-          return Stack(
-            children: [
-              WorldStatisticsMap(
-                naPercentage:
-                    showWorldStatistics ? _cubit.beenNorthAmericaPercentage : 0,
-                saPercentage:
-                    showWorldStatistics ? _cubit.beenSouthAmericaPercentage : 0,
-                euPercentage:
-                    showWorldStatistics ? _cubit.beenEuropePercentage : 0,
-                afPercentage:
-                    showWorldStatistics ? _cubit.beenAfricaPercentage : 0,
-                asPercentage:
-                    showWorldStatistics ? _cubit.beenAsiaPercentage : 0,
-                ocPercentage:
-                    showWorldStatistics ? _cubit.beenOceaniaPercentage : 0,
-              ),
-              AnimatedContainer(
-                duration: const Duration(milliseconds: 500),
-                curve: Curves.fastEaseInToSlowEaseOut,
-                margin: EdgeInsets.only(
-                  top: showTopBehindDrawer
-                      ? MediaQuery.of(context).size.height * 0.3
-                      : 0,
-                ),
-                child: _buildMap(context),
-              ),
-              StatsUI(
-                been: _cubit.beenCountries.length,
-                want: _cubit.wantCountries.length,
-                lived: _cubit.livedCountries.length,
-                toggleTopBehindDrawer: () async {
-                  showTopBehindDrawer = !showTopBehindDrawer;
-                  setState(() {});
-                  if (!showTopBehindDrawer) {
-                    await Future.delayed(const Duration(milliseconds: 500));
-                  }
-                  showWorldStatistics = showTopBehindDrawer;
-                  setState(() {});
-                },
-                lowerTopUI: showTopBehindDrawer,
-              ),
-            ],
+          return state.maybeWhen(
+            
+            orElse: () {
+              return Stack(
+                children: [
+                  WorldStatisticsMap(
+                    naPercentage: showWorldStatistics
+                        ? _cubit.beenNorthAmericaPercentage
+                        : 0,
+                    saPercentage: showWorldStatistics
+                        ? _cubit.beenSouthAmericaPercentage
+                        : 0,
+                    euPercentage:
+                        showWorldStatistics ? _cubit.beenEuropePercentage : 0,
+                    afPercentage:
+                        showWorldStatistics ? _cubit.beenAfricaPercentage : 0,
+                    asPercentage:
+                        showWorldStatistics ? _cubit.beenAsiaPercentage : 0,
+                    ocPercentage:
+                        showWorldStatistics ? _cubit.beenOceaniaPercentage : 0,
+                  ),
+                  AnimatedContainer(
+                    duration: const Duration(milliseconds: 500),
+                    curve: Curves.fastEaseInToSlowEaseOut,
+                    margin: EdgeInsets.only(
+                      top: showTopBehindDrawer
+                          ? MediaQuery.of(context).size.height * 0.3
+                          : 0,
+                    ),
+                    child: _buildMap(context),
+                  ),
+                  StatsUI(
+                    been: _cubit.beenCountries.length,
+                    want: _cubit.wantCountries.length,
+                    lived: _cubit.livedCountries.length,
+                    toggleTopBehindDrawer: () async {
+                      showTopBehindDrawer = !showTopBehindDrawer;
+                      setState(() {});
+                      if (!showTopBehindDrawer) {
+                        await Future.delayed(const Duration(milliseconds: 500));
+                      }
+                      showWorldStatistics = showTopBehindDrawer;
+                      setState(() {});
+                    },
+                    lowerTopUI: showTopBehindDrawer,
+                  ),
+                ],
+              );
+            },
           );
         },
       ),
@@ -151,6 +157,7 @@ class _MapPageState extends State<MapPage> {
           setState(() {});
         });
       },
+      dir: _cubit.dir,
     );
   }
 }

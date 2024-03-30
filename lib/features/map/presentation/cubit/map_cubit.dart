@@ -1,8 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:rioko_ni/core/domain/usecase.dart';
 import 'package:rioko_ni/core/errors/failure.dart';
 import 'package:rioko_ni/core/utils/geolocation_handler.dart';
@@ -36,11 +36,13 @@ class MapCubit extends Cubit<MapState> {
   List<Country> countries = [];
 
   void load() async {
+    emit(const MapState.loading());
+    await _getDir();
     _getCurrentPosition();
-    await getCountryPolygons().then((_) => getLocalCountryData());
+    _getCountryPolygons().then((_) => _getLocalCountryData());
   }
 
-  Future getCountryPolygons() async {
+  Future _getCountryPolygons() async {
     await getCountryPolygonUsecase.call(NoParams()).then(
           (result) => result.fold(
             (failure) => emit(MapState.error(failure.message)),
@@ -65,7 +67,7 @@ class MapCubit extends Cubit<MapState> {
     return result;
   }
 
-  Future getLocalCountryData() async {
+  Future _getLocalCountryData() async {
     await readCountriesLocallyUsecase.call(NoParams()).then(
           (result) => result.fold(
             (failure) => MapState.error(failure.message),
@@ -222,13 +224,6 @@ class MapCubit extends Cubit<MapState> {
 
   // -----
 
-  void getPointsNumber() {
-    final points = countries.map((c) => c.pointsNumber);
-    if (points.isNotEmpty) {
-      debugPrint(points.reduce((value, element) => value + element).toString());
-    }
-  }
-
   Future saveCountriesLocally() async {
     await saveCountriesLocallyUsecase
         .call(ManageCountriesLocallyParams(
@@ -269,5 +264,15 @@ class MapCubit extends Cubit<MapState> {
     } catch (e) {
       emit(MapState.error('$e'));
     }
+  }
+
+  // Caching
+
+  String dir = '';
+
+  Future _getDir() async {
+    final cacheDirectory = await getTemporaryDirectory();
+    dir = cacheDirectory.path;
+    emit(MapState.gotDir(cacheDirectory.path));
   }
 }

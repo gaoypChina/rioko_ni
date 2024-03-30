@@ -1,5 +1,8 @@
+import 'package:dio_cache_interceptor_hive_store/dio_cache_interceptor_hive_store.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_map_cache/flutter_map_cache.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:rioko_ni/core/extensions/iterable2.dart';
 import 'package:rioko_ni/features/map/domain/entities/country.dart';
@@ -34,6 +37,7 @@ class MapBuilder {
     required List<Country> livedCountries,
     required MapController controller,
     void Function(TapPosition, LatLng)? onTap,
+    required String? dir,
   }) {
     final mapOptions = getMapOptions(
       interactionOptions: const InteractionOptions(
@@ -49,6 +53,17 @@ class MapBuilder {
         additionalOptions: const {
           "accessToken": String.fromEnvironment("map_box_access_token"),
         },
+        tileProvider: kDebugMode
+            ? null
+            : CachedTileProvider(
+                // maxStale keeps the tile cached for the given Duration and
+                // tries to revalidate the next time it gets requested
+                maxStale: const Duration(days: 365),
+                store: HiveCacheStore(
+                  dir,
+                  hiveBoxName: 'HiveCacheStore',
+                ),
+              ),
       ),
     );
     layers.add(
