@@ -16,6 +16,19 @@
 			"detail": ""
 		},
 		{
+			"type": "dart",
+			"command": "flutter",
+			"cwd": "",
+			"args": [
+				"build",
+				"appbundle",
+				"--dart-define-from-file=env.json"
+			],
+			"problemMatcher": [],
+			"label": "flutter: build appbundle",
+			"detail": ""
+		},
+		{
 			"type": "shell",
 			"command": "flutter pub outdated && flutter pub upgrade outdated_package && flutter clean && flutter pub get",
 			"label": "flutter: update packages",
