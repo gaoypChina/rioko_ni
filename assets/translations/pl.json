@@ -7,9 +7,14 @@
             "locationDisabled": "Usługi lokalizacji są wyłączone",
             "locationDenied": "Odmówiono uprawnień do lokalizacji",
             "locationForeverDenied": "Uprawnienia do lokalizacji są trwale odrzucone, nie możemy zażądać uprawnień",
-            "shareUnavailable": "Udostępnianie plików na tym urządzeniu jest niedostępne"
+            "shareUnavailable": "Udostępnianie plików na tym urządzeniu jest niedostępne",
+            "productFetch": "Nie można poprawnie pobrać produktu",
+            "purchaseNotAllowed": "Zakupy są niedozwolone na tym urządzeniu",
+            "purchaseInvalid": "Zakup nie został ukończony, sprawdź źródło płatności"
         },
-        "errorMessageTitle": "Błąd"
+        "errorMessageTitle": "Błąd",
+        "successMessageTitle": "Sukces",
+        "purchaseSuccessfullMessage": "Zakupiono Rioko Premium!"
     },
     "map": {
         "statsUI": {
@@ -304,7 +309,8 @@
     },
     "shareDialog": {
         "labels": {
-            "share": "Udostępnij"
+            "share": "Udostępnij",
+            "buyPremium": "Kup Rioko Premium"
         }
     }
 }

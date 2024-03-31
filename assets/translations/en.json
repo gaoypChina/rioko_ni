@@ -7,9 +7,14 @@
             "locationDisabled": "Location services are disabled",
             "locationDenied": "Location permissions are denied",
             "locationForeverDenied": "Location permissions are permanently denied, we cannot request permissions",
-            "shareUnavailable": "File sharing on this device is not available"
+            "shareUnavailable": "File sharing on this device is not available",
+            "productFetch": "Unable to download product correctly",
+            "purchaseNotAllowed": "Purchases not allowed on this device",
+            "purchaseInvalid": "Purchase invalid, check payment source"
         },
-        "errorMessageTitle": "Error"
+        "errorMessageTitle": "Error",
+        "successMessageTitle": "Success",
+        "purchaseSuccessfullMessage": "Purchased Rioko Premium!"
     },
     "map": {
         "statsUI": {
@@ -304,7 +309,8 @@
     },
     "shareDialog": {
         "labels": {
-            "share": "Share"
+            "share": "Share",
+            "buyPremium": "Buy Rioko Premium"
         }
     }
 }

@@ -2,9 +2,11 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:rioko_ni/core/injector.dart';
+import 'package:rioko_ni/core/presentation/cubit/revenue_cat_cubit.dart';
 import 'package:rioko_ni/features/map/presentation/cubit/map_cubit.dart';
 import 'package:rioko_ni/features/map/presentation/pages/map_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:toastification/toastification.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,6 +22,9 @@ void main() async {
         providers: [
           BlocProvider<MapCubit>(
             create: (BuildContext context) => locator<MapCubit>(),
+          ),
+          BlocProvider<RevenueCatCubit>(
+            create: (BuildContext context) => locator<RevenueCatCubit>(),
           ),
         ],
         child: const RiokoNi(),
@@ -38,9 +43,14 @@ class RiokoNi extends StatefulWidget {
 
 class _RiokoNiState extends State<RiokoNi> {
   final _mapCubit = locator<MapCubit>();
+  final _revenueCat = locator<RevenueCatCubit>();
   @override
   void initState() {
     _mapCubit.load();
+    _revenueCat.initPlatformState().then((_) {
+      _revenueCat.fetchProduct();
+      _revenueCat.fetchCustomerInfo();
+    });
     super.initState();
   }
 
@@ -100,6 +110,37 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MapPage();
+    return BlocConsumer<RevenueCatCubit, RevenueCatState>(
+      listener: (context, state) {
+        state.maybeWhen(
+          error: (message) {
+            toastification.show(
+              context: context,
+              type: ToastificationType.error,
+              style: ToastificationStyle.minimal,
+              title: Text(tr('core.errorMessageTitle')),
+              description: Text(message),
+              autoCloseDuration: const Duration(seconds: 5),
+              alignment: Alignment.topCenter,
+            );
+          },
+          purchasedPremium: (_) {
+            toastification.show(
+              context: context,
+              type: ToastificationType.success,
+              style: ToastificationStyle.minimal,
+              title: Text(tr('core.successMessageTitle')),
+              description: Text(tr('core.purchaseSuccessfullMessage')),
+              autoCloseDuration: const Duration(seconds: 5),
+              alignment: Alignment.topCenter,
+            );
+          },
+          orElse: () => debugPrint(state.toString()),
+        );
+      },
+      builder: (context, state) {
+        return const MapPage();
+      },
+    );
   }
 }

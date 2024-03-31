@@ -5,12 +5,14 @@ import 'package:countries_world_map/countries_world_map.dart';
 import 'package:countries_world_map/data/maps/world_map.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:rioko_ni/core/config/app_sizes.dart';
 import 'package:rioko_ni/core/extensions/iterable2.dart';
 import 'package:rioko_ni/core/injector.dart';
+import 'package:rioko_ni/core/presentation/cubit/revenue_cat_cubit.dart';
 import 'package:rioko_ni/features/map/presentation/cubit/map_cubit.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:toastification/toastification.dart';
@@ -26,35 +28,13 @@ class ShareDialog extends StatefulWidget {
 
 class _ShareDialogState extends State<ShareDialog> {
   // WidgetsToImageController to access widget
-  List<WidgetsToImageController> controllers = [
-    WidgetsToImageController(),
-    WidgetsToImageController(),
-    WidgetsToImageController(),
-    WidgetsToImageController(),
-    WidgetsToImageController(),
-    WidgetsToImageController(),
-    WidgetsToImageController(),
-    WidgetsToImageController(),
-    WidgetsToImageController(),
-    WidgetsToImageController(),
-    WidgetsToImageController(),
-  ];
+  List<WidgetsToImageController> controllers =
+      List.generate(11, (index) => WidgetsToImageController());
 
-  List<GlobalKey> keys = [
-    GlobalKey(),
-    GlobalKey(),
-    GlobalKey(),
-    GlobalKey(),
-    GlobalKey(),
-    GlobalKey(),
-    GlobalKey(),
-    GlobalKey(),
-    GlobalKey(),
-    GlobalKey(),
-    GlobalKey(),
-  ];
+  List<GlobalKey> keys = List.generate(11, (index) => GlobalKey());
 
   final _cubit = locator<MapCubit>();
+  final _revenueCatCubit = locator<RevenueCatCubit>();
 
   String get l10n => 'regions';
 
@@ -62,6 +42,13 @@ class _ShareDialogState extends State<ShareDialog> {
       MediaQuery.of(context).size.height * 0.8;
 
   int currentIndex = 0;
+
+  List<int> freeOptions = [0, 1];
+
+  bool get isOptionAvailable {
+    if (freeOptions.contains(currentIndex)) return true;
+    return _revenueCatCubit.isPremium;
+  }
 
   Future<ShareResultStatus> _shareImage() async {
     final bytes = await controllers[currentIndex].capture();
@@ -82,148 +69,172 @@ class _ShareDialogState extends State<ShareDialog> {
   Widget build(BuildContext context) {
     return Dialog.fullscreen(
       backgroundColor: Colors.black26,
-      child: Stack(
-        children: [
-          CarouselSlider(
-              items: [
-                _buildGraphic(
-                  context,
-                  index: 0,
-                  backgroundColor: Colors.black,
-                  primaryColor: Colors.white,
-                  textColor: Colors.white,
-                ),
-                _buildGraphic(
-                  context,
-                  index: 1,
-                  backgroundColor: Colors.white,
-                  primaryColor: Colors.black,
-                  textColor: Colors.black,
-                ),
-                _buildGraphic(
-                  context,
-                  index: 2,
-                  primaryColor: Theme.of(context).colorScheme.onPrimary,
-                  textColor: Colors.white,
-                  fontFamily: 'Nasalization',
-                ),
-                _buildGraphic(
-                  context,
-                  index: 3,
-                  backgroundColor: Colors.black,
-                  primaryColor: Colors.blue,
-                  textColor: Colors.white,
-                  fontFamily: 'Nasalization',
-                ),
-                _buildGraphic(
-                  context,
-                  index: 4,
-                  backgroundColor: Colors.black,
-                  primaryColor: Colors.red,
-                  textColor: Colors.white,
-                  fontFamily: 'Nasalization',
-                ),
-                _buildGraphic(
-                  context,
-                  index: 5,
-                  backgroundColor: Colors.grey[300]!,
-                  primaryColor: Colors.black,
-                  textColor: Colors.black,
-                  fontFamily: 'Caveat',
-                  textScale: 1.5,
-                ),
-                _buildGraphic(
-                  context,
-                  index: 6,
-                  backgroundColor: Colors.black,
-                  primaryColor: Colors.white,
-                  textColor: Colors.white,
-                  fontFamily: 'Caveat',
-                  textScale: 1.5,
-                ),
-                _buildGraphic(
-                  context,
-                  index: 7,
-                  primaryColor: Colors.black,
-                  textColor: Colors.black,
-                  fontFamily: 'Caveat',
-                  textScale: 1.7,
-                  image: const AssetImage('assets/paper.jpg'),
-                ),
-                _buildGraphic(
-                  context,
-                  index: 8,
-                  backgroundColor: const Color.fromARGB(255, 241, 250, 238),
-                  primaryColor: const Color.fromARGB(255, 29, 53, 87),
-                  textColor: const Color.fromARGB(255, 29, 53, 87),
-                  fontFamily: 'Rajdhani',
-                  textScale: 1.2,
-                  secondaryColor: const Color.fromARGB(255, 230, 57, 70),
-                ),
-                _buildGraphic(
-                  context,
-                  index: 9,
-                  backgroundColor: const Color.fromARGB(255, 237, 242, 244),
-                  primaryColor: const Color.fromARGB(255, 43, 45, 66),
-                  textColor: const Color.fromARGB(255, 43, 45, 66),
-                  fontFamily: 'Rajdhani',
-                  textScale: 1.2,
-                  secondaryColor: const Color.fromARGB(255, 239, 35, 60),
-                ),
-                _buildGraphic(
-                  context,
-                  index: 10,
-                  backgroundColor: const Color.fromARGB(255, 244, 241, 222),
-                  primaryColor: const Color.fromARGB(255, 71, 122, 106),
-                  textColor: const Color.fromARGB(255, 61, 64, 91),
-                  fontFamily: 'Rajdhani',
-                  textScale: 1.2,
-                  secondaryColor: const Color.fromARGB(255, 224, 122, 95),
-                ),
-              ],
-              options: CarouselOptions(
-                height: MediaQuery.of(context).size.height,
-                initialPage: 0,
-                enableInfiniteScroll: false,
-                autoPlayCurve: Curves.fastOutSlowIn,
-                enlargeCenterPage: true,
-                enlargeFactor: 0.3,
-                onPageChanged: (index, reason) => currentIndex = index,
-                scrollDirection: Axis.horizontal,
-              )),
-          Align(
-            alignment: const Alignment(0.9, -0.85),
-            child: GestureDetector(
-              onTap: Navigator.of(context).pop,
-              child: const Icon(FontAwesomeIcons.circleXmark),
-            ),
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: AppSizes.paddingQuintuple),
-              child: ElevatedButton(
-                onPressed: () {
-                  _shareImage().then((result) {
-                    if (result == ShareResultStatus.success) {
-                      return Navigator.of(context).pop();
-                    }
-                    toastification.show(
-                      context: context,
-                      type: ToastificationType.error,
-                      style: ToastificationStyle.minimal,
-                      title: Text(tr('core.errorMessageTitle')),
-                      description: Text(tr('core.errors.shareUnavailable')),
-                      autoCloseDuration: const Duration(seconds: 5),
-                      alignment: Alignment.topCenter,
-                    );
-                  });
-                },
-                child: Text(tr('shareDialog.labels.share')),
+      child: BlocBuilder<RevenueCatCubit, RevenueCatState>(
+        builder: (context, state) => _buildBody(context),
+      ),
+    );
+  }
+
+  Widget _buildBody(BuildContext context) {
+    return Stack(
+      children: [
+        CarouselSlider(
+            items: [
+              _buildGraphic(
+                context,
+                index: 0,
+                backgroundColor: Colors.black,
+                primaryColor: Colors.white,
+                textColor: Colors.white,
               ),
-            ),
+              _buildGraphic(
+                context,
+                index: 1,
+                backgroundColor: Colors.white,
+                primaryColor: Colors.black,
+                textColor: Colors.black,
+              ),
+              _buildGraphic(
+                context,
+                index: 2,
+                primaryColor: Theme.of(context).colorScheme.onPrimary,
+                textColor: Colors.white,
+                fontFamily: 'Nasalization',
+              ),
+              _buildGraphic(
+                context,
+                index: 3,
+                backgroundColor: Colors.black,
+                primaryColor: Colors.blue,
+                textColor: Colors.white,
+                fontFamily: 'Nasalization',
+              ),
+              _buildGraphic(
+                context,
+                index: 4,
+                backgroundColor: Colors.black,
+                primaryColor: Colors.red,
+                textColor: Colors.white,
+                fontFamily: 'Nasalization',
+              ),
+              _buildGraphic(
+                context,
+                index: 5,
+                backgroundColor: Colors.grey[300]!,
+                primaryColor: Colors.black,
+                textColor: Colors.black,
+                fontFamily: 'Caveat',
+                textScale: 1.5,
+              ),
+              _buildGraphic(
+                context,
+                index: 6,
+                backgroundColor: Colors.black,
+                primaryColor: Colors.white,
+                textColor: Colors.white,
+                fontFamily: 'Caveat',
+                textScale: 1.5,
+              ),
+              _buildGraphic(
+                context,
+                index: 7,
+                primaryColor: Colors.black,
+                textColor: Colors.black,
+                fontFamily: 'Caveat',
+                textScale: 1.7,
+                image: const AssetImage('assets/paper.jpg'),
+              ),
+              _buildGraphic(
+                context,
+                index: 8,
+                backgroundColor: const Color.fromARGB(255, 241, 250, 238),
+                primaryColor: const Color.fromARGB(255, 29, 53, 87),
+                textColor: const Color.fromARGB(255, 29, 53, 87),
+                fontFamily: 'Rajdhani',
+                textScale: 1.2,
+                secondaryColor: const Color.fromARGB(255, 230, 57, 70),
+              ),
+              _buildGraphic(
+                context,
+                index: 9,
+                backgroundColor: const Color.fromARGB(255, 237, 242, 244),
+                primaryColor: const Color.fromARGB(255, 43, 45, 66),
+                textColor: const Color.fromARGB(255, 43, 45, 66),
+                fontFamily: 'Rajdhani',
+                textScale: 1.2,
+                secondaryColor: const Color.fromARGB(255, 239, 35, 60),
+              ),
+              _buildGraphic(
+                context,
+                index: 10,
+                backgroundColor: const Color.fromARGB(255, 244, 241, 222),
+                primaryColor: const Color.fromARGB(255, 71, 122, 106),
+                textColor: const Color.fromARGB(255, 61, 64, 91),
+                fontFamily: 'Rajdhani',
+                textScale: 1.2,
+                secondaryColor: const Color.fromARGB(255, 224, 122, 95),
+              ),
+            ],
+            options: CarouselOptions(
+              height: MediaQuery.of(context).size.height,
+              initialPage: 0,
+              enableInfiniteScroll: false,
+              autoPlayCurve: Curves.fastOutSlowIn,
+              enlargeCenterPage: true,
+              enlargeFactor: 0.3,
+              onPageChanged: (index, reason) =>
+                  setState(() => currentIndex = index),
+              scrollDirection: Axis.horizontal,
+            )),
+        Align(
+          alignment: const Alignment(0.9, -0.85),
+          child: GestureDetector(
+            onTap: Navigator.of(context).pop,
+            child: const Icon(FontAwesomeIcons.circleXmark),
           ),
-        ],
+        ),
+        _buildShareButton(context),
+      ],
+    );
+  }
+
+  Widget _buildShareButton(BuildContext context) {
+    return Align(
+      alignment: Alignment.bottomCenter,
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: AppSizes.paddingQuintuple),
+        child: ElevatedButton(
+          onPressed: () {
+            if (!isOptionAvailable) {
+              _revenueCatCubit.purchase();
+              return;
+            }
+            _shareImage().then((result) {
+              if (result == ShareResultStatus.success) {
+                return Navigator.of(context).pop();
+              }
+              toastification.show(
+                context: context,
+                type: ToastificationType.error,
+                style: ToastificationStyle.minimal,
+                title: Text(tr('core.errorMessageTitle')),
+                description: Text(tr('core.errors.shareUnavailable')),
+                autoCloseDuration: const Duration(seconds: 5),
+                alignment: Alignment.topCenter,
+              );
+            });
+          },
+          child: isOptionAvailable
+              ? Text(tr('shareDialog.labels.share'))
+              : Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(tr('shareDialog.labels.buyPremium')),
+                    const SizedBox(width: AppSizes.padding),
+                    const Icon(FontAwesomeIcons.lock, size: 15),
+                  ],
+                ),
+        ),
       ),
     );
   }
