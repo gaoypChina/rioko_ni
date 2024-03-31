@@ -21,7 +21,6 @@ class RevenueCatCubit extends Cubit<RevenueCatState> {
       configuration = PurchasesConfiguration(
         const String.fromEnvironment('revenue_cat_public_key'),
       );
-      configuration.appUserID = 'newUserId1223213';
     } else if (Platform.isIOS) {
       // configuration = PurchasesConfiguration(<revenuecat_project_apple_api_key>);
     }

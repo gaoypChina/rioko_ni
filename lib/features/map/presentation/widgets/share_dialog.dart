@@ -50,6 +50,8 @@ class _ShareDialogState extends State<ShareDialog> {
     return _revenueCatCubit.isPremium;
   }
 
+  bool loadingPurchase = false;
+
   Future<ShareResultStatus> _shareImage() async {
     final bytes = await controllers[currentIndex].capture();
     if (bytes == null) return ShareResultStatus.unavailable;
@@ -206,7 +208,10 @@ class _ShareDialogState extends State<ShareDialog> {
         child: ElevatedButton(
           onPressed: () {
             if (!isOptionAvailable) {
-              _revenueCatCubit.purchase();
+              setState(() => loadingPurchase = true);
+              _revenueCatCubit.purchase().then((_) => setState(
+                    () => loadingPurchase = false,
+                  ));
               return;
             }
             _shareImage().then((result) {
@@ -233,7 +238,16 @@ class _ShareDialogState extends State<ShareDialog> {
                   children: [
                     Text(tr('shareDialog.labels.buyPremium')),
                     const SizedBox(width: AppSizes.padding),
-                    const Icon(FontAwesomeIcons.lock, size: 15),
+                    if (!loadingPurchase)
+                      const Icon(FontAwesomeIcons.lock, size: 15),
+                    if (loadingPurchase)
+                      const SizedBox(
+                        height: 15,
+                        width: 15,
+                        child: CircularProgressIndicator.adaptive(
+                          strokeWidth: 2,
+                        ),
+                      )
                   ],
                 ),
         ),
