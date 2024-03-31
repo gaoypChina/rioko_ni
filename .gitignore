@@ -55,3 +55,6 @@ env.json
 # Keystore
 
 android/app/upload_key
+
+# Settings
+.vscode/settings.json
