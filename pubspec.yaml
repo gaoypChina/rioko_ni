@@ -70,6 +70,7 @@ dependencies:
   purchases_flutter: ^6.24.0
   flutter_map_location_marker: ^8.0.8
   point_in_polygon: ^1.0.0
+  flutter_native_splash: ^2.3.7
 
 dev_dependencies:
   flutter_test:
@@ -145,5 +146,19 @@ flutter:
 flutter_launcher_icons:
   android: true
   ios: false
-  image_path: "assets/icon/icon.jpeg"
+  image_path: "assets/icon/icon.png"
   min_sdk_android: 21
+
+flutter_native_splash:
+  color: "#2896a7"
+  image: assets/icon/icon.png
+  color_dark: "#0f283c"
+  image_dark: assets/icon/icon.png
+
+  android_12:
+    image: assets/icon/icon.png
+    icon_background_color: "#2896a7"
+    image_dark: assets/icon/icon.png
+    icon_background_color_dark: "#0f283c"
+
+  web: false
