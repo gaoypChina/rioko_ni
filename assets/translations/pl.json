@@ -14,7 +14,10 @@
         },
         "errorMessageTitle": "Błąd",
         "successMessageTitle": "Sukces",
-        "purchaseSuccessfullMessage": "Zakupiono Rioko Premium!"
+        "purchaseSuccessfullMessage": "Zakupiono Rioko Premium!",
+        "dialog": {
+            "ok": "OK"
+        }
     },
     "map": {
         "statsUI": {

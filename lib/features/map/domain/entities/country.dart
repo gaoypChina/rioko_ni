@@ -109,6 +109,8 @@ class Country with _$Country {
   String get alpha2 => countryCode.alpha2;
   String get alpha3 => countryCode.alpha3;
 
+  String get name => tr('countries.$alpha3');
+
   /// Generates Flutter Map polygons from GeoJSON features.
   ///
   /// This method generates Flutter Map polygons from GeoJSON features

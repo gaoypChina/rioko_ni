@@ -92,6 +92,12 @@ class _CountryManagementDialogState extends State<CountryManagementDialog>
           key: _dialogKey,
           mainAxisSize: MainAxisSize.min,
           children: [
+            Text(
+              widget.country.name,
+              style: Theme.of(context).textTheme.titleLarge,
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: AppSizes.paddingDouble),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -155,6 +161,7 @@ class _CountryManagementDialogState extends State<CountryManagementDialog>
                 ),
               ],
             ),
+            const SizedBox(height: AppSizes.paddingHalf),
             Row(
               children: [
                 const Expanded(child: SizedBox()),
@@ -190,6 +197,11 @@ class _CountryManagementDialogState extends State<CountryManagementDialog>
                 ),
                 const Expanded(child: SizedBox()),
               ],
+            ),
+            const SizedBox(height: AppSizes.paddingDouble),
+            OutlinedButton(
+              onPressed: () => pop(context),
+              child: Text(tr('core.dialog.ok')),
             ),
           ],
         ),
