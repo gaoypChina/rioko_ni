@@ -7,6 +7,7 @@ import 'package:rioko_ni/core/injector.dart';
 import 'package:rioko_ni/core/presentation/map.dart';
 import 'package:rioko_ni/core/presentation/widgets/animated_fab.dart';
 import 'package:rioko_ni/features/map/presentation/cubit/map_cubit.dart';
+import 'package:rioko_ni/features/map/presentation/widgets/country_management_dialog.dart';
 import 'package:rioko_ni/features/map/presentation/widgets/search_country_dialog.dart';
 import 'package:rioko_ni/features/map/presentation/widgets/stats_ui.dart';
 import 'package:rioko_ni/features/map/presentation/widgets/world_statistics_map.dart';
@@ -152,7 +153,12 @@ class _MapPageState extends State<MapPage> {
       wantCountries: _cubit.wantCountries,
       livedCountries: _cubit.livedCountries,
       controller: mapController,
-      onTap: (position, latLng) => _closeTopDrawer(),
+      onTap: (position, latLng) {
+        _closeTopDrawer();
+        final country = _cubit.getCountryFromPosition(latLng);
+        if (country == null) return;
+        CountryManagementDialog(country: country).show(context);
+      },
       dir: _cubit.dir,
     );
   }

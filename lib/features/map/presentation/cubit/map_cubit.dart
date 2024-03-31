@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:latlong2/latlong.dart';
@@ -11,6 +12,7 @@ import 'package:rioko_ni/features/map/domain/entities/country.dart';
 import 'package:rioko_ni/features/map/domain/usecases/get_countries.dart';
 import 'package:rioko_ni/features/map/domain/usecases/read_countries_locally.dart';
 import 'package:rioko_ni/features/map/domain/usecases/save_countries_locally.dart';
+import 'package:collection/collection.dart';
 
 part 'map_state.dart';
 part 'map_cubit.freezed.dart';
@@ -274,5 +276,14 @@ class MapCubit extends Cubit<MapState> {
     final cacheDirectory = await getTemporaryDirectory();
     dir = cacheDirectory.path;
     emit(MapState.gotDir(cacheDirectory.path));
+  }
+
+  Country? getCountryFromPosition(LatLng position) {
+    final watch = Stopwatch()..start();
+    final result =
+        countries.firstWhereOrNull((country) => country.contains(position));
+    watch.stop();
+    debugPrint('searched for: ${watch.elapsedMilliseconds / 1000}s');
+    return result;
   }
 }

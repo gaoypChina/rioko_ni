@@ -9,6 +9,7 @@ import 'package:flutter_map/flutter_map.dart' as fm;
 import 'package:geobase/geobase.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:rioko_ni/main.dart';
+import 'package:point_in_polygon/point_in_polygon.dart' as pip;
 
 part 'country.freezed.dart';
 
@@ -98,7 +99,8 @@ class Country with _$Country {
     required CountryCode countryCode,
     required Region region,
     @Default(CountryStatus.none) CountryStatus status,
-  }) = _CountryPolygons;
+    @Default([]) List<fm.Polygon> fmPolygons,
+  }) = _Country;
 
   CountryModel toModel() => CountryModel(
         countryCode: countryCode.alpha3,
@@ -135,6 +137,9 @@ class Country with _$Country {
     int reductionPercentage = 75,
     int pointsNumberReductionThreshold = 1000,
   }) {
+    if (fmPolygons.isNotEmpty) {
+      return fmPolygons;
+    }
     List<fm.Polygon> result = [];
 
     borderColor ??= Colors.red;
@@ -223,7 +228,25 @@ class Country with _$Country {
         ];
       }
     }
+    // Caching the polygons
+    fmPolygons = result;
     return result;
+  }
+
+  bool contains(LatLng position) {
+    final poly = polygons();
+    // First check if the position is in the bounding box
+    final result = poly.where((p) => p.boundingBox.contains(position));
+    if (result.isEmpty) return false;
+    // And then execute more complex method to check if position is inside the geometry
+    return poly.any(
+      (p) => pip.Poly.isPointInPolygon(
+        pip.Point(x: position.longitude, y: position.latitude),
+        p.points
+            .map((latLng) => pip.Point(x: latLng.longitude, y: latLng.latitude))
+            .toList(),
+      ),
+    );
   }
 
   /// Calculates the total number of points in all polygons.

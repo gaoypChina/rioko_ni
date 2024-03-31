@@ -69,6 +69,7 @@ dependencies:
   hive_flutter: ^1.1.0
   purchases_flutter: ^6.24.0
   flutter_map_location_marker: ^8.0.8
+  point_in_polygon: ^1.0.0
 
 dev_dependencies:
   flutter_test:
