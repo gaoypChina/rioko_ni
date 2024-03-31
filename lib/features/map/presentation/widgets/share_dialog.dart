@@ -13,6 +13,7 @@ import 'package:rioko_ni/core/extensions/iterable2.dart';
 import 'package:rioko_ni/core/injector.dart';
 import 'package:rioko_ni/features/map/presentation/cubit/map_cubit.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:toastification/toastification.dart';
 import 'package:widgets_to_image/widgets_to_image.dart';
 import 'package:rioko_ni/core/extensions/double2.dart';
 
@@ -61,6 +62,21 @@ class _ShareDialogState extends State<ShareDialog> {
       MediaQuery.of(context).size.height * 0.8;
 
   int currentIndex = 0;
+
+  Future<ShareResultStatus> _shareImage() async {
+    final bytes = await controllers[currentIndex].capture();
+    if (bytes == null) return ShareResultStatus.unavailable;
+    final dir = await getTemporaryDirectory();
+    String filePath = '${dir.path}/rioko_statistics.png';
+    File file = File(filePath);
+    await file.writeAsBytes(bytes);
+    final result = await Share.shareXFiles([XFile(file.path)]);
+
+    if (result.status == ShareResultStatus.success) {
+      file.delete();
+    }
+    return result.status;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -187,21 +203,23 @@ class _ShareDialogState extends State<ShareDialog> {
             child: Padding(
               padding: const EdgeInsets.only(bottom: AppSizes.paddingQuintuple),
               child: ElevatedButton(
-                onPressed: () async {
-                  final bytes = await controllers[currentIndex].capture();
-                  if (bytes == null) return;
-                  final dir = await getTemporaryDirectory();
-                  String filePath = '${dir.path}/rioko_statistics.png';
-                  File file = File(filePath);
-                  await file.writeAsBytes(bytes);
-                  final result = await Share.shareXFiles([XFile(file.path)]);
-
-                  if (result.status == ShareResultStatus.success) {
-                    Navigator.of(context).pop();
-                    file.delete();
-                  }
+                onPressed: () {
+                  _shareImage().then((result) {
+                    if (result == ShareResultStatus.success) {
+                      return Navigator.of(context).pop();
+                    }
+                    toastification.show(
+                      context: context,
+                      type: ToastificationType.error,
+                      style: ToastificationStyle.minimal,
+                      title: Text(tr('core.errorMessageTitle')),
+                      description: Text(tr('core.errors.shareUnavailable')),
+                      autoCloseDuration: const Duration(seconds: 5),
+                      alignment: Alignment.topCenter,
+                    );
+                  });
                 },
-                child: const Text('Share'),
+                child: Text(tr('shareDialog.labels.share')),
               ),
             ),
           ),

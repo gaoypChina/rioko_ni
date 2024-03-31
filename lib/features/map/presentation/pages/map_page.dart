@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -50,7 +51,7 @@ class _MapPageState extends State<MapPage> {
               context: context,
               type: ToastificationType.error,
               style: ToastificationStyle.minimal,
-              title: const Text('Error'),
+              title: Text(tr('core.errorMessageTitle')),
               description: Text(message),
               autoCloseDuration: const Duration(seconds: 5),
               alignment: Alignment.topCenter,
@@ -62,7 +63,6 @@ class _MapPageState extends State<MapPage> {
         },
         builder: (context, state) {
           return state.maybeWhen(
-            
             orElse: () {
               return Stack(
                 children: [

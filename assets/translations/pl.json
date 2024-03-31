@@ -6,8 +6,10 @@
             "formatException": "Nieprawidłowy format odpowiedzi",
             "locationDisabled": "Usługi lokalizacji są wyłączone",
             "locationDenied": "Odmówiono uprawnień do lokalizacji",
-            "locationForeverDenied": "Uprawnienia do lokalizacji są trwale odrzucone, nie możemy zażądać uprawnień"
-        }
+            "locationForeverDenied": "Uprawnienia do lokalizacji są trwale odrzucone, nie możemy zażądać uprawnień",
+            "shareUnavailable": "Udostępnianie plików na tym urządzeniu jest niedostępne"
+        },
+        "errorMessageTitle": "Błąd"
     },
     "map": {
         "statsUI": {
@@ -299,5 +301,10 @@
         "SGS": "Georgia Południowa i Sandwich Południowy",
         "BVT": "Wyspa Bouveta",
         "HMD": "Wyspy Heard i McDonalda"
+    },
+    "shareDialog": {
+        "labels": {
+            "share": "Udostępnij"
+        }
     }
 }

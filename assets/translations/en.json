@@ -6,8 +6,10 @@
             "formatException": "Invalid response format",
             "locationDisabled": "Location services are disabled",
             "locationDenied": "Location permissions are denied",
-            "locationForeverDenied": "Location permissions are permanently denied, we cannot request permissions"
-        }
+            "locationForeverDenied": "Location permissions are permanently denied, we cannot request permissions",
+            "shareUnavailable": "File sharing on this device is not available"
+        },
+        "errorMessageTitle": "Error"
     },
     "map": {
         "statsUI": {
@@ -299,5 +301,10 @@
         "SGS": "South Georgia",
         "BVT": "Bouvet Island",
         "HMD": "Heard Island and McDonald Islands"
+    },
+    "shareDialog": {
+        "labels": {
+            "share": "Share"
+        }
     }
 }
