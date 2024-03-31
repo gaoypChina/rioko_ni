@@ -92,6 +92,8 @@ class MapBuilder {
     );
     layers.add(
       CurrentLocationLayer(
+        alignDirectionOnUpdate: AlignOnUpdate.never,
+        headingStream: null,
         style: LocationMarkerStyle(
           marker: DefaultLocationMarker(
             color: Theme.of(RiokoNi.navigatorKey.currentContext!)
@@ -99,6 +101,8 @@ class MapBuilder {
                 .primary,
           ),
           markerSize: const Size.square(15),
+          headingSectorColor: Colors.transparent,
+          accuracyCircleColor: Colors.transparent,
         ),
       ),
     );

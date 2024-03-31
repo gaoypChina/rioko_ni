@@ -18,6 +18,7 @@ class WorldStatisticsMap extends StatelessWidget {
   final double afPercentage;
   final double asPercentage;
   final double ocPercentage;
+  final void Function() onTapShare;
 
   WorldStatisticsMap({
     required this.naPercentage,
@@ -26,6 +27,7 @@ class WorldStatisticsMap extends StatelessWidget {
     required this.afPercentage,
     required this.asPercentage,
     required this.ocPercentage,
+    required this.onTapShare,
     super.key,
   });
 
@@ -103,17 +105,9 @@ class WorldStatisticsMap extends StatelessWidget {
             alignment: Alignment.bottomLeft,
             child: GestureDetector(
               onTap: () {
+                onTapShare();
                 showGeneralDialog(
                   barrierColor: Colors.black.withOpacity(0.5),
-                  transitionBuilder: (context, a1, a2, widget) {
-                    return Opacity(
-                      opacity: a1.value,
-                      child: widget,
-                    );
-                  },
-                  transitionDuration: const Duration(milliseconds: 200),
-                  barrierDismissible: true,
-                  barrierLabel: '',
                   context: context,
                   pageBuilder: (context, animation1, animation2) =>
                       const ShareDialog(),

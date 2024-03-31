@@ -81,6 +81,9 @@ class _MapPageState extends State<MapPage> {
                         showWorldStatistics ? _cubit.beenAsiaPercentage : 0,
                     ocPercentage:
                         showWorldStatistics ? _cubit.beenOceaniaPercentage : 0,
+                    onTapShare: () => Future.delayed(
+                        const Duration(milliseconds: 200),
+                        () => _closeTopDrawer()),
                   ),
                   AnimatedContainer(
                     duration: const Duration(milliseconds: 500),
@@ -116,6 +119,7 @@ class _MapPageState extends State<MapPage> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: AnimatedFAB(
         onPressed: () {
+          _closeTopDrawer();
           showGeneralDialog(
             barrierColor: Colors.black.withOpacity(0.5),
             transitionBuilder: (context, a1, a2, widget) {
@@ -148,16 +152,18 @@ class _MapPageState extends State<MapPage> {
       wantCountries: _cubit.wantCountries,
       livedCountries: _cubit.livedCountries,
       controller: mapController,
-      onTap: (position, latLng) {
-        if (showTopBehindDrawer == false) return;
-        showTopBehindDrawer = false;
-        setState(() {});
-        Future.delayed(const Duration(milliseconds: 500), () {
-          showWorldStatistics = showTopBehindDrawer;
-          setState(() {});
-        });
-      },
+      onTap: (position, latLng) => _closeTopDrawer(),
       dir: _cubit.dir,
     );
+  }
+
+  void _closeTopDrawer() {
+    if (showTopBehindDrawer == false) return;
+    showTopBehindDrawer = false;
+    setState(() {});
+    Future.delayed(const Duration(milliseconds: 500), () {
+      showWorldStatistics = showTopBehindDrawer;
+      setState(() {});
+    });
   }
 }

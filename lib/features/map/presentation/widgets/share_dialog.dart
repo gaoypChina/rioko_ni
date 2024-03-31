@@ -270,21 +270,44 @@ class _ShareDialogState extends State<ShareDialog> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Container(
+              SizedBox(
                 height: imageHeight(context) * 0.33,
-                padding: const EdgeInsets.symmetric(
-                    horizontal: AppSizes.paddingHalf),
-                child: SimpleMap(
-                  instructions: SMapWorld.instructionsMercator,
-                  defaultColor: Colors.transparent,
-                  countryBorder: CountryBorder(color: primaryColor),
-                  colors: _cubit.beenCountries
-                      .map(
-                        (c) => {
-                          c.alpha2.toLowerCase(): primaryColor.withOpacity(0.7),
-                        },
-                      )
-                      .reduceOrNull((value, element) => {...value, ...element}),
+                child: Stack(
+                  children: [
+                    Container(
+                      height: imageHeight(context) * 0.33,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: AppSizes.paddingHalf),
+                      child: SimpleMap(
+                        instructions: SMapWorld.instructionsMercator,
+                        defaultColor: Colors.transparent,
+                        countryBorder: CountryBorder(color: primaryColor),
+                        colors: _cubit.beenCountries
+                            .map(
+                              (c) => {
+                                c.alpha2.toLowerCase():
+                                    primaryColor.withOpacity(0.7),
+                              },
+                            )
+                            .reduceOrNull(
+                                (value, element) => {...value, ...element}),
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.bottomRight,
+                      child: Padding(
+                        padding: const EdgeInsets.all(AppSizes.padding),
+                        child: Text(
+                          'Rioko app',
+                          style:
+                              Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                    color: primaryColor.withOpacity(0.5),
+                                    fontSize: 10,
+                                  ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
               _buildContinentSummaryRow(
