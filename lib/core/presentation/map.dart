@@ -3,9 +3,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_cache/flutter_map_cache.dart';
+import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:rioko_ni/core/extensions/iterable2.dart';
 import 'package:rioko_ni/features/map/domain/entities/country.dart';
+import 'package:rioko_ni/main.dart';
 
 class MapBuilder {
   MapOptions getMapOptions({
@@ -88,6 +90,19 @@ class MapBuilder {
         ],
       ),
     );
+    layers.add(
+      CurrentLocationLayer(
+        style: LocationMarkerStyle(
+          marker: DefaultLocationMarker(
+            color: Theme.of(RiokoNi.navigatorKey.currentContext!)
+                .colorScheme
+                .primary,
+          ),
+          markerSize: const Size.square(15),
+        ),
+      ),
+    );
+
     return Map(
       mapOptions: mapOptions,
       layers: layers,

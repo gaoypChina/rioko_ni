@@ -213,15 +213,17 @@ class _ShareDialogState extends State<ShareDialog> {
               if (result == ShareResultStatus.success) {
                 return Navigator.of(context).pop();
               }
-              toastification.show(
-                context: context,
-                type: ToastificationType.error,
-                style: ToastificationStyle.minimal,
-                title: Text(tr('core.errorMessageTitle')),
-                description: Text(tr('core.errors.shareUnavailable')),
-                autoCloseDuration: const Duration(seconds: 5),
-                alignment: Alignment.topCenter,
-              );
+              if (result == ShareResultStatus.unavailable) {
+                toastification.show(
+                  context: context,
+                  type: ToastificationType.error,
+                  style: ToastificationStyle.minimal,
+                  title: Text(tr('core.errorMessageTitle')),
+                  description: Text(tr('core.errors.shareUnavailable')),
+                  autoCloseDuration: const Duration(seconds: 5),
+                  alignment: Alignment.topCenter,
+                );
+              }
             });
           },
           child: isOptionAvailable
