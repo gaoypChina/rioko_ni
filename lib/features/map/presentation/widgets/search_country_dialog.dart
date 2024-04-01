@@ -89,8 +89,10 @@ class _SearchCountryDialogState extends State<SearchCountryDialog>
                     top: size.height * 0.15,
                   ),
                   height: 60,
-                  color:
-                      Theme.of(context).colorScheme.background.withOpacity(0.7),
+                  decoration: BoxDecoration(
+                    color: Colors.black12,
+                    borderRadius: BorderRadius.circular(AppSizes.radiusHalf),
+                  ),
                   width: double.infinity,
                   child: TextField(
                     controller: searchController,

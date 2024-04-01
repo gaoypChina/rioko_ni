@@ -192,7 +192,22 @@ class _ShareDialogState extends State<ShareDialog> {
           alignment: const Alignment(0.9, -0.85),
           child: GestureDetector(
             onTap: Navigator.of(context).pop,
-            child: const Icon(FontAwesomeIcons.circleXmark),
+            child: Container(
+              padding: const EdgeInsets.fromLTRB(
+                AppSizes.paddingQuarter,
+                0.7,
+                AppSizes.paddingQuarter,
+                AppSizes.paddingQuarter,
+              ),
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.background,
+                borderRadius: BorderRadius.circular(AppSizes.radius),
+              ),
+              child: const Icon(
+                FontAwesomeIcons.circleXmark,
+                size: 30,
+              ),
+            ),
           ),
         ),
         _buildShareButton(context),

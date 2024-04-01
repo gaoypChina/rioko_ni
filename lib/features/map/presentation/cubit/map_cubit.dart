@@ -6,6 +6,8 @@ import 'package:latlong2/latlong.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:rioko_ni/core/domain/usecase.dart';
 import 'package:rioko_ni/core/errors/failure.dart';
+import 'package:rioko_ni/core/injector.dart';
+import 'package:rioko_ni/core/presentation/cubit/theme_cubit.dart';
 import 'package:rioko_ni/core/utils/geolocation_handler.dart';
 
 import 'package:rioko_ni/features/map/domain/entities/country.dart';
@@ -32,8 +34,16 @@ class MapCubit extends Cubit<MapState> {
     required this.saveCountriesLocallyUsecase,
   }) : super(const MapState.initial());
 
-  String get urlTemplate =>
-      "https://api.mapbox.com/styles/v1/mister-lucifer/cls7n0t4g00zh01qsdc652wos/tiles/256/{z}/{x}/{y}{r}?access_token={accessToken}";
+  String get urlTemplate {
+    final themeCubit = locator<ThemeCubit>();
+    switch (themeCubit.type) {
+      case ThemeDataType.classic:
+        return 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
+      case ThemeDataType.dark:
+      case ThemeDataType.monochrome:
+        return "https://api.mapbox.com/styles/v1/mister-lucifer/cls7n0t4g00zh01qsdc652wos/tiles/256/{z}/{x}/{y}{r}?access_token={accessToken}";
+    }
+  }
 
   List<Country> countries = [];
 

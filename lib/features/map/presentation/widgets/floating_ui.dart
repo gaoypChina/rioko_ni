@@ -46,9 +46,13 @@ class FloatingUI extends StatelessWidget {
                     width: 50,
                     margin: const EdgeInsets.only(left: AppSizes.padding),
                     decoration: BoxDecoration(
-                      color: Colors.black45,
+                      color: Theme.of(context)
+                          .colorScheme
+                          .background
+                          .withOpacity(0.7),
                       border: Border.all(
-                          color: Colors.tealAccent.withOpacity(0.7), width: 1),
+                          color: Theme.of(context).colorScheme.onPrimary,
+                          width: 1),
                       borderRadius: BorderRadius.circular(AppSizes.radius),
                     ),
                     padding: const EdgeInsets.only(bottom: 1),
@@ -70,9 +74,13 @@ class FloatingUI extends StatelessWidget {
                       horizontal: AppSizes.paddingTriple,
                     ),
                     decoration: BoxDecoration(
-                      color: Colors.black45,
+                      color: Theme.of(context)
+                          .colorScheme
+                          .background
+                          .withOpacity(0.7),
                       border: Border.all(
-                          color: Colors.tealAccent.withOpacity(0.7), width: 1),
+                          color: Theme.of(context).colorScheme.onPrimary,
+                          width: 1),
                       borderRadius: BorderRadius.circular(AppSizes.radius),
                     ),
                     child: Center(

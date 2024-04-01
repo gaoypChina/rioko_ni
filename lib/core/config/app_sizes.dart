@@ -1,4 +1,5 @@
 class AppSizes {
+  static const double paddingQuarter = padding / 4;
   static const double paddingHalf = padding / 2;
   static const double padding = 8.0;
   static const double paddingDouble = padding * 2;

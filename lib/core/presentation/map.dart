@@ -133,7 +133,7 @@ class Map extends StatelessWidget {
       height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
-        color: const Color.fromARGB(255, 33, 70, 54),
+        color: Theme.of(context).colorScheme.onBackground,
         border: Border.all(color: Colors.black, width: 2),
       ),
       child: _buildMap(context),

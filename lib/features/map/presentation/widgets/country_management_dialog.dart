@@ -94,7 +94,7 @@ class _CountryManagementDialogState extends State<CountryManagementDialog>
           children: [
             Text(
               widget.country.name,
-              style: Theme.of(context).textTheme.titleLarge,
+              style: Theme.of(context).textTheme.headlineLarge,
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: AppSizes.paddingDouble),

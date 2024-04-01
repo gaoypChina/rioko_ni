@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:rioko_ni/core/injector.dart';
 import 'package:rioko_ni/core/presentation/cubit/revenue_cat_cubit.dart';
+import 'package:rioko_ni/core/presentation/cubit/theme_cubit.dart';
 import 'package:rioko_ni/features/map/presentation/cubit/map_cubit.dart';
 import 'package:rioko_ni/features/map/presentation/pages/map_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -28,6 +29,9 @@ void main() async {
           BlocProvider<RevenueCatCubit>(
             create: (BuildContext context) => locator<RevenueCatCubit>(),
           ),
+          BlocProvider<ThemeCubit>(
+            create: (BuildContext context) => locator<ThemeCubit>(),
+          ),
         ],
         child: const RiokoNi(),
       ),
@@ -46,6 +50,8 @@ class RiokoNi extends StatefulWidget {
 class _RiokoNiState extends State<RiokoNi> {
   final _mapCubit = locator<MapCubit>();
   final _revenueCat = locator<RevenueCatCubit>();
+  final _themeCubit = locator<ThemeCubit>();
+
   @override
   void initState() {
     _mapCubit.load();
@@ -58,66 +64,25 @@ class _RiokoNiState extends State<RiokoNi> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      navigatorKey: RiokoNi.navigatorKey,
-      theme: ThemeData.dark(
-        useMaterial3: true,
-      ).copyWith(
-        colorScheme:
-            ColorScheme.fromSeed(seedColor: Colors.tealAccent).copyWith(
-          background: Colors.black,
-          primary: Colors.teal,
-          onPrimary: Colors.tealAccent,
-          secondary: Colors.purple,
-          onSecondary: Colors.purpleAccent,
-          tertiary: Colors.lime,
-          onTertiary: Colors.limeAccent,
-        ),
-        floatingActionButtonTheme: const FloatingActionButtonThemeData(
-          backgroundColor: Colors.black,
-          foregroundColor: Colors.white,
-        ),
-        iconTheme: const IconThemeData(
-          color: Colors.white,
-        ),
-        drawerTheme: const DrawerThemeData(
-          backgroundColor: Colors.black,
-          shadowColor: Colors.tealAccent,
-        ),
-        primaryColor: Colors.teal,
-        textTheme: const TextTheme(
-          bodySmall: TextStyle(
-            fontFamily: 'Nasalization',
-            color: Colors.white,
+    return BlocBuilder<ThemeCubit, ThemeDataType>(
+      builder: (context, state) {
+        return MaterialApp(
+          navigatorKey: RiokoNi.navigatorKey,
+          theme: _themeCubit.appThemeData(state),
+          debugShowCheckedModeBanner: false,
+          localizationsDelegates: context.localizationDelegates,
+          supportedLocales: context.supportedLocales,
+          locale: context.locale,
+          home: const HomePage(),
+          builder: (context, child) => Overlay(
+            initialEntries: [
+              OverlayEntry(
+                builder: (context) => child!,
+              ),
+            ],
           ),
-          bodyMedium: TextStyle(
-            fontFamily: 'Nasalization',
-          ),
-          titleLarge: TextStyle(
-            fontFamily: 'Nasalization',
-          ),
-          titleMedium: TextStyle(
-            color: Colors.white,
-            fontFamily: 'Nasalization',
-          ),
-          titleSmall: TextStyle(
-            color: Colors.white70,
-            fontFamily: 'Nasalization',
-          ),
-        ),
-      ),
-      debugShowCheckedModeBanner: false,
-      localizationsDelegates: context.localizationDelegates,
-      supportedLocales: context.supportedLocales,
-      locale: context.locale,
-      home: const HomePage(),
-      builder: (context, child) => Overlay(
-        initialEntries: [
-          OverlayEntry(
-            builder: (context) => child!,
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 }

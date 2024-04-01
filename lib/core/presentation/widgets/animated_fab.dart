@@ -70,7 +70,7 @@ class _AnimatedFABState extends State<AnimatedFAB>
         },
         child: Container(
           decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.background,
+            color: Theme.of(context).colorScheme.background.withOpacity(0.7),
             border: Border.all(color: Theme.of(context).colorScheme.onPrimary),
             borderRadius: BorderRadius.circular(AppSizes.bigRadius),
           ),
