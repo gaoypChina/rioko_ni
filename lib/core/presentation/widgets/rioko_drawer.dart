@@ -7,6 +7,7 @@ import 'package:rioko_ni/core/config/app_sizes.dart';
 import 'package:rioko_ni/core/extensions/iterable2.dart';
 import 'package:rioko_ni/core/injector.dart';
 import 'package:rioko_ni/core/presentation/cubit/theme_cubit.dart';
+import 'package:rioko_ni/core/presentation/widgets/change_theme_dialog.dart';
 import 'package:rioko_ni/features/map/domain/entities/country.dart';
 import 'package:rioko_ni/features/map/presentation/cubit/map_cubit.dart';
 import 'package:rioko_ni/features/map/presentation/widgets/share_dialog.dart';
@@ -17,10 +18,12 @@ import 'package:url_launcher/url_launcher.dart';
 class RiokoDrawer extends StatelessWidget {
   final bool showWorldStatistics;
   final void Function() openTopBehindDrawer;
+  final void Function() updateMap;
 
   RiokoDrawer({
     required this.openTopBehindDrawer,
     required this.showWorldStatistics,
+    required this.updateMap,
     super.key,
   });
 
@@ -106,6 +109,7 @@ class RiokoDrawer extends StatelessWidget {
               ),
               onTap: () {
                 Navigator.of(context).pop();
+                ChangeThemeDialog(updateMap: updateMap).show(context);
               },
             ),
             divider,

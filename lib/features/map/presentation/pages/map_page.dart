@@ -30,6 +30,8 @@ class _MapPageState extends State<MapPage> {
 
   late MapController mapController;
 
+  Key _mapKey = UniqueKey();
+
   @override
   void initState() {
     mapController = MapController();
@@ -52,6 +54,7 @@ class _MapPageState extends State<MapPage> {
           showWorldStatistics = true;
           setState(() {});
         },
+        updateMap: () => setState(() => _mapKey = UniqueKey()),
       ),
       backgroundColor: const Color.fromARGB(255, 0, 0, 0),
       body: BlocConsumer<MapCubit, MapState>(
@@ -149,6 +152,7 @@ class _MapPageState extends State<MapPage> {
 
   Widget _buildMap(BuildContext context) {
     return MapBuilder().build(
+      key: _mapKey,
       context,
       urlTemplate: _cubit.urlTemplate,
       beenCountries: _cubit.beenCountries,

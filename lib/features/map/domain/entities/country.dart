@@ -211,6 +211,68 @@ class Country with _$Country {
     return result;
   }
 
+  List<List<LatLng>> points({
+    int reductionPercentage = 75,
+    int pointsNumberReductionThreshold = 1000,
+  }) {
+    List<List<LatLng>> result = [];
+    final polygons = _getFeatureCollectionPolygons();
+
+    // Process each polygon
+    for (Polygon polygon in polygons) {
+      List<LatLng> points = [];
+
+      // Skip polygons without exterior positions
+      if (polygon.exterior == null) continue;
+
+      // Calculate the threshold for the number of polygons
+      int polygonsNumberThreshold = polygons.length ~/ 3;
+      if (polygonsNumberThreshold > 10) {
+        polygonsNumberThreshold = 10;
+      }
+      if (polygonsNumberThreshold < 1) {
+        polygonsNumberThreshold = 1;
+      }
+
+      // Check if the polygons number threshold is reached
+      if (result.length >= polygonsNumberThreshold) {
+        return result;
+      }
+
+      // Convert GeoJSON positions to LatLng points
+      polygon.exterior?.positions.forEach((position) {
+        double latitude = position.y;
+        double longitude = position.x;
+
+        // Ensure longitude is within the valid range of flutter_map coordination system
+        if (longitude <= -180 || longitude >= 180) {
+          longitude = longitude.clamp(-179.999999, 179.999999);
+        }
+
+        points.add(LatLng(latitude, longitude));
+      });
+
+      // Skip invalid polygons
+      if (points.isEmpty || points.length < 2 || points.first != points.last) {
+        continue;
+      }
+
+      fm.Polygon fmPolygon = fm.Polygon(
+        points: points,
+      );
+
+      // Apply simplification if the number of points exceeds the points number threshold
+      if (fmPolygon.points.length > pointsNumberReductionThreshold) {
+        fmPolygon = Polygon2(fmPolygon)
+            .simplify(reductionPercentage: reductionPercentage);
+      }
+
+      result = [...result, fmPolygon.points];
+    }
+
+    return result;
+  }
+
   List<Polygon> _getFeatureCollectionPolygons() {
     List<Polygon> polygons = [];
 

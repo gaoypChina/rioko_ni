@@ -40,8 +40,9 @@ class MapCubit extends Cubit<MapState> {
       case ThemeDataType.classic:
         return 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
       case ThemeDataType.dark:
-      case ThemeDataType.monochrome:
         return "https://api.mapbox.com/styles/v1/mister-lucifer/cls7n0t4g00zh01qsdc652wos/tiles/256/{z}/{x}/{y}{r}?access_token={accessToken}";
+      case ThemeDataType.monochrome:
+        return "https://api.mapbox.com/styles/v1/mister-lucifer/cls7m179n00lz01qldhet90ig/tiles/256/{z}/{x}/{y}{r}?access_token={accessToken}";
     }
   }
 

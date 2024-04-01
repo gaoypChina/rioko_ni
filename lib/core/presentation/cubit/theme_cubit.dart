@@ -28,8 +28,8 @@ class ThemeCubit extends Cubit<ThemeDataType> {
       onPrimary: const Color.fromARGB(255, 152, 216, 250),
       secondary: const Color.fromARGB(255, 255, 89, 94),
       onSecondary: const Color.fromARGB(255, 247, 147, 147),
-      tertiary: const Color.fromARGB(255, 255, 202, 58),
-      onTertiary: const Color.fromARGB(255, 251, 229, 165),
+      tertiary: Colors.grey,
+      onTertiary: Colors.grey,
     ),
     floatingActionButtonTheme: const FloatingActionButtonThemeData(
       backgroundColor: Colors.black,
@@ -52,6 +52,14 @@ class ThemeCubit extends Cubit<ThemeDataType> {
         fontFamily: 'Nasalization',
         color: Colors.black,
       ),
+      titleSmall: TextStyle(
+        color: Colors.white70,
+        fontFamily: 'Nasalization',
+      ),
+      titleMedium: TextStyle(
+        color: Colors.white,
+        fontFamily: 'Nasalization',
+      ),
       titleLarge: TextStyle(
         fontFamily: 'Nasalization',
         color: Colors.white,
@@ -60,14 +68,6 @@ class ThemeCubit extends Cubit<ThemeDataType> {
         fontFamily: 'Nasalization',
         color: Colors.black,
         fontSize: 17,
-      ),
-      titleMedium: TextStyle(
-        color: Colors.white,
-        fontFamily: 'Nasalization',
-      ),
-      titleSmall: TextStyle(
-        color: Colors.white70,
-        fontFamily: 'Nasalization',
       ),
       headlineLarge: TextStyle(
         fontFamily: 'Nasalization',
@@ -96,7 +96,9 @@ class ThemeCubit extends Cubit<ThemeDataType> {
       case ThemeDataType.classic:
         return _default;
       case ThemeDataType.dark:
-        return _default.copyWith(
+        return ThemeData.dark(
+          useMaterial3: true,
+        ).copyWith(
           colorScheme:
               ColorScheme.fromSeed(seedColor: Colors.tealAccent).copyWith(
             background: Colors.black,
@@ -128,16 +130,26 @@ class ThemeCubit extends Cubit<ThemeDataType> {
             bodyMedium: TextStyle(
               fontFamily: 'Nasalization',
             ),
-            titleLarge: TextStyle(
+            titleSmall: TextStyle(
+              color: Colors.white70,
               fontFamily: 'Nasalization',
             ),
             titleMedium: TextStyle(
               color: Colors.white,
               fontFamily: 'Nasalization',
             ),
-            titleSmall: TextStyle(
-              color: Colors.white70,
+            titleLarge: TextStyle(
               fontFamily: 'Nasalization',
+            ),
+            headlineMedium: TextStyle(
+              fontFamily: 'Nasalization',
+              color: Colors.white,
+              fontSize: 17,
+            ),
+            headlineLarge: TextStyle(
+              fontFamily: 'Nasalization',
+              color: Colors.white,
+              fontSize: 22,
             ),
           ),
         );

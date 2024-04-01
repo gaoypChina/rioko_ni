@@ -40,6 +40,7 @@ class MapBuilder {
     required MapController controller,
     void Function(TapPosition, LatLng)? onTap,
     required String? dir,
+    required Key key,
   }) {
     final mapOptions = getMapOptions(
       interactionOptions: const InteractionOptions(
@@ -68,29 +69,84 @@ class MapBuilder {
               ),
       ),
     );
-    layers.add(
-      PolygonLayer(
-        polygonCulling: true,
-        polygonLabels: false,
-        polygons: [
-          ...Iterable2(beenCountries.map((country) => country.polygons(
-                        borderColor: country.status.color,
-                      )))
-                  .reduceOrNull((value, element) => [...value, ...element]) ??
-              [],
-          ...Iterable2(wantCountries.map((country) => country.polygons(
-                        borderColor: country.status.color,
-                      )))
-                  .reduceOrNull((value, element) => [...value, ...element]) ??
-              [],
-          ...Iterable2(livedCountries.map((country) => country.polygons(
-                        borderColor: country.status.color,
-                      )))
-                  .reduceOrNull((value, element) => [...value, ...element]) ??
-              [],
-        ],
-      ),
+    List<Polygon> polygons = [];
+
+    polygons.addAll(
+      Iterable2(
+            beenCountries.map((country) {
+              final pointsList = country.points();
+              return pointsList.map((points) {
+                return Polygon(
+                  points: points,
+                  borderColor: country.status.color,
+                  borderStrokeWidth: 2.0,
+                  isFilled: true,
+                  color: country.status.color.withOpacity(0.3),
+                );
+              });
+            }),
+          ).reduceOrNull((value, element) => [...value, ...element]) ??
+          [],
     );
+
+    polygons.addAll(
+      Iterable2(
+            wantCountries.map((country) {
+              final pointsList = country.points();
+              return pointsList.map((points) {
+                return Polygon(
+                  points: points,
+                  borderColor: country.status.color,
+                  borderStrokeWidth: 2.0,
+                  isFilled: true,
+                  color: country.status.color.withOpacity(0.3),
+                );
+              });
+            }),
+          ).reduceOrNull((value, element) => [...value, ...element]) ??
+          [],
+    );
+
+    polygons.addAll(
+      Iterable2(
+            livedCountries.map((country) {
+              final pointsList = country.points();
+              return pointsList.map((points) {
+                return Polygon(
+                  points: points,
+                  borderColor: country.status.color,
+                  borderStrokeWidth: 2.0,
+                  isFilled: true,
+                  color: country.status.color.withOpacity(0.3),
+                );
+              });
+            }),
+          ).reduceOrNull((value, element) => [...value, ...element]) ??
+          [],
+    );
+    // layers.add(
+    //   PolygonLayer(
+    //     polygonCulling: true,
+    //     polygons: [
+    //       ...Iterable2(beenCountries.map((country) => country.polygons(
+    //                     borderColor: country.status.color,
+    //                   )))
+    //               .reduceOrNull((value, element) => [...value, ...element]) ??
+    //           [],
+    //       ...Iterable2(wantCountries.map((country) => country.polygons(
+    //                     borderColor: country.status.color,
+    //                   )))
+    //               .reduceOrNull((value, element) => [...value, ...element]) ??
+    //           [],
+    //       ...Iterable2(livedCountries.map((country) => country.polygons(
+    //                     borderColor: country.status.color,
+    //                   )))
+    //               .reduceOrNull((value, element) => [...value, ...element]) ??
+    //           [],
+    //     ],
+    //   ),
+    // );
+    layers.add(PolygonLayer(polygons: polygons));
     layers.add(
       CurrentLocationLayer(
         alignDirectionOnUpdate: AlignOnUpdate.never,
@@ -109,6 +165,7 @@ class MapBuilder {
     );
 
     return Map(
+      key: key,
       mapOptions: mapOptions,
       layers: layers,
       controller: controller,
@@ -120,6 +177,7 @@ class Map extends StatelessWidget {
   final MapOptions mapOptions;
   final List<Widget> layers;
   final MapController? controller;
+
   const Map({
     required this.mapOptions,
     required this.layers,
@@ -142,6 +200,7 @@ class Map extends StatelessWidget {
 
   Widget _buildMap(BuildContext context) {
     return FlutterMap(
+      key: key,
       options: mapOptions,
       mapController: controller,
       children: layers,

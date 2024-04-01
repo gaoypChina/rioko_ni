@@ -5,6 +5,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:rioko_ni/core/injector.dart';
 import 'package:rioko_ni/core/presentation/cubit/revenue_cat_cubit.dart';
 import 'package:rioko_ni/core/presentation/cubit/theme_cubit.dart';
+import 'package:rioko_ni/core/presentation/widgets/restart_widget.dart';
 import 'package:rioko_ni/features/map/presentation/cubit/map_cubit.dart';
 import 'package:rioko_ni/features/map/presentation/pages/map_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -66,20 +67,22 @@ class _RiokoNiState extends State<RiokoNi> {
   Widget build(BuildContext context) {
     return BlocBuilder<ThemeCubit, ThemeDataType>(
       builder: (context, state) {
-        return MaterialApp(
-          navigatorKey: RiokoNi.navigatorKey,
-          theme: _themeCubit.appThemeData(state),
-          debugShowCheckedModeBanner: false,
-          localizationsDelegates: context.localizationDelegates,
-          supportedLocales: context.supportedLocales,
-          locale: context.locale,
-          home: const HomePage(),
-          builder: (context, child) => Overlay(
-            initialEntries: [
-              OverlayEntry(
-                builder: (context) => child!,
-              ),
-            ],
+        return RestartWidget(
+          child: MaterialApp(
+            navigatorKey: RiokoNi.navigatorKey,
+            theme: _themeCubit.appThemeData(state),
+            debugShowCheckedModeBanner: false,
+            localizationsDelegates: context.localizationDelegates,
+            supportedLocales: context.supportedLocales,
+            locale: context.locale,
+            home: const HomePage(),
+            builder: (context, child) => Overlay(
+              initialEntries: [
+                OverlayEntry(
+                  builder: (context) => child!,
+                ),
+              ],
+            ),
           ),
         );
       },
