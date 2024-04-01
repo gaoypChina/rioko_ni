@@ -115,7 +115,7 @@ class WorldStatisticsMap extends StatelessWidget {
               },
               child: const Padding(
                 padding: EdgeInsets.all(AppSizes.paddingDouble),
-                child: Icon(FontAwesomeIcons.arrowUpFromBracket),
+                child: Icon(FontAwesomeIcons.shareNodes),
               ),
             ),
           )
@@ -163,7 +163,7 @@ class WorldStatisticsMap extends StatelessWidget {
                   padding: const EdgeInsets.only(bottom: AppSizes.padding),
                   child: Text(
                     label,
-                    style: const TextStyle(color: Colors.white),
+                    style: Theme.of(context).textTheme.bodySmall,
                   ),
                 ),
           footer: footer
@@ -171,7 +171,7 @@ class WorldStatisticsMap extends StatelessWidget {
                   padding: const EdgeInsets.only(top: AppSizes.padding),
                   child: Text(
                     label,
-                    style: const TextStyle(color: Colors.white),
+                    style: Theme.of(context).textTheme.bodySmall,
                   ),
                 )
               : null,

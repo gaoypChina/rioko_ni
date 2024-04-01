@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:rioko_ni/core/injector.dart';
 import 'package:rioko_ni/core/presentation/cubit/revenue_cat_cubit.dart';
@@ -13,6 +14,7 @@ void main() async {
   await EasyLocalization.ensureInitialized();
   await registerDependencies();
   await Hive.initFlutter();
+  await SystemChrome.setEnabledSystemUIMode(SystemUiMode.leanBack);
   runApp(
     EasyLocalization(
       supportedLocales: const [Locale('en'), Locale('pl')],
@@ -78,8 +80,16 @@ class _RiokoNiState extends State<RiokoNi> {
         iconTheme: const IconThemeData(
           color: Colors.white,
         ),
+        drawerTheme: const DrawerThemeData(
+          backgroundColor: Colors.black,
+          shadowColor: Colors.tealAccent,
+        ),
         primaryColor: Colors.teal,
         textTheme: const TextTheme(
+          bodySmall: TextStyle(
+            fontFamily: 'Nasalization',
+            color: Colors.white,
+          ),
           bodyMedium: TextStyle(
             fontFamily: 'Nasalization',
           ),
@@ -101,6 +111,13 @@ class _RiokoNiState extends State<RiokoNi> {
       supportedLocales: context.supportedLocales,
       locale: context.locale,
       home: const HomePage(),
+      builder: (context, child) => Overlay(
+        initialEntries: [
+          OverlayEntry(
+            builder: (context) => child!,
+          ),
+        ],
+      ),
     );
   }
 }

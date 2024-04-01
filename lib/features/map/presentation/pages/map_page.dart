@@ -6,10 +6,11 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rioko_ni/core/injector.dart';
 import 'package:rioko_ni/core/presentation/map.dart';
 import 'package:rioko_ni/core/presentation/widgets/animated_fab.dart';
+import 'package:rioko_ni/core/presentation/widgets/rioko_drawer.dart';
 import 'package:rioko_ni/features/map/presentation/cubit/map_cubit.dart';
 import 'package:rioko_ni/features/map/presentation/widgets/country_management_dialog.dart';
 import 'package:rioko_ni/features/map/presentation/widgets/search_country_dialog.dart';
-import 'package:rioko_ni/features/map/presentation/widgets/stats_ui.dart';
+import 'package:rioko_ni/features/map/presentation/widgets/floating_ui.dart';
 import 'package:rioko_ni/features/map/presentation/widgets/world_statistics_map.dart';
 import 'package:toastification/toastification.dart';
 
@@ -44,6 +45,14 @@ class _MapPageState extends State<MapPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: RiokoDrawer(
+        showWorldStatistics: showWorldStatistics,
+        openTopBehindDrawer: () {
+          showTopBehindDrawer = true;
+          showWorldStatistics = true;
+          setState(() {});
+        },
+      ),
       backgroundColor: const Color.fromARGB(255, 0, 0, 0),
       body: BlocConsumer<MapCubit, MapState>(
         listener: (context, state) {
@@ -96,20 +105,13 @@ class _MapPageState extends State<MapPage> {
                     ),
                     child: _buildMap(context),
                   ),
-                  StatsUI(
-                    been: _cubit.beenCountries.length,
-                    want: _cubit.wantCountries.length,
-                    lived: _cubit.livedCountries.length,
-                    toggleTopBehindDrawer: () async {
-                      showTopBehindDrawer = !showTopBehindDrawer;
-                      setState(() {});
-                      if (!showTopBehindDrawer) {
-                        await Future.delayed(const Duration(milliseconds: 500));
-                      }
+                  FloatingUI(
+                    lowerTopUI: showTopBehindDrawer,
+                    openTopBehindDrawer: () {
+                      showTopBehindDrawer = true;
                       showWorldStatistics = showTopBehindDrawer;
                       setState(() {});
                     },
-                    lowerTopUI: showTopBehindDrawer,
                   ),
                 ],
               );
@@ -154,7 +156,9 @@ class _MapPageState extends State<MapPage> {
       livedCountries: _cubit.livedCountries,
       controller: mapController,
       onTap: (position, latLng) {
-        _closeTopDrawer();
+        if (showTopBehindDrawer) {
+          return _closeTopDrawer();
+        }
         final country = _cubit.getCountryFromPosition(latLng);
         if (country == null) return;
         CountryManagementDialog(country: country).show(context);

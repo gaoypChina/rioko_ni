@@ -10,7 +10,8 @@
             "shareUnavailable": "Udostępnianie plików na tym urządzeniu jest niedostępne",
             "productFetch": "Nie można poprawnie pobrać produktu",
             "purchaseNotAllowed": "Zakupy są niedozwolone na tym urządzeniu",
-            "purchaseInvalid": "Zakup nie został ukończony, sprawdź źródło płatności"
+            "purchaseInvalid": "Zakup nie został ukończony, sprawdź źródło płatności",
+            "launchUrl": "Nie można otworzyć {}"
         },
         "errorMessageTitle": "Błąd",
         "successMessageTitle": "Sukces",
@@ -314,6 +315,14 @@
         "labels": {
             "share": "Udostępnij",
             "buyPremium": "Kup Rioko Premium"
+        }
+    },
+    "drawer": {
+        "labels": {
+            "showStatistics": "Pokaż statystyki",
+            "shareStatistics": "Udostępnij swoje statystyki",
+            "changeTheme": "Zmień motyw",
+            "privacyPolicy": "Polityka prywatności"
         }
     }
 }

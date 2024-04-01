@@ -2,28 +2,21 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rioko_ni/core/config/app_sizes.dart';
+import 'package:rioko_ni/core/injector.dart';
+import 'package:rioko_ni/features/map/presentation/cubit/map_cubit.dart';
 
-class StatsUI extends StatelessWidget {
-  final int been;
-  final int want;
-  final int lived;
-  final void Function() toggleTopBehindDrawer;
+class FloatingUI extends StatelessWidget {
   final bool lowerTopUI;
 
-  const StatsUI({
-    required this.been,
-    required this.want,
-    required this.lived,
-    required this.toggleTopBehindDrawer,
+  final void Function() openTopBehindDrawer;
+
+  FloatingUI({
     required this.lowerTopUI,
+    required this.openTopBehindDrawer,
     super.key,
   });
 
-  TextStyle get style => const TextStyle(
-        color: Colors.white,
-        fontWeight: FontWeight.bold,
-        fontSize: 15,
-      );
+  final _cubit = locator<MapCubit>();
 
   double getTopMargin(BuildContext context) =>
       AppSizes.paddingTriple +
@@ -46,45 +39,8 @@ class StatsUI extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Expanded(
-                  child: Container(
-                    height: 50,
-                    alignment: Alignment.topCenter,
-                    margin: const EdgeInsets.only(right: AppSizes.padding),
-                    padding: const EdgeInsets.symmetric(
-                      vertical: AppSizes.padding,
-                      horizontal: AppSizes.paddingTriple,
-                    ),
-                    decoration: BoxDecoration(
-                      color: Colors.black45,
-                      border: Border.all(
-                          color: Colors.tealAccent.withOpacity(0.7), width: 1),
-                      borderRadius: BorderRadius.circular(AppSizes.radius),
-                    ),
-                    child: Center(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text(
-                            "${tr('$l10n.labels.been')}: $been",
-                            style: style,
-                          ),
-                          Text(
-                            "${tr('$l10n.labels.want')}: $want",
-                            style: style,
-                          ),
-                          Text(
-                            "${tr('$l10n.labels.lived')}: $lived",
-                            style: style,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
                 GestureDetector(
-                  onTap: toggleTopBehindDrawer,
+                  onTap: Scaffold.of(context).openDrawer,
                   child: Container(
                     height: 50,
                     width: 50,
@@ -98,8 +54,45 @@ class StatsUI extends StatelessWidget {
                     padding: const EdgeInsets.only(bottom: 1),
                     child: const Center(
                       child: FaIcon(
-                        FontAwesomeIcons.chartPie,
+                        FontAwesomeIcons.bars,
                         size: 20,
+                      ),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Container(
+                    height: 50,
+                    alignment: Alignment.topCenter,
+                    margin: const EdgeInsets.only(left: AppSizes.padding),
+                    padding: const EdgeInsets.symmetric(
+                      vertical: AppSizes.padding,
+                      horizontal: AppSizes.paddingTriple,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.black45,
+                      border: Border.all(
+                          color: Colors.tealAccent.withOpacity(0.7), width: 1),
+                      borderRadius: BorderRadius.circular(AppSizes.radius),
+                    ),
+                    child: Center(
+                      child: GestureDetector(
+                        onTap: openTopBehindDrawer,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              "${tr('$l10n.labels.been')}: ${_cubit.beenCountries.length}",
+                            ),
+                            Text(
+                              "${tr('$l10n.labels.want')}: ${_cubit.wantCountries.length}",
+                            ),
+                            Text(
+                              "${tr('$l10n.labels.lived')}: ${_cubit.livedCountries.length}",
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),

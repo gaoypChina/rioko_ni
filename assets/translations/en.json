@@ -10,7 +10,8 @@
             "shareUnavailable": "File sharing on this device is not available",
             "productFetch": "Unable to download product correctly",
             "purchaseNotAllowed": "Purchases not allowed on this device",
-            "purchaseInvalid": "Purchase invalid, check payment source"
+            "purchaseInvalid": "Purchase invalid, check payment source",
+            "launchUrl": "Could not open {}"
         },
         "errorMessageTitle": "Error",
         "successMessageTitle": "Success",
@@ -314,6 +315,14 @@
         "labels": {
             "share": "Share",
             "buyPremium": "Buy Rioko Premium"
+        }
+    },
+    "drawer": {
+        "labels": {
+            "showStatistics": "Show statistics",
+            "shareStatistics": "Share your statistics",
+            "changeTheme": "Change theme",
+            "privacyPolicy": "Privacy policy"
         }
     }
 }
