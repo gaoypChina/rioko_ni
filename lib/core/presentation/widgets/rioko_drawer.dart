@@ -121,7 +121,7 @@ class RiokoDrawer extends StatelessWidget {
               ),
               onTap: () async {
                 final success = await launchUrl(Uri.parse(
-                    'https://www.dropbox.com/scl/fi/zdfck2mcc2e8p46ve74ak/rioko_privacy_policy.pdf?rlkey=fzphc0bux0gn07ccjrgnilcir&dl=0'));
+                    'https://www.freeprivacypolicy.com/live/a5ed11ff-966d-4ba8-97f7-ede0a81bfb62'));
                 if (success) {
                   toastification.show(
                     context: RiokoNi.navigatorKey.currentContext!,
