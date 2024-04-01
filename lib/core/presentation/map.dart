@@ -71,6 +71,7 @@ class MapBuilder {
     layers.add(
       PolygonLayer(
         polygonCulling: true,
+        polygonLabels: false,
         polygons: [
           ...Iterable2(beenCountries.map((country) => country.polygons(
                         borderColor: country.status.color,

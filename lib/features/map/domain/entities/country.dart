@@ -145,10 +145,77 @@ class Country with _$Country {
     borderColor ??= Colors.red;
     borderWidth ??= 2.0;
 
+    final polygons = _getFeatureCollectionPolygons();
+
+    // Process each polygon
+    for (Polygon polygon in polygons) {
+      List<LatLng> points = [];
+
+      // Skip polygons without exterior positions
+      if (polygon.exterior == null) continue;
+
+      // Calculate the threshold for the number of polygons
+      int polygonsNumberThreshold = polygons.length ~/ 3;
+      if (polygonsNumberThreshold > 10) {
+        polygonsNumberThreshold = 10;
+      }
+      if (polygonsNumberThreshold < 1) {
+        polygonsNumberThreshold = 1;
+      }
+
+      // Check if the polygons number threshold is reached
+      if (result.length >= polygonsNumberThreshold) {
+        return result;
+      }
+
+      // Convert GeoJSON positions to LatLng points
+      polygon.exterior?.positions.forEach((position) {
+        double latitude = position.y;
+        double longitude = position.x;
+
+        // Ensure longitude is within the valid range of flutter_map coordination system
+        if (longitude <= -180 || longitude >= 180) {
+          longitude = longitude.clamp(-179.999999, 179.999999);
+        }
+
+        points.add(LatLng(latitude, longitude));
+      });
+
+      // Skip invalid polygons
+      if (points.isEmpty || points.length < 2 || points.first != points.last) {
+        continue;
+      }
+
+      fm.Polygon fmPolygon = fm.Polygon(
+        points: points,
+        borderColor: borderColor,
+        borderStrokeWidth: borderWidth,
+        isFilled: true,
+        color: borderColor.withOpacity(0.3),
+      );
+
+      // Apply simplification if the number of points exceeds the points number threshold
+      if (fmPolygon.points.length > pointsNumberReductionThreshold) {
+        fmPolygon = Polygon2(fmPolygon)
+            .simplify(reductionPercentage: reductionPercentage);
+      }
+
+      result = [
+        ...result,
+        fmPolygon,
+      ];
+    }
+
+    // Caching the polygons
+    fmPolygons = result;
+    return result;
+  }
+
+  List<Polygon> _getFeatureCollectionPolygons() {
+    List<Polygon> polygons = [];
+
     // Iterate through each GeoJSON feature in the collection
     for (Feature feature in featureCollection.features) {
-      List<Polygon> polygons = [];
-
       // Extract polygons from the feature's geometry
       if (feature.geometry is Polygon) {
         polygons.add(feature.geometry as Polygon);
@@ -166,84 +233,35 @@ class Country with _$Country {
             })
         ];
       }
-
-      // Process each polygon
-      for (Polygon polygon in polygons) {
-        List<LatLng> points = [];
-
-        // Skip polygons without exterior positions
-        if (polygon.exterior == null) continue;
-
-        // Calculate the threshold for the number of polygons
-        int polygonsNumberThreshold = polygons.length ~/ 3;
-        if (polygonsNumberThreshold > 10) {
-          polygonsNumberThreshold = 10;
-        }
-        if (polygonsNumberThreshold < 1) {
-          polygonsNumberThreshold = 1;
-        }
-
-        // Check if the polygons number threshold is reached
-        if (result.length >= polygonsNumberThreshold) {
-          return result;
-        }
-
-        // Convert GeoJSON positions to LatLng points
-        polygon.exterior?.positions.forEach((position) {
-          double latitude = position.y;
-          double longitude = position.x;
-
-          // Ensure longitude is within the valid range of flutter_map coordination system
-          if (longitude <= -180 || longitude >= 180) {
-            longitude = longitude.clamp(-179.999999, 179.999999);
-          }
-
-          points.add(LatLng(latitude, longitude));
-        });
-
-        // Skip invalid polygons
-        if (points.isEmpty ||
-            points.length < 2 ||
-            points.first != points.last) {
-          continue;
-        }
-
-        fm.Polygon fmPolygon = fm.Polygon(
-          points: points,
-          borderColor: borderColor,
-          borderStrokeWidth: borderWidth,
-          isFilled: true,
-          color: borderColor.withOpacity(0.3),
-        );
-
-        // Apply simplification if the number of points exceeds the points number threshold
-        if (fmPolygon.points.length > pointsNumberReductionThreshold) {
-          fmPolygon = Polygon2(fmPolygon)
-              .simplify(reductionPercentage: reductionPercentage);
-        }
-
-        result = [
-          ...result,
-          fmPolygon,
-        ];
-      }
     }
-    // Caching the polygons
-    fmPolygons = result;
-    return result;
+    return polygons;
   }
 
   bool contains(LatLng position) {
-    final poly = polygons();
+    final poly = _getFeatureCollectionPolygons();
     // First check if the position is in the bounding box
-    final result = poly.where((p) => p.boundingBox.contains(position));
+    final result = poly.where((p) {
+      final corners = p.calculateBounds(scheme: Geographic.scheme)!.corners2D;
+      LatLng? corner1;
+      LatLng? corner2;
+      if (corners.length == 2) {
+        corner1 = LatLng(corners.first.y, corners.first.x);
+        corner2 = LatLng(corners.last.y, corners.last.x);
+      }
+      if (corners.length == 4) {
+        corner1 = LatLng(corners.first.y, corners.first.x);
+        corner2 = LatLng(corners.elementAt(2).y, corners.elementAt(2).x);
+      }
+      if (corner1 == null || corner2 == null) return false;
+      return fm.LatLngBounds(corner1, corner2).contains(position);
+    });
     if (result.isEmpty) return false;
     // And then execute more complex method to check if position is inside the geometry
     return poly.any(
       (p) => pip.Poly.isPointInPolygon(
         pip.Point(x: position.longitude, y: position.latitude),
-        p.points
-            .map((latLng) => pip.Point(x: latLng.longitude, y: latLng.latitude))
+        p.exterior!.positions
+            .map((position) => pip.Point(x: position.x, y: position.y))
             .toList(),
       ),
     );
