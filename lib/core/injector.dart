@@ -8,8 +8,6 @@ import 'package:rioko_ni/core/presentation/cubit/theme_cubit.dart';
 import 'package:rioko_ni/features/map/data/datasources/map_local_data_source_impl.dart';
 import 'package:rioko_ni/features/map/data/repositories/map_repository_impl.dart';
 import 'package:rioko_ni/features/map/domain/usecases/get_countries.dart';
-import 'package:rioko_ni/features/map/domain/usecases/read_countries_locally.dart';
-import 'package:rioko_ni/features/map/domain/usecases/save_countries_locally.dart';
 import 'package:rioko_ni/features/map/presentation/cubit/map_cubit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -60,15 +58,10 @@ Future registerDependencies() async {
   ));
   locator.registerSingleton<GetCountries>(
       GetCountries(locator<MapRepositoryImpl>()));
-  locator.registerSingleton<ReadCountriesLocally>(
-      ReadCountriesLocally(locator<MapRepositoryImpl>()));
-  locator.registerSingleton<SaveCountriesLocally>(
-      SaveCountriesLocally(locator<MapRepositoryImpl>()));
+
   locator.registerSingleton<MapCubit>(
     MapCubit(
       getCountryPolygonUsecase: locator<GetCountries>(),
-      saveCountriesLocallyUsecase: locator<SaveCountriesLocally>(),
-      readCountriesLocallyUsecase: locator<ReadCountriesLocally>(),
     ),
   );
   // Revenue cat

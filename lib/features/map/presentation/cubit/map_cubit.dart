@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:rioko_ni/core/domain/usecase.dart';
@@ -12,8 +13,6 @@ import 'package:rioko_ni/core/utils/geolocation_handler.dart';
 
 import 'package:rioko_ni/features/map/domain/entities/country.dart';
 import 'package:rioko_ni/features/map/domain/usecases/get_countries.dart';
-import 'package:rioko_ni/features/map/domain/usecases/read_countries_locally.dart';
-import 'package:rioko_ni/features/map/domain/usecases/save_countries_locally.dart';
 import 'package:collection/collection.dart';
 
 part 'map_state.dart';
@@ -26,12 +25,8 @@ enum Countries {
 
 class MapCubit extends Cubit<MapState> {
   final GetCountries getCountryPolygonUsecase;
-  final ReadCountriesLocally readCountriesLocallyUsecase;
-  final SaveCountriesLocally saveCountriesLocallyUsecase;
   MapCubit({
     required this.getCountryPolygonUsecase,
-    required this.readCountriesLocallyUsecase,
-    required this.saveCountriesLocallyUsecase,
   }) : super(const MapState.initial());
 
   List<Country> countries = [];
@@ -51,6 +46,7 @@ class MapCubit extends Cubit<MapState> {
   void load() async {
     emit(const MapState.loading());
     await _getDir();
+    await Hive.openBox('countries');
     _getCurrentPosition();
     _getCountryPolygons().then((_) => _getLocalCountryData());
   }
@@ -81,27 +77,32 @@ class MapCubit extends Cubit<MapState> {
   }
 
   Future _getLocalCountryData() async {
-    await readCountriesLocallyUsecase.call(NoParams()).then(
-          (result) => result.fold(
-            (failure) => MapState.error(failure.message),
-            (data) {
-              countries
-                  .where((c) => data.beenCodes.contains(c.alpha3))
-                  .forEach((country) => country.status = CountryStatus.been);
-              countries
-                  .where((c) => data.wantCodes.contains(c.alpha3))
-                  .forEach((country) => country.status = CountryStatus.want);
-              countries
-                  .where((c) => data.livedCodes.contains(c.alpha3))
-                  .forEach((country) => country.status = CountryStatus.lived);
-              emit(MapState.readCountriesData(
-                been: beenCountries,
-                want: wantCountries,
-                lived: livedCountries,
-              ));
-            },
-          ),
-        );
+    var box = Hive.box('countries');
+    final List<String> beenCodes = box.get('been') ?? [];
+    final List<String> wantCodes = box.get('want') ?? [];
+    final List<String> livedCodes = box.get('lived') ?? [];
+
+    if (beenCodes.isNotEmpty) {
+      countries
+          .where((c) => beenCodes.contains(c.alpha3))
+          .forEach((country) => country.status = CountryStatus.been);
+    }
+    if (wantCodes.isNotEmpty) {
+      countries
+          .where((c) => wantCodes.contains(c.alpha3))
+          .forEach((country) => country.status = CountryStatus.want);
+    }
+    if (livedCodes.isNotEmpty) {
+      countries
+          .where((c) => livedCodes.contains(c.alpha3))
+          .forEach((country) => country.status = CountryStatus.lived);
+    }
+
+    emit(MapState.readCountriesData(
+      been: beenCountries,
+      want: wantCountries,
+      lived: livedCountries,
+    ));
   }
 
   List<Country> get beenCountries =>
@@ -238,22 +239,15 @@ class MapCubit extends Cubit<MapState> {
   // -----
 
   Future saveCountriesLocally() async {
-    await saveCountriesLocallyUsecase
-        .call(ManageCountriesLocallyParams(
-          beenCodes: beenCountries.map((c) => c.alpha3).toList(),
-          wantCodes: wantCountries.map((c) => c.alpha3).toList(),
-          livedCodes: livedCountries.map((c) => c.alpha3).toList(),
-        ))
-        .then(
-          (result) => result.fold(
-            (failure) => MapState.error(failure.message),
-            (data) => emit(MapState.savedCountriesData(
-              been: beenCountries,
-              want: wantCountries,
-              lived: livedCountries,
-            )),
-          ),
-        );
+    var box = Hive.box('countries');
+    await box.put('been', beenCountries.map((c) => c.alpha3).toList());
+    await box.put('want', wantCountries.map((c) => c.alpha3).toList());
+    await box.put('lived', livedCountries.map((c) => c.alpha3).toList());
+    emit(MapState.savedCountriesData(
+      been: beenCountries,
+      want: wantCountries,
+      lived: livedCountries,
+    ));
   }
 
   void error(String error) => emit(MapState.error(error));
