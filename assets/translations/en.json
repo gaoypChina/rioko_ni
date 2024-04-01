@@ -324,5 +324,8 @@
             "changeTheme": "Change theme",
             "privacyPolicy": "Privacy policy"
         }
+    },
+    "changeThemeDialog": {
+        "buttonName": "Select this theme"
     }
 }

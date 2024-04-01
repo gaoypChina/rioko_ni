@@ -324,5 +324,8 @@
             "changeTheme": "Zmień motyw",
             "privacyPolicy": "Polityka prywatności"
         }
+    },
+    "changeThemeDialog": {
+        "buttonName": "Wybierz ten motyw"
     }
 }

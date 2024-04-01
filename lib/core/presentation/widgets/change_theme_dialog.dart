@@ -151,7 +151,7 @@ class _ChangeThemeDialogState extends State<ChangeThemeDialog> {
         }
       },
       child: isOptionAvailable
-          ? Text('Select this theme')
+          ? Text(tr('changeThemeDialog.buttonName'))
           : Row(
               mainAxisSize: MainAxisSize.min,
               children: [

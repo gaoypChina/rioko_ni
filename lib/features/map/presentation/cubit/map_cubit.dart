@@ -34,6 +34,8 @@ class MapCubit extends Cubit<MapState> {
     required this.saveCountriesLocallyUsecase,
   }) : super(const MapState.initial());
 
+  List<Country> countries = [];
+
   String get urlTemplate {
     final themeCubit = locator<ThemeCubit>();
     switch (themeCubit.type) {
@@ -45,8 +47,6 @@ class MapCubit extends Cubit<MapState> {
         return "https://api.mapbox.com/styles/v1/mister-lucifer/cls7m179n00lz01qldhet90ig/tiles/256/{z}/{x}/{y}{r}?access_token={accessToken}";
     }
   }
-
-  List<Country> countries = [];
 
   void load() async {
     emit(const MapState.loading());

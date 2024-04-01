@@ -1,18 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 part 'theme_state.dart';
 part 'theme_cubit.freezed.dart';
+part 'theme_cubit.g.dart';
 
+@HiveType(typeId: 0)
 enum ThemeDataType {
+  @HiveField(0)
   classic,
+  @HiveField(1)
   dark,
+  @HiveField(2)
   monochrome,
 }
 
 class ThemeCubit extends Cubit<ThemeDataType> {
-  ThemeCubit() : super(ThemeDataType.classic);
+  ThemeCubit({ThemeDataType? type})
+      : type = type ?? ThemeDataType.classic,
+        super(type ?? ThemeDataType.classic);
 
   ThemeDataType type = ThemeDataType.classic;
 
@@ -215,6 +223,8 @@ class ThemeCubit extends Cubit<ThemeDataType> {
 
   void changeTheme(ThemeDataType type) {
     this.type = type;
+    var box = Hive.box('theme_data');
+    box.put('type', type);
     emit(type);
   }
 }

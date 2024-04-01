@@ -13,9 +13,11 @@ import 'package:toastification/toastification.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
+  Hive.registerAdapter(ThemeDataTypeAdapter());
+  await Hive.openBox('theme_data');
   await EasyLocalization.ensureInitialized();
   await registerDependencies();
-  await Hive.initFlutter();
   await SystemChrome.setEnabledSystemUIMode(SystemUiMode.leanBack);
   runApp(
     EasyLocalization(

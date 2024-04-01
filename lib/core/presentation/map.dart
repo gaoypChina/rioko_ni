@@ -7,6 +7,8 @@ import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:rioko_ni/core/extensions/color2.dart';
 import 'package:rioko_ni/core/extensions/iterable2.dart';
+import 'package:rioko_ni/core/injector.dart';
+import 'package:rioko_ni/core/presentation/cubit/theme_cubit.dart';
 import 'package:rioko_ni/features/map/domain/entities/country.dart';
 import 'package:rioko_ni/main.dart';
 
@@ -65,7 +67,8 @@ class MapBuilder {
                 maxStale: const Duration(days: 365),
                 store: HiveCacheStore(
                   dir,
-                  hiveBoxName: 'HiveCacheStore',
+                  hiveBoxName:
+                      'HiveCacheStore_${locator<ThemeCubit>().type.name}',
                 ),
               ),
       ),

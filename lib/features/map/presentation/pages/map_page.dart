@@ -22,7 +22,7 @@ class MapPage extends StatefulWidget {
 }
 
 class _MapPageState extends State<MapPage> {
-  final _cubit = locator<MapCubit>();
+  final _mapCubit = locator<MapCubit>();
 
   bool showTopBehindDrawer = false;
 
@@ -81,19 +81,22 @@ class _MapPageState extends State<MapPage> {
                 children: [
                   WorldStatisticsMap(
                     naPercentage: showWorldStatistics
-                        ? _cubit.beenNorthAmericaPercentage
+                        ? _mapCubit.beenNorthAmericaPercentage
                         : 0,
                     saPercentage: showWorldStatistics
-                        ? _cubit.beenSouthAmericaPercentage
+                        ? _mapCubit.beenSouthAmericaPercentage
                         : 0,
-                    euPercentage:
-                        showWorldStatistics ? _cubit.beenEuropePercentage : 0,
-                    afPercentage:
-                        showWorldStatistics ? _cubit.beenAfricaPercentage : 0,
+                    euPercentage: showWorldStatistics
+                        ? _mapCubit.beenEuropePercentage
+                        : 0,
+                    afPercentage: showWorldStatistics
+                        ? _mapCubit.beenAfricaPercentage
+                        : 0,
                     asPercentage:
-                        showWorldStatistics ? _cubit.beenAsiaPercentage : 0,
-                    ocPercentage:
-                        showWorldStatistics ? _cubit.beenOceaniaPercentage : 0,
+                        showWorldStatistics ? _mapCubit.beenAsiaPercentage : 0,
+                    ocPercentage: showWorldStatistics
+                        ? _mapCubit.beenOceaniaPercentage
+                        : 0,
                     onTapShare: () => Future.delayed(
                         const Duration(milliseconds: 200),
                         () => _closeTopDrawer()),
@@ -154,20 +157,20 @@ class _MapPageState extends State<MapPage> {
     return MapBuilder().build(
       key: _mapKey,
       context,
-      urlTemplate: _cubit.urlTemplate,
-      beenCountries: _cubit.beenCountries,
-      wantCountries: _cubit.wantCountries,
-      livedCountries: _cubit.livedCountries,
+      urlTemplate: _mapCubit.urlTemplate,
+      beenCountries: _mapCubit.beenCountries,
+      wantCountries: _mapCubit.wantCountries,
+      livedCountries: _mapCubit.livedCountries,
       controller: mapController,
       onTap: (position, latLng) {
         if (showTopBehindDrawer) {
           return _closeTopDrawer();
         }
-        final country = _cubit.getCountryFromPosition(latLng);
+        final country = _mapCubit.getCountryFromPosition(latLng);
         if (country == null) return;
         CountryManagementDialog(country: country).show(context);
       },
-      dir: _cubit.dir,
+      dir: _mapCubit.dir,
     );
   }
 
