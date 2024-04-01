@@ -7,6 +7,7 @@ import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:rioko_ni/core/config/app_sizes.dart';
 import 'package:rioko_ni/core/extensions/iterable2.dart';
 import 'package:rioko_ni/core/injector.dart';
+import 'package:rioko_ni/core/presentation/cubit/theme_cubit.dart';
 import 'package:rioko_ni/features/map/domain/entities/country.dart';
 import 'package:rioko_ni/features/map/presentation/cubit/map_cubit.dart';
 import 'package:rioko_ni/features/map/presentation/widgets/share_dialog.dart';
@@ -34,6 +35,18 @@ class WorldStatisticsMap extends StatelessWidget {
   String get l10n => 'worldStatisticsMap';
 
   final _cubit = locator<MapCubit>();
+
+  final _themeCubit = locator<ThemeCubit>();
+
+  Color primaryColor(BuildContext context) {
+    switch (_themeCubit.type) {
+      case ThemeDataType.classic:
+      case ThemeDataType.dark:
+        return Theme.of(context).colorScheme.onPrimary;
+      case ThemeDataType.monochrome:
+        return Colors.white;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -149,7 +162,7 @@ class WorldStatisticsMap extends StatelessWidget {
             ),
             textAlign: TextAlign.center,
           ),
-          progressColor: Theme.of(context).colorScheme.onPrimary,
+          progressColor: primaryColor(context),
           backgroundColor:
               Theme.of(context).colorScheme.onPrimary.withOpacity(0.15),
           circularStrokeCap: CircularStrokeCap.round,

@@ -154,7 +154,62 @@ class ThemeCubit extends Cubit<ThemeDataType> {
           ),
         );
       case ThemeDataType.monochrome:
-        return _default.copyWith();
+        return ThemeData.dark(
+          useMaterial3: true,
+        ).copyWith(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.grey).copyWith(
+            background: Colors.black,
+            onBackground: const Color.fromARGB(255, 27, 27, 27),
+            primary: const Color.fromARGB(250, 67, 116, 146),
+            onPrimary: const Color.fromARGB(76, 15, 163, 255),
+            secondary: const Color.fromARGB(255, 203, 109, 238),
+            onSecondary: const Color.fromARGB(76, 255, 102, 133),
+            tertiary: Colors.white,
+            onTertiary: Colors.white30,
+          ),
+          floatingActionButtonTheme: const FloatingActionButtonThemeData(
+            backgroundColor: Colors.black,
+            foregroundColor: Colors.white,
+          ),
+          iconTheme: const IconThemeData(
+            color: Colors.white,
+          ),
+          drawerTheme: const DrawerThemeData(
+            backgroundColor: Colors.black,
+            shadowColor: Colors.tealAccent,
+          ),
+          primaryColor: Colors.grey,
+          textTheme: const TextTheme(
+            bodySmall: TextStyle(
+              fontFamily: 'Nasalization',
+              color: Colors.white,
+            ),
+            bodyMedium: TextStyle(
+              fontFamily: 'Nasalization',
+            ),
+            titleSmall: TextStyle(
+              color: Colors.white70,
+              fontFamily: 'Nasalization',
+            ),
+            titleMedium: TextStyle(
+              color: Colors.white,
+              fontFamily: 'Nasalization',
+            ),
+            titleLarge: TextStyle(
+              fontFamily: 'Nasalization',
+            ),
+            headlineMedium: TextStyle(
+              fontFamily: 'Nasalization',
+              color: Colors.white,
+              fontSize: 17,
+            ),
+            headlineLarge: TextStyle(
+              fontFamily: 'Nasalization',
+              color: Colors.white,
+              fontSize: 22,
+            ),
+          ),
+        );
     }
   }
 

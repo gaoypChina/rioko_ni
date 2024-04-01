@@ -104,7 +104,7 @@ class _ChangeThemeDialogState extends State<ChangeThemeDialog> {
                     return GestureDetector(
                       onTap: () => setState(() => selectedIndex = index),
                       child: Opacity(
-                        opacity: selectedIndex == index ? 1.0 : 0.5,
+                        opacity: selectedIndex == index ? 1.0 : 0.3,
                         child: Container(
                           padding: const EdgeInsets.all(AppSizes.paddingDouble),
                           decoration: BoxDecoration(
@@ -144,9 +144,11 @@ class _ChangeThemeDialogState extends State<ChangeThemeDialog> {
           return;
         }
         Navigator.of(context).pop();
-        _themeCubit.changeTheme(selectedTheme);
-        RestartWidget.restartApp(context);
-        widget.updateMap();
+        if (selectedTheme != _themeCubit.type) {
+          _themeCubit.changeTheme(selectedTheme);
+          RestartWidget.restartApp(context);
+          widget.updateMap();
+        }
       },
       child: isOptionAvailable
           ? Text('Select this theme')

@@ -5,6 +5,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_cache/flutter_map_cache.dart';
 import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:rioko_ni/core/extensions/color2.dart';
 import 'package:rioko_ni/core/extensions/iterable2.dart';
 import 'package:rioko_ni/features/map/domain/entities/country.dart';
 import 'package:rioko_ni/main.dart';
@@ -81,7 +82,7 @@ class MapBuilder {
                   borderColor: country.status.color,
                   borderStrokeWidth: 2.0,
                   isFilled: true,
-                  color: country.status.color.withOpacity(0.3),
+                  color: country.status.color.withMultipliedOpacity(0.3),
                 );
               });
             }),
@@ -99,7 +100,7 @@ class MapBuilder {
                   borderColor: country.status.color,
                   borderStrokeWidth: 2.0,
                   isFilled: true,
-                  color: country.status.color.withOpacity(0.3),
+                  color: country.status.color.withMultipliedOpacity(0.3),
                 );
               });
             }),
@@ -117,35 +118,13 @@ class MapBuilder {
                   borderColor: country.status.color,
                   borderStrokeWidth: 2.0,
                   isFilled: true,
-                  color: country.status.color.withOpacity(0.3),
+                  color: country.status.color.withMultipliedOpacity(0.3),
                 );
               });
             }),
           ).reduceOrNull((value, element) => [...value, ...element]) ??
           [],
     );
-    // layers.add(
-    //   PolygonLayer(
-    //     polygonCulling: true,
-    //     polygons: [
-    //       ...Iterable2(beenCountries.map((country) => country.polygons(
-    //                     borderColor: country.status.color,
-    //                   )))
-    //               .reduceOrNull((value, element) => [...value, ...element]) ??
-    //           [],
-    //       ...Iterable2(wantCountries.map((country) => country.polygons(
-    //                     borderColor: country.status.color,
-    //                   )))
-    //               .reduceOrNull((value, element) => [...value, ...element]) ??
-    //           [],
-    //       ...Iterable2(livedCountries.map((country) => country.polygons(
-    //                     borderColor: country.status.color,
-    //                   )))
-    //               .reduceOrNull((value, element) => [...value, ...element]) ??
-    //           [],
-    //     ],
-    //   ),
-    // );
     layers.add(PolygonLayer(polygons: polygons));
     layers.add(
       CurrentLocationLayer(

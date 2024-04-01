@@ -43,7 +43,7 @@ class RiokoDrawer extends StatelessWidget {
         return Colors.black;
       case ThemeDataType.dark:
       case ThemeDataType.monochrome:
-        return Theme.of(context).colorScheme.onPrimary;
+        return Theme.of(context).colorScheme.onPrimary.withOpacity(1.0);
     }
   }
 
