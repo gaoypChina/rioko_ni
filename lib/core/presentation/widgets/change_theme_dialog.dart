@@ -68,6 +68,11 @@ class _ChangeThemeDialogState extends State<ChangeThemeDialog> {
 
   ThemeDataType get selectedTheme => ThemeDataType.values[selectedIndex];
 
+  Color get iconColor {
+    if (selectedIndex == 0) return Colors.black;
+    return Colors.white;
+  }
+
   @override
   void initState() {
     selectedIndex = ThemeDataType.values.indexOf(_themeCubit.type);
@@ -103,20 +108,33 @@ class _ChangeThemeDialogState extends State<ChangeThemeDialog> {
                   itemBuilder: (context, index) {
                     return GestureDetector(
                       onTap: () => setState(() => selectedIndex = index),
-                      child: Opacity(
-                        opacity: selectedIndex == index ? 1.0 : 0.3,
-                        child: Container(
-                          padding: const EdgeInsets.all(AppSizes.paddingDouble),
-                          decoration: BoxDecoration(
-                            borderRadius:
-                                BorderRadius.circular(AppSizes.radius),
-                            border: Border.all(
-                                color: Theme.of(context).colorScheme.primary),
-                            image: DecorationImage(
-                              image: AssetImage(
-                                assetPath(ThemeDataType.values[index]),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(AppSizes.radius),
+                          border: Border.all(
+                              color: Theme.of(context).colorScheme.primary),
+                        ),
+                        child: Opacity(
+                          opacity: selectedIndex == index ? 1.0 : 0.7,
+                          child: Container(
+                            padding: const EdgeInsets.all(AppSizes.padding),
+                            decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.circular(AppSizes.radius),
+                              image: DecorationImage(
+                                image: AssetImage(
+                                  assetPath(ThemeDataType.values[index]),
+                                ),
                               ),
                             ),
+                            alignment: Alignment.bottomRight,
+                            child: selectedIndex == index
+                                ? Icon(
+                                    Icons.check,
+                                    size: 20,
+                                    color: iconColor,
+                                  )
+                                : null,
                           ),
                         ),
                       ),
