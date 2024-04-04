@@ -48,6 +48,16 @@ class WorldStatisticsMap extends StatelessWidget {
     }
   }
 
+  double get countryOpacity {
+    switch (_themeCubit.type) {
+      case ThemeDataType.classic:
+        return 0.4;
+      case ThemeDataType.neoDark:
+      case ThemeDataType.monochrome:
+        return 0.3;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -55,6 +65,7 @@ class WorldStatisticsMap extends StatelessWidget {
       child: Stack(
         children: [
           Container(
+            color: Theme.of(context).colorScheme.background,
             width: MediaQuery.of(context).size.width,
             padding: const EdgeInsets.only(
               top: AppSizes.paddingQuintuple,
@@ -64,12 +75,13 @@ class WorldStatisticsMap extends StatelessWidget {
             ),
             child: SimpleMap(
               instructions: SMapWorld.instructionsMercator,
-              defaultColor: Colors.black,
+              defaultColor: Theme.of(context).colorScheme.background,
               countryBorder: CountryBorder(color: CountryStatus.been.color),
               colors: _cubit.beenCountries
                   .map(
                     (c) => {
-                      c.alpha2.toLowerCase(): c.status.color.withOpacity(0.3),
+                      c.alpha2.toLowerCase():
+                          c.status.color.withOpacity(countryOpacity),
                     },
                   )
                   .reduceOrNull((value, element) => {...value, ...element}),
@@ -155,8 +167,8 @@ class WorldStatisticsMap extends StatelessWidget {
           percent: percentage / 100,
           center: Text(
             "${percentage.toStringAsPrecision(3)}%",
-            style: const TextStyle(
-              color: Colors.white,
+            style: TextStyle(
+              color: Theme.of(context).snackBarTheme.actionTextColor,
               fontSize: 13,
               fontWeight: FontWeight.bold,
             ),

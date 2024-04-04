@@ -46,10 +46,10 @@ class ThemeCubit extends Cubit<ThemeDataType> {
     ).copyWith(
       background: const Color.fromARGB(255, 240, 244, 255),
       onBackground: const Color.fromARGB(255, 171, 211, 223),
-      primary: const Color.fromARGB(255, 46, 196, 182),
-      onPrimary: const Color.fromARGB(255, 152, 216, 250),
-      secondary: const Color.fromARGB(255, 255, 89, 94),
-      onSecondary: const Color.fromARGB(255, 247, 147, 147),
+      primary: const Color.fromARGB(255, 159, 139, 232),
+      onPrimary: const Color.fromARGB(255, 175, 153, 255),
+      secondary: const Color.fromARGB(255, 255, 104, 107),
+      onSecondary: const Color.fromARGB(255, 255, 166, 158),
       tertiary: Colors.grey,
       onTertiary: Colors.grey,
     ),
@@ -68,7 +68,7 @@ class ThemeCubit extends Cubit<ThemeDataType> {
     textTheme: const TextTheme(
       bodySmall: TextStyle(
         fontFamily: 'Nasalization',
-        color: Colors.white,
+        color: Colors.black,
       ),
       bodyMedium: TextStyle(
         fontFamily: 'Nasalization',

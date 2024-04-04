@@ -163,7 +163,6 @@ class _MapPageState extends State<MapPage> {
         }
         final country = _mapCubit.getCountryFromPosition(latLng);
         if (country == null) return;
-        ToastBuilder(message: country.name).show(context);
         CountryManagementDialog(country: country).show(context);
       },
       dir: _mapCubit.dir,
