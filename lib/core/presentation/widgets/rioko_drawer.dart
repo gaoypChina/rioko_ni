@@ -120,9 +120,10 @@ class RiokoDrawer extends StatelessWidget {
                 style: Theme.of(context).textTheme.headlineMedium,
               ),
               onTap: () async {
-                final success = await launchUrl(Uri.parse(
-                    'https://www.freeprivacypolicy.com/live/a5ed11ff-966d-4ba8-97f7-ede0a81bfb62'));
-                if (success) {
+                try {
+                  await launchUrl(Uri.parse(
+                      'https://www.freeprivacypolicy.com/live/a5ed11ff-966d-4ba8-97f7-ede0a81bfb62'));
+                } catch (e) {
                   toastification.show(
                     context: RiokoNi.navigatorKey.currentContext!,
                     type: ToastificationType.error,
