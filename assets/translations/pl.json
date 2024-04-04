@@ -18,6 +18,11 @@
         "purchaseSuccessfullMessage": "Zakupiono Rioko Premium!",
         "dialog": {
             "ok": "OK"
+        },
+        "themes": {
+            "classic": "Klasyczny",
+            "neoDark": "Neo Dark",
+            "monochrome": "Monochromatyczny"
         }
     },
     "map": {

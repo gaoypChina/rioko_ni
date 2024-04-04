@@ -46,7 +46,7 @@ class _ChangeThemeDialogState extends State<ChangeThemeDialog> {
     switch (type) {
       case ThemeDataType.classic:
         return AssetsHandler.classicMapExample;
-      case ThemeDataType.dark:
+      case ThemeDataType.neoDark:
         return AssetsHandler.darkMapExample;
       case ThemeDataType.monochrome:
         return AssetsHandler.monochromeMapExample;
@@ -68,7 +68,7 @@ class _ChangeThemeDialogState extends State<ChangeThemeDialog> {
 
   ThemeDataType get selectedTheme => ThemeDataType.values[selectedIndex];
 
-  Color get iconColor {
+  Color get textColor {
     if (selectedIndex == 0) return Colors.black;
     return Colors.white;
   }
@@ -117,7 +117,12 @@ class _ChangeThemeDialogState extends State<ChangeThemeDialog> {
                         child: Opacity(
                           opacity: selectedIndex == index ? 1.0 : 0.7,
                           child: Container(
-                            padding: const EdgeInsets.all(AppSizes.padding),
+                            padding: const EdgeInsets.fromLTRB(
+                              AppSizes.paddingDouble,
+                              AppSizes.padding,
+                              AppSizes.padding,
+                              AppSizes.padding,
+                            ),
                             decoration: BoxDecoration(
                               borderRadius:
                                   BorderRadius.circular(AppSizes.radius),
@@ -129,10 +134,14 @@ class _ChangeThemeDialogState extends State<ChangeThemeDialog> {
                             ),
                             alignment: Alignment.bottomRight,
                             child: selectedIndex == index
-                                ? Icon(
-                                    Icons.check,
-                                    size: 20,
-                                    color: iconColor,
+                                ? FittedBox(
+                                    fit: BoxFit.scaleDown,
+                                    child: Text(
+                                      ThemeDataType.values[index].title,
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(color: textColor),
+                                      maxLines: 1,
+                                    ),
                                   )
                                 : null,
                           ),

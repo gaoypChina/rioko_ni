@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -12,9 +13,22 @@ enum ThemeDataType {
   @HiveField(0)
   classic,
   @HiveField(1)
-  dark,
+  neoDark,
   @HiveField(2)
   monochrome,
+}
+
+extension ThemeDataTypeExtension on ThemeDataType {
+  String get title {
+    switch (this) {
+      case ThemeDataType.classic:
+        return tr('core.themes.classic');
+      case ThemeDataType.neoDark:
+        return tr('core.themes.neoDark');
+      case ThemeDataType.monochrome:
+        return tr('core.themes.monochrome');
+    }
+  }
 }
 
 class ThemeCubit extends Cubit<ThemeDataType> {
@@ -103,7 +117,7 @@ class ThemeCubit extends Cubit<ThemeDataType> {
     switch (type) {
       case ThemeDataType.classic:
         return _default;
-      case ThemeDataType.dark:
+      case ThemeDataType.neoDark:
         return ThemeData.dark(
           useMaterial3: true,
         ).copyWith(

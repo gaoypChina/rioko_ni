@@ -41,7 +41,7 @@ class RiokoDrawer extends StatelessWidget {
     switch (_themeCubit.type) {
       case ThemeDataType.classic:
         return Colors.black;
-      case ThemeDataType.dark:
+      case ThemeDataType.neoDark:
       case ThemeDataType.monochrome:
         return Theme.of(context).colorScheme.onPrimary.withOpacity(1.0);
     }
