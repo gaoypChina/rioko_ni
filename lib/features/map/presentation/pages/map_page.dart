@@ -173,6 +173,7 @@ class _MapPageState extends State<MapPage> {
         final country = _mapCubit.getCountryFromPosition(latLng);
         if (country == null) return;
         CountryManagementDialog(country: country).show(context);
+        debugPrint(latLng.toString());
       },
       dir: _mapCubit.dir,
     );
