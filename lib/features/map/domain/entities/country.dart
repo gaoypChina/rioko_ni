@@ -202,23 +202,6 @@ class Country with _$Country {
 
   bool contains(LatLng position) {
     final poly = _getFeatureCollectionPolygons();
-    // First check if the position is in the bounding box
-    final result = poly.where((p) {
-      final corners = p.calculateBounds(scheme: Geographic.scheme)!.corners2D;
-      LatLng? corner1;
-      LatLng? corner2;
-      if (corners.length == 2) {
-        corner1 = LatLng(corners.first.y, corners.first.x);
-        corner2 = LatLng(corners.last.y, corners.last.x);
-      }
-      if (corners.length == 4) {
-        corner1 = LatLng(corners.first.y, corners.first.x);
-        corner2 = LatLng(corners.elementAt(2).y, corners.elementAt(2).x);
-      }
-      if (corner1 == null || corner2 == null) return false;
-      return fm.LatLngBounds(corner1, corner2).contains(position);
-    });
-    if (result.isEmpty) return false;
     // And then execute more complex method to check if position is inside the geometry
     return poly.any(
       (p) => pip.Poly.isPointInPolygon(
