@@ -6,6 +6,7 @@ import 'package:rioko_ni/core/injector.dart';
 import 'package:rioko_ni/core/presentation/cubit/revenue_cat_cubit.dart';
 import 'package:rioko_ni/core/presentation/cubit/theme_cubit.dart';
 import 'package:rioko_ni/core/presentation/widgets/restart_widget.dart';
+import 'package:rioko_ni/core/presentation/widgets/toast.dart';
 import 'package:rioko_ni/features/map/presentation/cubit/map_cubit.dart';
 import 'package:rioko_ni/features/map/presentation/pages/map_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -100,28 +101,11 @@ class HomePage extends StatelessWidget {
     return BlocConsumer<RevenueCatCubit, RevenueCatState>(
       listener: (context, state) {
         state.maybeWhen(
-          error: (message) {
-            toastification.show(
-              context: context,
-              type: ToastificationType.error,
-              style: ToastificationStyle.minimal,
-              title: Text(tr('core.errorMessageTitle')),
-              description: Text(message),
-              autoCloseDuration: const Duration(seconds: 5),
-              alignment: Alignment.topCenter,
-            );
-          },
-          purchasedPremium: (_) {
-            toastification.show(
-              context: context,
-              type: ToastificationType.success,
-              style: ToastificationStyle.minimal,
-              title: Text(tr('core.successMessageTitle')),
-              description: Text(tr('core.purchaseSuccessfullMessage')),
-              autoCloseDuration: const Duration(seconds: 5),
-              alignment: Alignment.topCenter,
-            );
-          },
+          error: (message) => ToastBuilder(message: message).show(context),
+          purchasedPremium: (_) => ToastBuilder(
+                  message: tr('core.purchaseSuccessfullMessage'),
+                  type: ToastificationType.success)
+              .show(context),
           orElse: () => debugPrint(state.toString()),
         );
       },

@@ -8,11 +8,11 @@ import 'package:rioko_ni/core/extensions/iterable2.dart';
 import 'package:rioko_ni/core/injector.dart';
 import 'package:rioko_ni/core/presentation/cubit/theme_cubit.dart';
 import 'package:rioko_ni/core/presentation/widgets/change_theme_dialog.dart';
+import 'package:rioko_ni/core/presentation/widgets/toast.dart';
 import 'package:rioko_ni/features/map/domain/entities/country.dart';
 import 'package:rioko_ni/features/map/presentation/cubit/map_cubit.dart';
 import 'package:rioko_ni/features/map/presentation/widgets/share_dialog.dart';
 import 'package:rioko_ni/main.dart';
-import 'package:toastification/toastification.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class RiokoDrawer extends StatelessWidget {
@@ -124,16 +124,12 @@ class RiokoDrawer extends StatelessWidget {
                   await launchUrl(Uri.parse(
                       'https://www.freeprivacypolicy.com/live/a5ed11ff-966d-4ba8-97f7-ede0a81bfb62'));
                 } catch (e) {
-                  toastification.show(
-                    context: RiokoNi.navigatorKey.currentContext!,
-                    type: ToastificationType.error,
-                    style: ToastificationStyle.minimal,
-                    title: Text(tr('core.errorMessageTitle')),
-                    description: Text(tr('core.errors.launchUrl',
-                        args: [tr('$l10n.labels.privacyPolicy')])),
-                    autoCloseDuration: const Duration(seconds: 5),
-                    alignment: Alignment.topCenter,
-                  );
+                  ToastBuilder(
+                    message: tr(
+                      'core.errors.launchUrl',
+                      args: [tr('$l10n.labels.privacyPolicy')],
+                    ),
+                  ).show(RiokoNi.navigatorKey.currentContext!);
                 }
               },
             ),

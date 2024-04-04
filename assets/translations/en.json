@@ -13,8 +13,14 @@
             "purchaseInvalid": "Purchase invalid, check payment source",
             "launchUrl": "Could not open {}"
         },
-        "errorMessageTitle": "Error",
-        "successMessageTitle": "Success",
+        "toast": {
+            "titles": {
+                "error": "Error",
+                "success": "Success",
+                "info": "Info",
+                "warning": "Warning"
+            }
+        },
         "purchaseSuccessfullMessage": "Purchased Rioko Premium!",
         "dialog": {
             "ok": "OK"

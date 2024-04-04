@@ -13,9 +13,9 @@ import 'package:rioko_ni/core/config/app_sizes.dart';
 import 'package:rioko_ni/core/extensions/iterable2.dart';
 import 'package:rioko_ni/core/injector.dart';
 import 'package:rioko_ni/core/presentation/cubit/revenue_cat_cubit.dart';
+import 'package:rioko_ni/core/presentation/widgets/toast.dart';
 import 'package:rioko_ni/features/map/presentation/cubit/map_cubit.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:toastification/toastification.dart';
 import 'package:widgets_to_image/widgets_to_image.dart';
 import 'package:rioko_ni/core/extensions/double2.dart';
 
@@ -234,15 +234,8 @@ class _ShareDialogState extends State<ShareDialog> {
                 return Navigator.of(context).pop();
               }
               if (result == ShareResultStatus.unavailable) {
-                toastification.show(
-                  context: context,
-                  type: ToastificationType.error,
-                  style: ToastificationStyle.minimal,
-                  title: Text(tr('core.errorMessageTitle')),
-                  description: Text(tr('core.errors.shareUnavailable')),
-                  autoCloseDuration: const Duration(seconds: 5),
-                  alignment: Alignment.topCenter,
-                );
+                ToastBuilder(message: tr('core.errors.shareUnavailable'))
+                    .show(context);
               }
             });
           },

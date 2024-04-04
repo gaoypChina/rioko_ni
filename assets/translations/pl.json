@@ -13,8 +13,14 @@
             "purchaseInvalid": "Zakup nie został ukończony, sprawdź źródło płatności",
             "launchUrl": "Nie można otworzyć {}"
         },
-        "errorMessageTitle": "Błąd",
-        "successMessageTitle": "Sukces",
+        "toast": {
+            "titles": {
+                "error": "Błąd",
+                "success": "Sukces",
+                "info": "Info",
+                "warning": "Uwaga"
+            }
+        },
         "purchaseSuccessfullMessage": "Zakupiono Rioko Premium!",
         "dialog": {
             "ok": "OK"

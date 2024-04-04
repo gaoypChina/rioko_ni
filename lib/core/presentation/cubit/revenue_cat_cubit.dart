@@ -48,7 +48,7 @@ class RevenueCatCubit extends Cubit<RevenueCatState> {
 
   Future<void> purchase() async {
     if (premiumProduct == null) {
-      return emit(RevenueCatState.error(tr('core.errors.productFetchError')));
+      return emit(RevenueCatState.error(tr('core.errors.productFetch')));
     }
     try {
       CustomerInfo customerInfo =

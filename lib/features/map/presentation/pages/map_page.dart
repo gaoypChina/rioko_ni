@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -7,12 +6,12 @@ import 'package:rioko_ni/core/injector.dart';
 import 'package:rioko_ni/core/presentation/map.dart';
 import 'package:rioko_ni/core/presentation/widgets/animated_fab.dart';
 import 'package:rioko_ni/core/presentation/widgets/rioko_drawer.dart';
+import 'package:rioko_ni/core/presentation/widgets/toast.dart';
 import 'package:rioko_ni/features/map/presentation/cubit/map_cubit.dart';
 import 'package:rioko_ni/features/map/presentation/widgets/country_management_dialog.dart';
 import 'package:rioko_ni/features/map/presentation/widgets/search_country_dialog.dart';
 import 'package:rioko_ni/features/map/presentation/widgets/floating_ui.dart';
 import 'package:rioko_ni/features/map/presentation/widgets/world_statistics_map.dart';
-import 'package:toastification/toastification.dart';
 
 class MapPage extends StatefulWidget {
   const MapPage({super.key});
@@ -60,15 +59,7 @@ class _MapPageState extends State<MapPage> {
       body: BlocConsumer<MapCubit, MapState>(
         listener: (context, state) {
           state.maybeWhen(
-            error: (message) => toastification.show(
-              context: context,
-              type: ToastificationType.error,
-              style: ToastificationStyle.minimal,
-              title: Text(tr('core.errorMessageTitle')),
-              description: Text(message),
-              autoCloseDuration: const Duration(seconds: 5),
-              alignment: Alignment.topCenter,
-            ),
+            error: (message) => ToastBuilder(message: message).show(context),
             setCurrentPosition: (position) =>
                 mapController.move(position, mapController.camera.zoom),
             orElse: () {},
@@ -172,8 +163,8 @@ class _MapPageState extends State<MapPage> {
         }
         final country = _mapCubit.getCountryFromPosition(latLng);
         if (country == null) return;
+        ToastBuilder(message: country.name).show(context);
         CountryManagementDialog(country: country).show(context);
-        debugPrint(latLng.toString());
       },
       dir: _mapCubit.dir,
     );
