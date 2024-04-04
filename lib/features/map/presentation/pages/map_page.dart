@@ -118,6 +118,10 @@ class _MapPageState extends State<MapPage> {
                       showWorldStatistics = showTopBehindDrawer;
                       setState(() {});
                     },
+                    openDrawer: () {
+                      _closeTopDrawer();
+                      Scaffold.of(context).openDrawer();
+                    },
                   ),
                 ],
               );

@@ -10,9 +10,12 @@ class FloatingUI extends StatelessWidget {
 
   final void Function() openTopBehindDrawer;
 
+  final void Function() openDrawer;
+
   FloatingUI({
     required this.lowerTopUI,
     required this.openTopBehindDrawer,
+    required this.openDrawer,
     super.key,
   });
 
@@ -40,7 +43,7 @@ class FloatingUI extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 GestureDetector(
-                  onTap: Scaffold.of(context).openDrawer,
+                  onTap: openDrawer,
                   child: Container(
                     height: 50,
                     width: 50,
