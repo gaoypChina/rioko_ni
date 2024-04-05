@@ -32,7 +32,7 @@ class MapBuilder {
         maxZoom: maxZoom ?? 17,
         onTap: onTap,
         cameraConstraint: CameraConstraint.contain(
-          bounds: LatLngBounds(const LatLng(85, -160), const LatLng(-85, 160)),
+          bounds: LatLngBounds(const LatLng(85, -180), const LatLng(-85, 180)),
         ));
   }
 
