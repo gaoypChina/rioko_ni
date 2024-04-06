@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -48,7 +51,9 @@ class MapCubit extends Cubit<MapState> {
     await _getDir();
     await Hive.openBox('countries');
     _getCurrentPosition();
-    _getCountryPolygons().then((_) => _getLocalCountryData());
+    await _getCountryPolygons().then((_) => _getLocalCountryData());
+    calculatePointsNumber();
+    saveCountryPointsToJson();
   }
 
   Future _getCountryPolygons() async {
@@ -290,5 +295,32 @@ class MapCubit extends Cubit<MapState> {
     watch.stop();
     debugPrint('searched for: ${watch.elapsedMilliseconds / 1000}s');
     return result;
+  }
+
+  void calculatePointsNumber() {
+    final number = countries
+        .map((c) => c.pointsNumber)
+        .reduce((value, element) => value + element);
+    debugPrint('$number points');
+  }
+
+  void saveCountryPointsToJson() {
+    final Map<String, dynamic> result = {};
+
+    for (var country in countries) {
+      final jsonPoints = country.points(reductionPercentage: 65).map((points) {
+        return points.map((latLng) => latLng.toJson()).toList();
+      }).toList();
+
+      final jsonMap = {country.alpha2: jsonPoints};
+
+      result.addAll(jsonMap);
+    }
+
+    const filePath =
+        'assets/data/geo/countries_geo.json'; // Remove leading slash
+    final file = File(filePath);
+    final jsonString = json.encode(result);
+    file.writeAsStringSync(jsonString);
   }
 }

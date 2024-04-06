@@ -4,6 +4,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:rioko_ni/core/extensions/polygon2.dart';
+import 'package:rioko_ni/core/utils/geo_utils.dart';
 import 'package:rioko_ni/features/map/data/models/country_model.dart';
 import 'package:flutter_map/flutter_map.dart' as fm;
 import 'package:geobase/geobase.dart';
@@ -114,7 +115,7 @@ class Country with _$Country {
 
   List<List<LatLng>> points({
     int reductionPercentage = 75,
-    int pointsNumberReductionThreshold = 1000,
+    double areaThresholdInSquareKilometers = 500,
   }) {
     List<List<LatLng>> result = [];
     final polygons = _getFeatureCollectionPolygons();
@@ -125,20 +126,6 @@ class Country with _$Country {
 
       // Skip polygons without exterior positions
       if (polygon.exterior == null) continue;
-
-      // Calculate the threshold for the number of polygons
-      int polygonsNumberThreshold = polygons.length ~/ 3;
-      if (polygonsNumberThreshold > 10) {
-        polygonsNumberThreshold = 10;
-      }
-      if (polygonsNumberThreshold < 1) {
-        polygonsNumberThreshold = 1;
-      }
-
-      // Check if the polygons number threshold is reached
-      if (result.length >= polygonsNumberThreshold) {
-        return result;
-      }
 
       // Convert GeoJSON positions to LatLng points
       polygon.exterior?.positions.forEach((position) {
@@ -158,12 +145,18 @@ class Country with _$Country {
         continue;
       }
 
+      // Skip polygons that area is smaller that threshold
+      if (result.isNotEmpty &&
+          GeoUtils.calculatePolygonArea(points) <
+              areaThresholdInSquareKilometers) {
+        continue;
+      }
+
       fm.Polygon fmPolygon = fm.Polygon(
         points: points,
       );
 
-      // Apply simplification if the number of points exceeds the points number threshold
-      if (fmPolygon.points.length > pointsNumberReductionThreshold) {
+      if (points.length > 100) {
         fmPolygon = Polygon2(fmPolygon)
             .simplify(reductionPercentage: reductionPercentage);
       }
@@ -232,6 +225,17 @@ class Country with _$Country {
             .toList(),
       ),
     );
+  }
+
+  int get pointsNumber {
+    final _points =
+        points(reductionPercentage: 65).map((p) => p.length).toList();
+
+    if (_points.isNotEmpty) {
+      return _points.reduce((value, element) => value + element);
+    }
+
+    return -1;
   }
 
   Widget flag({
