@@ -83,6 +83,8 @@ class MapBuilder {
     );
     List<Polygon> polygons = [];
 
+    var beenColor = Theme.of(context).colorScheme.onPrimary;
+
     polygons.addAll(
       Iterable2(
             beenCountries.map((country) {
@@ -90,16 +92,18 @@ class MapBuilder {
               return pointsList.map((points) {
                 return Polygon(
                   points: points,
-                  borderColor: country.status.color,
+                  borderColor: beenColor,
                   borderStrokeWidth: 2.0,
                   isFilled: true,
-                  color: country.status.color.withMultipliedOpacity(0.3),
+                  color: beenColor.withMultipliedOpacity(0.3),
                 );
               });
             }),
           ).reduceOrNull((value, element) => [...value, ...element]) ??
           [],
     );
+
+    var wantColor = Theme.of(context).colorScheme.onSecondary;
 
     polygons.addAll(
       Iterable2(
@@ -108,16 +112,18 @@ class MapBuilder {
               return pointsList.map((points) {
                 return Polygon(
                   points: points,
-                  borderColor: country.status.color,
+                  borderColor: wantColor,
                   borderStrokeWidth: 2.0,
                   isFilled: true,
-                  color: country.status.color.withMultipliedOpacity(0.3),
+                  color: wantColor.withMultipliedOpacity(0.3),
                 );
               });
             }),
           ).reduceOrNull((value, element) => [...value, ...element]) ??
           [],
     );
+
+    var livedColor = Theme.of(context).colorScheme.onTertiary;
 
     polygons.addAll(
       Iterable2(
@@ -126,10 +132,10 @@ class MapBuilder {
               return pointsList.map((points) {
                 return Polygon(
                   points: points,
-                  borderColor: country.status.color,
+                  borderColor: livedColor,
                   borderStrokeWidth: 2.0,
                   isFilled: true,
-                  color: country.status.color.withMultipliedOpacity(0.3),
+                  color: livedColor.withMultipliedOpacity(0.3),
                 );
               });
             }),
@@ -137,6 +143,7 @@ class MapBuilder {
           [],
     );
     layers.add(PolygonLayer(
+      key: key,
       polygonCulling: true,
       polygons: polygons,
     ));
