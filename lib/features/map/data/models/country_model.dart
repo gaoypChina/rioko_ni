@@ -1,6 +1,6 @@
 import 'package:country_code/country_code.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:geobase/geobase.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:rioko_ni/features/map/domain/entities/country.dart';
 
 part 'country_model.freezed.dart';
@@ -9,14 +9,16 @@ part 'country_model.freezed.dart';
 class CountryModel with _$CountryModel {
   const CountryModel._();
   factory CountryModel({
-    required FeatureCollection featureCollection,
+    required List<List<List<double>>> polygons,
     required String countryCode,
     required Region region,
   }) = _CountryPolygonsModel;
 
   Country toEntity() => Country(
         countryCode: CountryCode.parse(countryCode),
-        featureCollection: featureCollection,
+        polygons: polygons
+            .map((p) => p.map((p2) => LatLng(p2.first, p2.last)).toList())
+            .toList(),
         region: region,
       );
 }

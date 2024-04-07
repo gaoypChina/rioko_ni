@@ -81,7 +81,7 @@ class MapBuilder {
     polygons.addAll(
       Iterable2(
             beenCountries.map((country) {
-              final pointsList = country.points();
+              final pointsList = country.polygons;
               return pointsList.map((points) {
                 return Polygon(
                   points: points,
@@ -99,7 +99,7 @@ class MapBuilder {
     polygons.addAll(
       Iterable2(
             wantCountries.map((country) {
-              final pointsList = country.points();
+              final pointsList = country.polygons;
               return pointsList.map((points) {
                 return Polygon(
                   points: points,
@@ -117,7 +117,7 @@ class MapBuilder {
     polygons.addAll(
       Iterable2(
             livedCountries.map((country) {
-              final pointsList = country.points();
+              final pointsList = country.polygons;
               return pointsList.map((points) {
                 return Polygon(
                   points: points,
