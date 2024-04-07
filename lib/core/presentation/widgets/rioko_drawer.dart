@@ -40,6 +40,7 @@ class RiokoDrawer extends StatelessWidget {
   Color mapBorderColor(BuildContext context) {
     switch (_themeCubit.type) {
       case ThemeDataType.classic:
+      case ThemeDataType.humani:
         return Colors.black;
       case ThemeDataType.neoDark:
       case ThemeDataType.monochrome:

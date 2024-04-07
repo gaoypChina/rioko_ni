@@ -45,6 +45,8 @@ class _ChangeThemeDialogState extends State<ChangeThemeDialog> {
     switch (type) {
       case ThemeDataType.classic:
         return AssetsHandler.classicMapExample;
+      case ThemeDataType.humani:
+        return AssetsHandler.humaniMapExample;
       case ThemeDataType.neoDark:
         return AssetsHandler.darkMapExample;
       case ThemeDataType.monochrome:
@@ -52,7 +54,7 @@ class _ChangeThemeDialogState extends State<ChangeThemeDialog> {
     }
   }
 
-  List<int> freeIndices = [0];
+  List<int> freeIndices = [0, 1];
 
   bool get isOptionAvailable {
     if (_revenueCatCubit.isPremium) return true;
@@ -68,7 +70,7 @@ class _ChangeThemeDialogState extends State<ChangeThemeDialog> {
   ThemeDataType get selectedTheme => ThemeDataType.values[selectedIndex];
 
   Color get textColor {
-    if (selectedIndex == 0) return Colors.black;
+    if (selectedIndex == 0 || selectedIndex == 1) return Colors.black;
     return Colors.white;
   }
 

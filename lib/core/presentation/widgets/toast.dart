@@ -33,6 +33,8 @@ class ToastBuilder {
     switch (themeCubit.type) {
       case ThemeDataType.classic:
         return ToastificationStyle.minimal;
+      case ThemeDataType.humani:
+        return ToastificationStyle.minimal;
       case ThemeDataType.neoDark:
         return ToastificationStyle.flatColored;
       case ThemeDataType.monochrome:

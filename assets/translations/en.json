@@ -27,6 +27,7 @@
         },
         "themes": {
             "classic": "Classic",
+            "humani": "Humani",
             "neoDark": "Neo Dark",
             "monochrome": "Monochrome"
         }

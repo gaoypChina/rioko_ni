@@ -13,8 +13,10 @@ enum ThemeDataType {
   @HiveField(0)
   classic,
   @HiveField(1)
-  neoDark,
+  humani,
   @HiveField(2)
+  neoDark,
+  @HiveField(3)
   monochrome,
 }
 
@@ -23,6 +25,8 @@ extension ThemeDataTypeExtension on ThemeDataType {
     switch (this) {
       case ThemeDataType.classic:
         return tr('core.themes.classic');
+      case ThemeDataType.humani:
+        return tr('core.themes.humani');
       case ThemeDataType.neoDark:
         return tr('core.themes.neoDark');
       case ThemeDataType.monochrome:
@@ -120,6 +124,21 @@ class ThemeCubit extends Cubit<ThemeDataType> {
     switch (type) {
       case ThemeDataType.classic:
         return _default;
+      case ThemeDataType.humani:
+        return _default.copyWith(
+          colorScheme: ColorScheme.fromSeed(
+            seedColor: const Color.fromARGB(255, 46, 196, 182),
+          ).copyWith(
+            background: const Color.fromARGB(255, 240, 244, 255),
+            onBackground: const Color.fromARGB(255, 142, 204, 204),
+            primary: const Color.fromARGB(255, 83, 90, 185),
+            onPrimary: const Color.fromARGB(255, 121, 127, 209),
+            secondary: const Color.fromARGB(255, 189, 80, 144),
+            onSecondary: const Color.fromARGB(255, 218, 121, 178),
+            tertiary: const Color.fromARGB(255, 119, 151, 50),
+            onTertiary: const Color.fromARGB(255, 150, 186, 74),
+          ),
+        );
       case ThemeDataType.neoDark:
         return ThemeData.dark(
           useMaterial3: true,

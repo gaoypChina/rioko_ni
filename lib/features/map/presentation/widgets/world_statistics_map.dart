@@ -41,6 +41,7 @@ class WorldStatisticsMap extends StatelessWidget {
   Color primaryColor(BuildContext context) {
     switch (_themeCubit.type) {
       case ThemeDataType.classic:
+      case ThemeDataType.humani:
       case ThemeDataType.neoDark:
         return Theme.of(context).colorScheme.onPrimary;
       case ThemeDataType.monochrome:
@@ -51,6 +52,7 @@ class WorldStatisticsMap extends StatelessWidget {
   double get countryOpacity {
     switch (_themeCubit.type) {
       case ThemeDataType.classic:
+      case ThemeDataType.humani:
         return 0.4;
       case ThemeDataType.neoDark:
       case ThemeDataType.monochrome:

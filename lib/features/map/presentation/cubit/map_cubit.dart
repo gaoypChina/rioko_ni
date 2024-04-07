@@ -36,6 +36,8 @@ class MapCubit extends Cubit<MapState> {
     switch (themeCubit.type) {
       case ThemeDataType.classic:
         return 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
+      case ThemeDataType.humani:
+        return 'https://b.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png';
       case ThemeDataType.neoDark:
         return "https://api.mapbox.com/styles/v1/mister-lucifer/cls7n0t4g00zh01qsdc652wos/tiles/256/{z}/{x}/{y}{r}?access_token={accessToken}";
       case ThemeDataType.monochrome:
