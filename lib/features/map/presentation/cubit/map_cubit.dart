@@ -48,13 +48,9 @@ class MapCubit extends Cubit<MapState> {
     await _getDir();
     await Hive.openBox('countries');
     _getCurrentPosition();
-    final s = Stopwatch()..start();
     await _getCountryPolygons().then((_) {
-      s.stop();
       _getLocalCountryData();
     });
-
-    debugPrint('Loaded data in ${s.elapsedMilliseconds / 1000} s');
   }
 
   Future _getCountryPolygons() async {

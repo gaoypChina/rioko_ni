@@ -131,7 +131,10 @@ class MapBuilder {
           ).reduceOrNull((value, element) => [...value, ...element]) ??
           [],
     );
-    layers.add(PolygonLayer(polygons: polygons));
+    layers.add(PolygonLayer(
+      polygonCulling: true,
+      polygons: polygons,
+    ));
     layers.add(
       CurrentLocationLayer(
         alignDirectionOnUpdate: AlignOnUpdate.never,
