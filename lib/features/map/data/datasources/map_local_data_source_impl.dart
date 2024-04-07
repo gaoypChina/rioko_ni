@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:rioko_ni/core/errors/exception.dart';
 import 'package:rioko_ni/features/map/data/datasources/map_local_data_source.dart';
@@ -28,13 +27,17 @@ class MapLocalDataSourceImpl implements MapLocalDataSource {
       final List<CountryModel> result = [];
       for (String key in geoData.keys) {
         final cca3 = key;
-        final polygons =
-            (geoData[key] as List<dynamic>).cast<List<List<double>>>();
+        final List<List<List<double>>> polygons = (geoData[key]
+                as List<dynamic>)
+            .map<List<List<double>>>((dynamic item) => (item as List<dynamic>)
+                .map<List<double>>((dynamic innerItem) =>
+                    (innerItem as List<dynamic>)
+                        .map<double>((dynamic subItem) => subItem.toDouble())
+                        .toList())
+                .toList())
+            .toList();
         final region = regions.keys.firstWhere(
-          (key) {
-            debugPrint(cca3);
-            return regions[key]!.cast<String>().contains(cca3);
-          },
+          (key) => regions[key]!.cast<String>().contains(cca3),
         );
         result.add(CountryModel(
           polygons: polygons,
