@@ -9,7 +9,6 @@ import 'package:rioko_ni/core/config/app_sizes.dart';
 import 'package:rioko_ni/core/injector.dart';
 import 'package:rioko_ni/core/presentation/cubit/revenue_cat_cubit.dart';
 import 'package:rioko_ni/core/presentation/cubit/theme_cubit.dart';
-import 'package:rioko_ni/core/presentation/widgets/restart_widget.dart';
 import 'package:rioko_ni/core/utils/assets_handler.dart';
 
 class ChangeThemeDialog extends StatefulWidget {
@@ -173,7 +172,6 @@ class _ChangeThemeDialogState extends State<ChangeThemeDialog> {
         Navigator.of(context).pop();
         if (selectedTheme != _themeCubit.type) {
           _themeCubit.changeTheme(selectedTheme);
-          RestartWidget.restartApp(context);
           widget.updateMap();
         }
       },

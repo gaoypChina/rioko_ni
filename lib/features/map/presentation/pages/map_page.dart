@@ -156,6 +156,7 @@ class _MapPageState extends State<MapPage> {
       beenCountries: _mapCubit.beenCountries,
       wantCountries: _mapCubit.wantCountries,
       livedCountries: _mapCubit.livedCountries,
+      center: _mapCubit.currentPosition,
       controller: mapController,
       onTap: (position, latLng) {
         if (showTopBehindDrawer) {

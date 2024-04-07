@@ -20,20 +20,23 @@ class MapBuilder {
     Color? backgroundColor,
     InteractionOptions? interactionOptions,
     void Function(TapPosition, LatLng)? onTap,
+    LatLng? center,
   }) {
     return MapOptions(
-        interactionOptions: interactionOptions,
-        initialZoom: initialZoom ?? 5,
-        backgroundColor: backgroundColor ?? const Color(0x00000000),
-        // Smallest possible number. For values of 2 and less, the polygons displayed on the map bug out -
-        // this is due to the fact that polygons for maximum longitude and minimum longitude are visible at the same time,
-        // and flutter_map incorrectly analyzes them and tries to merge them together.
-        minZoom: minZoom ?? 3,
-        maxZoom: maxZoom ?? 17,
-        onTap: onTap,
-        cameraConstraint: CameraConstraint.contain(
-          bounds: LatLngBounds(const LatLng(85, -180), const LatLng(-85, 180)),
-        ));
+      interactionOptions: interactionOptions,
+      initialZoom: initialZoom ?? 5,
+      backgroundColor: backgroundColor ?? const Color(0x00000000),
+      // Smallest possible number. For values of 2 and less, the polygons displayed on the map bug out -
+      // this is due to the fact that polygons for maximum longitude and minimum longitude are visible at the same time,
+      // and flutter_map incorrectly analyzes them and tries to merge them together.
+      minZoom: minZoom ?? 3,
+      maxZoom: maxZoom ?? 17,
+      onTap: onTap,
+      cameraConstraint: CameraConstraint.contain(
+        bounds: LatLngBounds(const LatLng(85, -180), const LatLng(-85, 180)),
+      ),
+      initialCenter: center ?? const LatLng(50.5, 30.51),
+    );
   }
 
   Widget build(
@@ -46,12 +49,14 @@ class MapBuilder {
     void Function(TapPosition, LatLng)? onTap,
     required String? dir,
     required Key key,
+    required LatLng? center,
   }) {
     final mapOptions = getMapOptions(
       interactionOptions: const InteractionOptions(
         flags: InteractiveFlag.all & ~InteractiveFlag.rotate,
       ),
       onTap: onTap,
+      center: center,
     );
     List<Widget> layers = [];
     layers.add(

@@ -266,10 +266,13 @@ class MapCubit extends Cubit<MapState> {
     emit(MapState.updatedCountryStatus(country: country, status: status));
   }
 
+  LatLng? currentPosition;
+
   void _getCurrentPosition() async {
     try {
       final position = await GeoLocationHandler.determinePosition();
       final latLng = LatLng(position.latitude, position.longitude);
+      currentPosition = latLng;
       emit(MapState.setCurrentPosition(latLng));
     } on PermissionFailure catch (e) {
       emit(MapState.error(e.message));
