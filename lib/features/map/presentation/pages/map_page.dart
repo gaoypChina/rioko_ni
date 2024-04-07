@@ -106,7 +106,7 @@ class _MapPageState extends State<MapPage> {
                     lowerTopUI: showTopBehindDrawer,
                     openTopBehindDrawer: () {
                       showTopBehindDrawer = true;
-                      showWorldStatistics = showTopBehindDrawer;
+                      showWorldStatistics = true;
                       setState(() {});
                     },
                     openDrawer: () {

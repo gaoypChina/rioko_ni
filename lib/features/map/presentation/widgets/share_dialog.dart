@@ -14,6 +14,7 @@ import 'package:rioko_ni/core/extensions/iterable2.dart';
 import 'package:rioko_ni/core/injector.dart';
 import 'package:rioko_ni/core/presentation/cubit/revenue_cat_cubit.dart';
 import 'package:rioko_ni/core/presentation/widgets/toast.dart';
+import 'package:rioko_ni/features/map/domain/entities/country.dart';
 import 'package:rioko_ni/features/map/presentation/cubit/map_cubit.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:widgets_to_image/widgets_to_image.dart';
@@ -99,7 +100,7 @@ class _ShareDialogState extends State<ShareDialog> {
               _buildGraphic(
                 context,
                 index: 2,
-                primaryColor: Theme.of(context).colorScheme.onPrimary,
+                primaryColor: Colors.tealAccent,
                 textColor: Colors.white,
                 fontFamily: 'Nasalization',
               ),
@@ -304,11 +305,16 @@ class _ShareDialogState extends State<ShareDialog> {
                         instructions: SMapWorld.instructionsMercator,
                         defaultColor: Colors.transparent,
                         countryBorder: CountryBorder(color: primaryColor),
-                        colors: _cubit.beenCountries
+                        colors: [
+                          ..._cubit.beenCountries,
+                          ..._cubit.livedCountries
+                        ]
                             .map(
                               (c) => {
-                                c.alpha2.toLowerCase():
-                                    primaryColor.withOpacity(0.7),
+                                c.alpha2.toLowerCase(): primaryColor
+                                    .withOpacity(c.status == CountryStatus.been
+                                        ? 0.6
+                                        : 1),
                               },
                             )
                             .reduceOrNull(

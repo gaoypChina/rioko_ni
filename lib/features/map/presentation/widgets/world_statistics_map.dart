@@ -77,11 +77,15 @@ class WorldStatisticsMap extends StatelessWidget {
               instructions: SMapWorld.instructionsMercator,
               defaultColor: Theme.of(context).colorScheme.background,
               countryBorder: CountryBorder(color: CountryStatus.been.color),
-              colors: _cubit.beenCountries
+              colors: [..._cubit.beenCountries, ..._cubit.livedCountries]
                   .map(
                     (c) => {
-                      c.alpha2.toLowerCase():
-                          c.status.color.withOpacity(countryOpacity),
+                      c.alpha2.toLowerCase(): Theme.of(context)
+                          .colorScheme
+                          .onPrimary
+                          .withOpacity(c.status == CountryStatus.been
+                              ? countryOpacity
+                              : countryOpacity * 2),
                     },
                   )
                   .reduceOrNull((value, element) => {...value, ...element}),

@@ -68,27 +68,27 @@ class FloatingUI extends StatelessWidget {
                   ),
                 ),
                 Expanded(
-                  child: Container(
-                    height: 50,
-                    alignment: Alignment.topCenter,
-                    margin: const EdgeInsets.only(left: AppSizes.padding),
-                    padding: const EdgeInsets.symmetric(
-                      vertical: AppSizes.padding,
-                      horizontal: AppSizes.paddingTriple,
-                    ),
-                    decoration: BoxDecoration(
-                      color: Theme.of(context)
-                          .colorScheme
-                          .background
-                          .withOpacity(0.7),
-                      border: Border.all(
-                          color: Theme.of(context).colorScheme.onPrimary,
-                          width: 1),
-                      borderRadius: BorderRadius.circular(AppSizes.radius),
-                    ),
-                    child: Center(
-                      child: GestureDetector(
-                        onTap: openTopBehindDrawer,
+                  child: GestureDetector(
+                    onTap: openTopBehindDrawer,
+                    child: Container(
+                      height: 50,
+                      alignment: Alignment.topCenter,
+                      margin: const EdgeInsets.only(left: AppSizes.padding),
+                      padding: const EdgeInsets.symmetric(
+                        vertical: AppSizes.padding,
+                        horizontal: AppSizes.paddingTriple,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Theme.of(context)
+                            .colorScheme
+                            .background
+                            .withOpacity(0.7),
+                        border: Border.all(
+                            color: Theme.of(context).colorScheme.onPrimary,
+                            width: 1),
+                        borderRadius: BorderRadius.circular(AppSizes.radius),
+                      ),
+                      child: Center(
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.center,
