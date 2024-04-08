@@ -125,7 +125,7 @@ class _CountryManagementDialogState extends State<CountryManagementDialog>
                         setState(() {});
                       },
                       label: tr('$l10n.labels.been'),
-                      color: CountryStatus.been.color,
+                      color: CountryStatus.been.color(context),
                       selected: widget.country.status == CountryStatus.been,
                     ),
                   ),
@@ -154,7 +154,7 @@ class _CountryManagementDialogState extends State<CountryManagementDialog>
                         setState(() {});
                       },
                       label: tr('$l10n.labels.want'),
-                      color: CountryStatus.want.color,
+                      color: CountryStatus.want.color(context),
                       selected: widget.country.status == CountryStatus.want,
                     ),
                   ),
@@ -190,7 +190,7 @@ class _CountryManagementDialogState extends State<CountryManagementDialog>
                         setState(() {});
                       },
                       label: tr('$l10n.labels.lived'),
-                      color: CountryStatus.lived.color,
+                      color: CountryStatus.lived.color(context),
                       selected: widget.country.status == CountryStatus.lived,
                     ),
                   ),

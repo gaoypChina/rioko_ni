@@ -68,13 +68,27 @@ class ThemeCubit extends Cubit<ThemeDataType> {
     iconTheme: const IconThemeData(
       color: Colors.black,
     ),
-    primaryColor: Colors.grey,
+    appBarTheme: const AppBarTheme(
+      color: Color.fromARGB(255, 222, 226, 236),
+      foregroundColor: Colors.black,
+    ),
+    listTileTheme: const ListTileThemeData(
+      titleTextStyle: TextStyle(
+        fontFamily: 'Nasalization',
+        color: Colors.black,
+      ),
+    ),
+    primaryColor: const Color.fromARGB(255, 240, 244, 255),
     textTheme: const TextTheme(
       bodySmall: TextStyle(
         fontFamily: 'Nasalization',
         color: Colors.black,
       ),
       bodyMedium: TextStyle(
+        fontFamily: 'Nasalization',
+        color: Colors.black,
+      ),
+      bodyLarge: TextStyle(
         fontFamily: 'Nasalization',
         color: Colors.black,
       ),
@@ -165,6 +179,16 @@ class ThemeCubit extends Cubit<ThemeDataType> {
               backgroundColor: Colors.black,
               shadowColor: Colors.tealAccent,
             ),
+            appBarTheme: const AppBarTheme(
+              color: Color.fromARGB(255, 20, 20, 20),
+              foregroundColor: Colors.white,
+            ),
+            listTileTheme: const ListTileThemeData(
+              titleTextStyle: TextStyle(
+                fontFamily: 'Nasalization',
+                color: Colors.white,
+              ),
+            ),
             primaryColor: Colors.teal,
             textTheme: const TextTheme(
               bodySmall: TextStyle(
@@ -173,6 +197,10 @@ class ThemeCubit extends Cubit<ThemeDataType> {
               ),
               bodyMedium: TextStyle(
                 fontFamily: 'Nasalization',
+              ),
+              bodyLarge: TextStyle(
+                fontFamily: 'Nasalization',
+                color: Colors.white,
               ),
               titleSmall: TextStyle(
                 color: Colors.white70,
@@ -184,6 +212,7 @@ class ThemeCubit extends Cubit<ThemeDataType> {
               ),
               titleLarge: TextStyle(
                 fontFamily: 'Nasalization',
+                color: Colors.white,
               ),
               headlineMedium: TextStyle(
                 fontFamily: 'Nasalization',
@@ -224,6 +253,16 @@ class ThemeCubit extends Cubit<ThemeDataType> {
               backgroundColor: Colors.black,
               shadowColor: Colors.tealAccent,
             ),
+            appBarTheme: const AppBarTheme(
+              color: Color.fromARGB(255, 20, 20, 20),
+              foregroundColor: Colors.white,
+            ),
+            listTileTheme: const ListTileThemeData(
+              titleTextStyle: TextStyle(
+                fontFamily: 'Nasalization',
+                color: Colors.white,
+              ),
+            ),
             primaryColor: Colors.grey,
             textTheme: const TextTheme(
               bodySmall: TextStyle(
@@ -232,6 +271,10 @@ class ThemeCubit extends Cubit<ThemeDataType> {
               ),
               bodyMedium: TextStyle(
                 fontFamily: 'Nasalization',
+              ),
+              bodyLarge: TextStyle(
+                fontFamily: 'Nasalization',
+                color: Colors.white,
               ),
               titleSmall: TextStyle(
                 color: Colors.white70,

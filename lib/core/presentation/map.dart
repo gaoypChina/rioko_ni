@@ -21,6 +21,7 @@ class MapBuilder {
     InteractionOptions? interactionOptions,
     void Function(TapPosition, LatLng)? onTap,
     LatLng? center,
+    void Function(MapPosition, bool)? onPositionChanged,
   }) {
     return MapOptions(
       interactionOptions: interactionOptions,
@@ -36,6 +37,7 @@ class MapBuilder {
         bounds: LatLngBounds(const LatLng(85, -180), const LatLng(-85, 180)),
       ),
       initialCenter: center ?? const LatLng(50.5, 30.51),
+      onPositionChanged: onPositionChanged,
     );
   }
 
@@ -50,6 +52,7 @@ class MapBuilder {
     required String? dir,
     required Key key,
     required LatLng? center,
+    required Key polygonsLayerKey,
   }) {
     final mapOptions = getMapOptions(
       interactionOptions: const InteractionOptions(
@@ -83,8 +86,6 @@ class MapBuilder {
     );
     List<Polygon> polygons = [];
 
-    var beenColor = Theme.of(context).colorScheme.onPrimary;
-
     polygons.addAll(
       Iterable2(
             beenCountries.map((country) {
@@ -92,18 +93,17 @@ class MapBuilder {
               return pointsList.map((points) {
                 return Polygon(
                   points: points,
-                  borderColor: beenColor,
+                  borderColor: country.status.color(context),
                   borderStrokeWidth: 2.0,
                   isFilled: true,
-                  color: beenColor.withMultipliedOpacity(0.3),
+                  color:
+                      country.status.color(context).withMultipliedOpacity(0.3),
                 );
               });
             }),
           ).reduceOrNull((value, element) => [...value, ...element]) ??
           [],
     );
-
-    var wantColor = Theme.of(context).colorScheme.onSecondary;
 
     polygons.addAll(
       Iterable2(
@@ -112,18 +112,17 @@ class MapBuilder {
               return pointsList.map((points) {
                 return Polygon(
                   points: points,
-                  borderColor: wantColor,
+                  borderColor: country.status.color(context),
                   borderStrokeWidth: 2.0,
                   isFilled: true,
-                  color: wantColor.withMultipliedOpacity(0.3),
+                  color:
+                      country.status.color(context).withMultipliedOpacity(0.3),
                 );
               });
             }),
           ).reduceOrNull((value, element) => [...value, ...element]) ??
           [],
     );
-
-    var livedColor = Theme.of(context).colorScheme.onTertiary;
 
     polygons.addAll(
       Iterable2(
@@ -132,21 +131,24 @@ class MapBuilder {
               return pointsList.map((points) {
                 return Polygon(
                   points: points,
-                  borderColor: livedColor,
+                  borderColor: country.status.color(context),
                   borderStrokeWidth: 2.0,
                   isFilled: true,
-                  color: livedColor.withMultipliedOpacity(0.3),
+                  color:
+                      country.status.color(context).withMultipliedOpacity(0.3),
                 );
               });
             }),
           ).reduceOrNull((value, element) => [...value, ...element]) ??
           [],
     );
+
     layers.add(PolygonLayer(
-      key: key,
+      key: polygonsLayerKey,
       polygonCulling: true,
       polygons: polygons,
     ));
+
     layers.add(
       CurrentLocationLayer(
         alignDirectionOnUpdate: AlignOnUpdate.never,

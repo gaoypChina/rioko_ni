@@ -78,7 +78,8 @@ class WorldStatisticsMap extends StatelessWidget {
             child: SimpleMap(
               instructions: SMapWorld.instructionsMercator,
               defaultColor: Theme.of(context).colorScheme.background,
-              countryBorder: CountryBorder(color: CountryStatus.been.color),
+              countryBorder:
+                  CountryBorder(color: CountryStatus.been.color(context)),
               colors: [..._cubit.beenCountries, ..._cubit.livedCountries]
                   .map(
                     (c) => {

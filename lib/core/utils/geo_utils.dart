@@ -37,7 +37,7 @@ class GeoUtils {
     List<LatLng> points, {
     required int reductionPercentage,
   }) {
-    assert(reductionPercentage >= 5 && reductionPercentage <= 75,
+    assert(reductionPercentage >= 5 && reductionPercentage <= 90,
         'Reduction percentage must be between 5 and 75.');
 
     int secondReduction = 0;

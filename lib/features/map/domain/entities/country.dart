@@ -6,7 +6,6 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:rioko_ni/features/map/data/models/country_model.dart';
 import 'package:flutter_map/flutter_map.dart' as fm;
 import 'package:latlong2/latlong.dart';
-import 'package:rioko_ni/main.dart';
 import 'package:point_in_polygon/point_in_polygon.dart' as pip;
 
 part 'country.freezed.dart';
@@ -71,9 +70,7 @@ extension RegionExtension on Region {
 }
 
 extension CountryStatusExtension on CountryStatus {
-  Color get color {
-    final context = RiokoNi.navigatorKey.currentContext;
-    if (context == null) return Colors.transparent;
+  Color color(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
     switch (this) {
       case CountryStatus.been:

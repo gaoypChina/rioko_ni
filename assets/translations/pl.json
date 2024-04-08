@@ -334,7 +334,8 @@
             "showStatistics": "Pokaż statystyki",
             "shareStatistics": "Udostępnij swoje statystyki",
             "changeTheme": "Zmień motyw",
-            "privacyPolicy": "Polityka prywatności"
+            "privacyPolicy": "Polityka prywatności",
+            "aboutApp": "O aplikacji"
         }
     },
     "changeThemeDialog": {

@@ -334,7 +334,8 @@
             "showStatistics": "Show statistics",
             "shareStatistics": "Share your statistics",
             "changeTheme": "Change theme",
-            "privacyPolicy": "Privacy policy"
+            "privacyPolicy": "Privacy policy",
+            "aboutApp": "About app"
         }
     },
     "changeThemeDialog": {

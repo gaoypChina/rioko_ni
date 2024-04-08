@@ -6,6 +6,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rioko_ni/core/config/app_sizes.dart';
 import 'package:rioko_ni/core/extensions/iterable2.dart';
 import 'package:rioko_ni/core/injector.dart';
+import 'package:rioko_ni/core/presentation/about_app_dialog.dart';
 import 'package:rioko_ni/core/presentation/cubit/theme_cubit.dart';
 import 'package:rioko_ni/core/presentation/widgets/change_theme_dialog.dart';
 import 'package:rioko_ni/core/presentation/widgets/toast.dart';
@@ -68,7 +69,8 @@ class RiokoDrawer extends StatelessWidget {
                     .where((c) => c.status != CountryStatus.none)
                     .map(
                       (c) => {
-                        c.alpha2.toLowerCase(): c.status.color.withOpacity(0.3),
+                        c.alpha2.toLowerCase():
+                            c.status.color(context).withOpacity(0.3),
                       },
                     )
                     .reduceOrNull((value, element) => {...value, ...element}),
@@ -114,6 +116,17 @@ class RiokoDrawer extends StatelessWidget {
               },
             ),
             divider,
+            ListTile(
+              leading: const Icon(FontAwesomeIcons.circleInfo),
+              title: Text(
+                tr('$l10n.labels.aboutApp'),
+                style: Theme.of(context).textTheme.headlineMedium,
+              ),
+              onTap: () {
+                Navigator.of(context).pop();
+                const AboutAppDialog().show(context);
+              },
+            ),
             ListTile(
               leading: const Icon(FontAwesomeIcons.shieldHalved),
               title: Text(

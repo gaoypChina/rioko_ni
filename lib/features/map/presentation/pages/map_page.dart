@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -30,6 +32,7 @@ class _MapPageState extends State<MapPage> {
   late MapController mapController;
 
   Key _mapKey = UniqueKey();
+  Key _polygonsLayerKey = UniqueKey();
 
   @override
   void initState() {
@@ -53,7 +56,10 @@ class _MapPageState extends State<MapPage> {
           showWorldStatistics = true;
           setState(() {});
         },
-        updateMap: () => setState(() => _mapKey = UniqueKey()),
+        updateMap: () => setState(() {
+          _mapKey = UniqueKey();
+          _polygonsLayerKey = UniqueKey();
+        }),
       ),
       backgroundColor: const Color.fromARGB(255, 0, 0, 0),
       body: BlocConsumer<MapCubit, MapState>(
@@ -150,8 +156,9 @@ class _MapPageState extends State<MapPage> {
 
   Widget _buildMap(BuildContext context) {
     return MapBuilder().build(
-      key: _mapKey,
       context,
+      key: _mapKey,
+      polygonsLayerKey: _polygonsLayerKey,
       urlTemplate: _mapCubit.urlTemplate,
       beenCountries: _mapCubit.beenCountries,
       wantCountries: _mapCubit.wantCountries,
