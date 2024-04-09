@@ -83,7 +83,7 @@ class GeoUtils {
   static List<List<List<double>>> extractPolygonsFromFeatureCollection(
     FeatureCollection featureCollection,
   ) {
-    List<List<List<double>>> result = [];
+    List<List<LatLng>> result = [];
 
     // Iterate through each GeoJSON feature in the collection
     for (Feature feature in featureCollection.features) {
@@ -101,7 +101,7 @@ class GeoUtils {
 
       // Process each polygon
       for (Polygon polygon in polygons) {
-        List<List<double>> points = [];
+        List<LatLng> points = [];
 
         // Skip polygons without exterior positions
         if (polygon.exterior == null) continue;
@@ -116,7 +116,7 @@ class GeoUtils {
             longitude = longitude.clamp(-179.999999, 179.999999);
           }
 
-          points.add([latitude, longitude]);
+          points.add(LatLng(latitude, longitude));
         });
 
         // Skip invalid polygons
@@ -126,8 +126,7 @@ class GeoUtils {
           continue;
         }
 
-        final area = GeoUtils.calculatePolygonArea(
-            points.map((p) => LatLng(p.first, p.last)).toList());
+        final area = GeoUtils.calculatePolygonArea(points);
 
         // Skip polygons that area is smaller that threshold
         if (result.isNotEmpty && area < 500) {
@@ -136,10 +135,7 @@ class GeoUtils {
 
         // Apply simplification if the number of points exceeds the points number threshold
         if (points.length > 100) {
-          points = simplify(points.map((p) => LatLng(p.first, p.last)).toList(),
-                  reductionPercentage: 75)
-              .map((p) => [p.latitude, p.longitude])
-              .toList();
+          points = simplify(points, reductionPercentage: 75);
         }
 
         result = [
@@ -148,6 +144,8 @@ class GeoUtils {
         ];
       }
     }
-    return result;
+    return result
+        .map((p) => p.map((p2) => [p2.latitude, p2.longitude]).toList())
+        .toList();
   }
 }
