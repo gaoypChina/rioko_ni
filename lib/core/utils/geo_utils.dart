@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:geobase/geobase.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:maps_toolkit/maps_toolkit.dart' as toolkit;
