@@ -26,7 +26,7 @@ class MapLocalDataSourceImpl implements MapLocalDataSource {
       final countriesInfoData = await rootBundle.loadString(countriesDataPath);
       final geoData = jsonDecode(countriesGeoData) as Map<String, dynamic>;
       final infoData = jsonDecode(countriesInfoData) as Map<String, dynamic>;
-      final areas = Map<String, List<dynamic>>.from(jsonDecode(areasData));
+      final areas = Map<String, String>.from(jsonDecode(areasData));
       final List<CountryModel> result = [];
       for (String key in geoData.keys) {
         final cca3 = key;
@@ -40,7 +40,7 @@ class MapLocalDataSourceImpl implements MapLocalDataSource {
                         .toList())
                 .toList())
             .toList();
-        final area = areas[info['area']] as String;
+        final area = areas[info['area'].toString()] as String;
         result.add(CountryModel(
           polygons: polygons,
           countryCode: cca3,

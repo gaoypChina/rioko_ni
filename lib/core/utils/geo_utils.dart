@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+import 'package:geobase/geobase.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:maps_toolkit/maps_toolkit.dart' as toolkit;
 
@@ -76,5 +78,76 @@ class GeoUtils {
     } while (secondReduction != 0 && i < 2);
 
     return resultPoints;
+  }
+
+  static List<List<List<double>>> extractPolygonsFromFeatureCollection(
+    FeatureCollection featureCollection,
+  ) {
+    List<List<List<double>>> result = [];
+
+    // Iterate through each GeoJSON feature in the collection
+    for (Feature feature in featureCollection.features) {
+      List<Polygon> polygons = [];
+
+      // Extract polygons from the feature's geometry
+      if (feature.geometry is Polygon) {
+        polygons.add(feature.geometry as Polygon);
+      }
+      if (feature.geometry is MultiPolygon) {
+        var multiPolygon = feature.geometry as MultiPolygon;
+
+        polygons = [...multiPolygon.polygons];
+      }
+
+      // Process each polygon
+      for (Polygon polygon in polygons) {
+        List<List<double>> points = [];
+
+        // Skip polygons without exterior positions
+        if (polygon.exterior == null) continue;
+
+        // Convert GeoJSON positions to LatLng points
+        polygon.exterior?.positions.forEach((position) {
+          double latitude = position.y;
+          double longitude = position.x;
+
+          // Ensure longitude is within the valid range of flutter_map coordination system
+          if (longitude <= -180 || longitude >= 180) {
+            longitude = longitude.clamp(-179.999999, 179.999999);
+          }
+
+          points.add([latitude, longitude]);
+        });
+
+        // Skip invalid polygons
+        if (points.isEmpty ||
+            points.length < 2 ||
+            points.first != points.last) {
+          continue;
+        }
+
+        final area = GeoUtils.calculatePolygonArea(
+            points.map((p) => LatLng(p.first, p.last)).toList());
+
+        // Skip polygons that area is smaller that threshold
+        if (result.isNotEmpty && area < 500) {
+          continue;
+        }
+
+        // Apply simplification if the number of points exceeds the points number threshold
+        if (points.length > 100) {
+          points = simplify(points.map((p) => LatLng(p.first, p.last)).toList(),
+                  reductionPercentage: 75)
+              .map((p) => [p.latitude, p.longitude])
+              .toList();
+        }
+
+        result = [
+          ...result,
+          points,
+        ];
+      }
+    }
+    return result;
   }
 }

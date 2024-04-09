@@ -14,6 +14,7 @@ import 'package:rioko_ni/core/utils/geolocation_handler.dart';
 import 'package:rioko_ni/features/map/domain/entities/country.dart';
 import 'package:rioko_ni/features/map/domain/usecases/get_countries.dart';
 import 'package:collection/collection.dart';
+import 'package:rioko_ni/features/map/domain/usecases/get_regions.dart';
 
 part 'map_state.dart';
 part 'map_cubit.freezed.dart';
@@ -25,8 +26,10 @@ enum Countries {
 
 class MapCubit extends Cubit<MapState> {
   final GetCountries getCountryPolygonUsecase;
+  final GetCountryRegions getCountryRegionsUsecase;
   MapCubit({
     required this.getCountryPolygonUsecase,
+    required this.getCountryRegionsUsecase,
   }) : super(const MapState.initial());
 
   List<Country> countries = [];
@@ -52,6 +55,7 @@ class MapCubit extends Cubit<MapState> {
     _getCurrentPosition();
     await _getCountryPolygons().then((_) {
       _getLocalCountryData();
+      getCountryRegions('POL');
     });
   }
 
@@ -81,6 +85,20 @@ class MapCubit extends Cubit<MapState> {
         )
         .toList();
     return result;
+  }
+
+  Future getCountryRegions(String countryCode) async {
+    await getCountryRegionsUsecase.call(countryCode).then(
+          (result) => result.fold(
+            (failure) {
+              emit(MapState.error(failure.message));
+              debugPrint(failure.fullMessage);
+            },
+            (data) {
+              debugPrint('fetched');
+            },
+          ),
+        );
   }
 
   Future _getLocalCountryData() async {
