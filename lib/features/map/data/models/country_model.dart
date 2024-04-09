@@ -11,8 +11,9 @@ class CountryModel with _$CountryModel {
   factory CountryModel({
     required List<List<List<double>>> polygons,
     required String countryCode,
-    required Region region,
-  }) = _CountryPolygonsModel;
+    required Area region,
+    required bool moreDataAvailable,
+  }) = _CountryModel;
 
   Country toEntity() {
     final poly = polygons
@@ -22,6 +23,7 @@ class CountryModel with _$CountryModel {
       countryCode: CountryCode.parse(countryCode),
       polygons: poly,
       region: region,
+      moreDataAvailable: moreDataAvailable,
     );
   }
 }

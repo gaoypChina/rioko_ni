@@ -62,7 +62,7 @@
         "oceania": "@:regions.oceania",
         "antarctic": "@:regions.antarctic"
     },
-    "regions": {
+    "areas": {
         "africa": "Afryka",
         "northAmerica": "Ameryka północna",
         "southAmerica": "Ameryka południowa",

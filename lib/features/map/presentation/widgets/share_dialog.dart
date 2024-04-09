@@ -37,7 +37,7 @@ class _ShareDialogState extends State<ShareDialog> {
   final _cubit = locator<MapCubit>();
   final _revenueCatCubit = locator<RevenueCatCubit>();
 
-  String get l10n => 'regions';
+  String get l10n => 'areas';
 
   double imageHeight(BuildContext context) =>
       MediaQuery.of(context).size.height * 0.8;

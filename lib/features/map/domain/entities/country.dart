@@ -17,7 +17,7 @@ enum CountryStatus {
   lived,
 }
 
-enum Region {
+enum Area {
   northAmerica,
   southAmerica,
   europe,
@@ -27,44 +27,44 @@ enum Region {
   antarctic,
 }
 
-extension RegionExtension on Region {
-  static Region fromString(String name) {
+extension AreaExtension on Area {
+  static Area fromString(String name) {
     switch (name) {
       case 'Asia':
-        return Region.asia;
+        return Area.asia;
       case 'Africa':
-        return Region.africa;
+        return Area.africa;
       case 'North America':
-        return Region.northAmerica;
+        return Area.northAmerica;
       case 'South America':
-        return Region.southAmerica;
+        return Area.southAmerica;
       case 'Oceania':
-        return Region.oceania;
+        return Area.oceania;
       case 'Antarctic':
-        return Region.antarctic;
+        return Area.antarctic;
       case 'Europe':
-        return Region.europe;
+        return Area.europe;
       default:
-        return Region.asia;
+        return Area.asia;
     }
   }
 
   String get name {
     switch (this) {
-      case Region.africa:
-        return tr('regions.africa');
-      case Region.antarctic:
-        return tr('regions.antarctic');
-      case Region.asia:
-        return tr('regions.asia');
-      case Region.europe:
-        return tr('regions.europe');
-      case Region.northAmerica:
-        return tr('regions.northAmerica');
-      case Region.southAmerica:
-        return tr('regions.southAmerica');
-      case Region.oceania:
-        return tr('regions.oceania');
+      case Area.africa:
+        return tr('areas.africa');
+      case Area.antarctic:
+        return tr('areas.antarctic');
+      case Area.asia:
+        return tr('areas.asia');
+      case Area.europe:
+        return tr('areas.europe');
+      case Area.northAmerica:
+        return tr('areas.northAmerica');
+      case Area.southAmerica:
+        return tr('areas.southAmerica');
+      case Area.oceania:
+        return tr('areas.oceania');
     }
   }
 }
@@ -92,7 +92,8 @@ class Country with _$Country {
     /// GeoJson data
     required List<List<LatLng>> polygons,
     required CountryCode countryCode,
-    required Region region,
+    required Area region,
+    required bool moreDataAvailable,
     @Default(CountryStatus.none) CountryStatus status,
   }) = _Country;
 
@@ -102,6 +103,7 @@ class Country with _$Country {
             .map((p) => p.map((p2) => [p2.latitude, p2.longitude]).toList())
             .toList(),
         region: region,
+        moreDataAvailable: moreDataAvailable,
       );
 
   String get alpha2 => countryCode.alpha2;

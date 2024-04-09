@@ -14,19 +14,23 @@ class MapLocalDataSourceImpl implements MapLocalDataSource {
 
   static String get countriesGeoDataPath =>
       'assets/data/geo/countries_geo.json';
-  static String get regionsDataPath => 'assets/data/regions.json';
+  static String get countriesDataPath => 'assets/data/countries.json';
+  static String get areasDataPath => 'assets/data/areas.json';
 
   @override
   Future<List<CountryModel>> getCountries() async {
     try {
       final countriesGeoData =
           await rootBundle.loadString(countriesGeoDataPath);
-      final regionsData = await rootBundle.loadString(regionsDataPath);
+      final areasData = await rootBundle.loadString(areasDataPath);
+      final countriesInfoData = await rootBundle.loadString(countriesDataPath);
       final geoData = jsonDecode(countriesGeoData) as Map<String, dynamic>;
-      final regions = Map<String, List<dynamic>>.from(jsonDecode(regionsData));
+      final infoData = jsonDecode(countriesInfoData) as Map<String, dynamic>;
+      final areas = Map<String, List<dynamic>>.from(jsonDecode(areasData));
       final List<CountryModel> result = [];
       for (String key in geoData.keys) {
         final cca3 = key;
+        final info = infoData[cca3] as Map<String, dynamic>;
         final List<List<List<double>>> polygons = (geoData[key]
                 as List<dynamic>)
             .map<List<List<double>>>((dynamic item) => (item as List<dynamic>)
@@ -36,13 +40,12 @@ class MapLocalDataSourceImpl implements MapLocalDataSource {
                         .toList())
                 .toList())
             .toList();
-        final region = regions.keys.firstWhere(
-          (key) => regions[key]!.cast<String>().contains(cca3),
-        );
+        final area = areas[info['area']] as String;
         result.add(CountryModel(
           polygons: polygons,
           countryCode: cca3,
-          region: RegionExtension.fromString(region),
+          region: AreaExtension.fromString(area),
+          moreDataAvailable: info['more_data_available'] as bool,
         ));
       }
       return result;
