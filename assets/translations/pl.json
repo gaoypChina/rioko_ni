@@ -54,13 +54,13 @@
         }
     },
     "worldStatisticsMap": {
-        "africa": "@:regions.africa",
+        "africa": "@:areas.africa",
         "northAmerica": "Ameryka półn.",
         "southAmerica": "Ameryka poł.",
-        "europe": "@:regions.europe",
-        "asia": "@:regions.asia",
-        "oceania": "@:regions.oceania",
-        "antarctic": "@:regions.antarctic"
+        "europe": "@:areas.europe",
+        "asia": "@:areas.asia",
+        "oceania": "@:areas.oceania",
+        "antarctic": "@:areas.antarctic"
     },
     "areas": {
         "africa": "Afryka",
