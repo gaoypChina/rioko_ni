@@ -55,7 +55,6 @@ class MapCubit extends Cubit<MapState> {
     _getCurrentPosition();
     await _getCountryPolygons().then((_) {
       _getLocalCountryData();
-      getCountryRegions('POL');
     });
   }
 

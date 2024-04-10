@@ -19,10 +19,12 @@ class RevenueCatCubit extends Cubit<RevenueCatState> {
     late PurchasesConfiguration configuration;
     if (Platform.isAndroid) {
       configuration = PurchasesConfiguration(
-        const String.fromEnvironment('revenue_cat_public_key'),
+        const String.fromEnvironment('revenue_cat_public_key_android'),
       );
     } else if (Platform.isIOS) {
-      // configuration = PurchasesConfiguration(<revenuecat_project_apple_api_key>);
+      configuration = PurchasesConfiguration(
+        const String.fromEnvironment('revenue_cat_public_key_ios'),
+      );
     }
     await Purchases.configure(configuration);
   }

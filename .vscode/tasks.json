@@ -29,6 +29,11 @@
 			"detail": ""
 		},
 		{
+			"label": "clean_project",
+			"type": "shell",
+			"command": "flutter clean && flutter pub cache clean && flutter pub get && cd ios && pod update && pod install --repo-update"
+		},
+		{
 			"type": "shell",
 			"command": "flutter pub outdated && flutter pub upgrade outdated_package && flutter clean && flutter pub get",
 			"label": "flutter: update packages",
