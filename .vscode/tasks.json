@@ -29,6 +29,19 @@
 			"detail": ""
 		},
 		{
+			"type": "dart",
+			"command": "flutter",
+			"cwd": "",
+			"args": [
+				"build",
+				"ipa",
+				"--dart-define-from-file=env.json"
+			],
+			"problemMatcher": [],
+			"label": "flutter: build ios",
+			"detail": ""
+		},
+		{
 			"label": "clean_project",
 			"type": "shell",
 			"command": "flutter clean && flutter pub cache clean && flutter pub get && cd ios && pod update && pod install --repo-update"
