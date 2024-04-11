@@ -166,7 +166,7 @@ class _ChangeThemeDialogState extends State<ChangeThemeDialog> {
       onPressed: () {
         if (!isOptionAvailable) {
           setState(() => loadingPurchase = true);
-          _revenueCatCubit.purchase().then((_) => setState(
+          _revenueCatCubit.purchasePremium().then((_) => setState(
                 () => loadingPurchase = false,
               ));
           return;

@@ -57,97 +57,99 @@ class RiokoDrawer extends StatelessWidget {
           bottom: AppSizes.paddingSeptuple,
           top: AppSizes.paddingQuadruple,
         ),
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(AppSizes.padding),
-              child: SimpleMap(
-                instructions: SMapWorld.instructionsMercator,
-                defaultColor: Theme.of(context).colorScheme.background,
-                countryBorder: CountryBorder(color: mapBorderColor(context)),
-                colors: _cubit.countries
-                    .where((c) => c.status != CountryStatus.none)
-                    .map(
-                      (c) => {
-                        c.alpha2.toLowerCase():
-                            c.status.color(context).withOpacity(0.3),
-                      },
-                    )
-                    .reduceOrNull((value, element) => {...value, ...element}),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(AppSizes.padding),
+                child: SimpleMap(
+                  instructions: SMapWorld.instructionsMercator,
+                  defaultColor: Theme.of(context).colorScheme.background,
+                  countryBorder: CountryBorder(color: mapBorderColor(context)),
+                  colors: _cubit.countries
+                      .where((c) => c.status != CountryStatus.none)
+                      .map(
+                        (c) => {
+                          c.alpha2.toLowerCase():
+                              c.status.color(context).withOpacity(0.3),
+                        },
+                      )
+                      .reduceOrNull((value, element) => {...value, ...element}),
+                ),
               ),
-            ),
-            divider,
-            ListTile(
-              leading: const Icon(FontAwesomeIcons.chartPie),
-              title: Text(
-                tr('$l10n.labels.showStatistics'),
-                style: Theme.of(context).textTheme.headlineMedium,
+              divider,
+              ListTile(
+                leading: const Icon(FontAwesomeIcons.chartPie),
+                title: Text(
+                  tr('$l10n.labels.showStatistics'),
+                  style: Theme.of(context).textTheme.headlineMedium,
+                ),
+                onTap: () {
+                  Navigator.of(context).pop();
+                  openTopBehindDrawer();
+                },
               ),
-              onTap: () {
-                Navigator.of(context).pop();
-                openTopBehindDrawer();
-              },
-            ),
-            ListTile(
-              leading: const Icon(FontAwesomeIcons.shareNodes),
-              title: Text(
-                tr('$l10n.labels.shareStatistics'),
-                style: Theme.of(context).textTheme.headlineMedium,
+              ListTile(
+                leading: const Icon(FontAwesomeIcons.shareNodes),
+                title: Text(
+                  tr('$l10n.labels.shareStatistics'),
+                  style: Theme.of(context).textTheme.headlineMedium,
+                ),
+                onTap: () {
+                  Navigator.of(context).pop();
+                  showGeneralDialog(
+                    barrierColor: Colors.black.withOpacity(0.5),
+                    context: context,
+                    pageBuilder: (context, animation1, animation2) =>
+                        const ShareDialog(),
+                  );
+                },
               ),
-              onTap: () {
-                Navigator.of(context).pop();
-                showGeneralDialog(
-                  barrierColor: Colors.black.withOpacity(0.5),
-                  context: context,
-                  pageBuilder: (context, animation1, animation2) =>
-                      const ShareDialog(),
-                );
-              },
-            ),
-            ListTile(
-              leading: const Icon(FontAwesomeIcons.paintRoller),
-              title: Text(
-                tr('$l10n.labels.changeTheme'),
-                style: Theme.of(context).textTheme.headlineMedium,
+              ListTile(
+                leading: const Icon(FontAwesomeIcons.paintRoller),
+                title: Text(
+                  tr('$l10n.labels.changeTheme'),
+                  style: Theme.of(context).textTheme.headlineMedium,
+                ),
+                onTap: () {
+                  Navigator.of(context).pop();
+                  ChangeThemeDialog(updateMap: updateMap).show(context);
+                },
               ),
-              onTap: () {
-                Navigator.of(context).pop();
-                ChangeThemeDialog(updateMap: updateMap).show(context);
-              },
-            ),
-            divider,
-            ListTile(
-              leading: const Icon(FontAwesomeIcons.circleInfo),
-              title: Text(
-                tr('$l10n.labels.aboutApp'),
-                style: Theme.of(context).textTheme.headlineMedium,
+              divider,
+              ListTile(
+                leading: const Icon(FontAwesomeIcons.circleInfo),
+                title: Text(
+                  tr('$l10n.labels.aboutApp'),
+                  style: Theme.of(context).textTheme.headlineMedium,
+                ),
+                onTap: () {
+                  Navigator.of(context).pop();
+                  const AboutAppDialog().show(context);
+                },
               ),
-              onTap: () {
-                Navigator.of(context).pop();
-                const AboutAppDialog().show(context);
-              },
-            ),
-            ListTile(
-              leading: const Icon(FontAwesomeIcons.shieldHalved),
-              title: Text(
-                tr('$l10n.labels.privacyPolicy'),
-                style: Theme.of(context).textTheme.headlineMedium,
+              ListTile(
+                leading: const Icon(FontAwesomeIcons.shieldHalved),
+                title: Text(
+                  tr('$l10n.labels.privacyPolicy'),
+                  style: Theme.of(context).textTheme.headlineMedium,
+                ),
+                onTap: () async {
+                  try {
+                    await launchUrl(Uri.parse(
+                        'https://www.freeprivacypolicy.com/live/a5ed11ff-966d-4ba8-97f7-ede0a81bfb62'));
+                  } catch (e) {
+                    ToastBuilder(
+                      message: tr(
+                        'core.errors.launchUrl',
+                        args: [tr('$l10n.labels.privacyPolicy')],
+                      ),
+                    ).show(RiokoNi.navigatorKey.currentContext!);
+                  }
+                },
               ),
-              onTap: () async {
-                try {
-                  await launchUrl(Uri.parse(
-                      'https://www.freeprivacypolicy.com/live/a5ed11ff-966d-4ba8-97f7-ede0a81bfb62'));
-                } catch (e) {
-                  ToastBuilder(
-                    message: tr(
-                      'core.errors.launchUrl',
-                      args: [tr('$l10n.labels.privacyPolicy')],
-                    ),
-                  ).show(RiokoNi.navigatorKey.currentContext!);
-                }
-              },
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

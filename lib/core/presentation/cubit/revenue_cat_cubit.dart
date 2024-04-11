@@ -16,20 +16,14 @@ class RevenueCatCubit extends Cubit<RevenueCatState> {
   Future<void> initPlatformState() async {
     await Purchases.setLogLevel(LogLevel.debug);
 
-    late PurchasesConfiguration configuration;
-    if (Platform.isAndroid) {
-      configuration = PurchasesConfiguration(
-        const String.fromEnvironment('revenue_cat_public_key_android'),
-      );
-    } else if (Platform.isIOS) {
-      configuration = PurchasesConfiguration(
-        const String.fromEnvironment('revenue_cat_public_key_ios'),
-      );
+    String key = const String.fromEnvironment('revenue_cat_public_key_android');
+    if (Platform.isIOS || Platform.isMacOS) {
+      key = const String.fromEnvironment('revenue_cat_public_key_ios');
     }
-    await Purchases.configure(configuration);
+    await Purchases.configure(PurchasesConfiguration(key));
   }
 
-  StoreProduct? premiumProduct;
+  StoreProduct? riokoPremium;
 
   Future<void> fetchProduct() async {
     try {
@@ -38,23 +32,23 @@ class RevenueCatCubit extends Cubit<RevenueCatState> {
         productCategory: ProductCategory.nonSubscription,
       );
       if (products.isNotEmpty) {
-        premiumProduct = products.first;
+        riokoPremium = products.first;
       }
     } on PlatformException catch (e, stack) {
-      debugPrint(stack.toString());
+      debugPrint('$e\n$stack');
       emit(RevenueCatState.error(e.message ?? ''));
     }
   }
 
   bool isPremium = false;
 
-  Future<void> purchase() async {
-    if (premiumProduct == null) {
+  Future<void> purchasePremium() async {
+    if (riokoPremium == null) {
       return emit(RevenueCatState.error(tr('core.errors.productFetch')));
     }
     try {
       CustomerInfo customerInfo =
-          await Purchases.purchaseStoreProduct(premiumProduct!);
+          await Purchases.purchaseStoreProduct(riokoPremium!);
       if (customerInfo.entitlements.all["premium"]?.isActive ?? false) {
         isPremium = true;
         emit(RevenueCatState.purchasedPremium(customerInfo));

@@ -74,10 +74,7 @@ class FloatingUI extends StatelessWidget {
                       height: 50,
                       alignment: Alignment.topCenter,
                       margin: const EdgeInsets.only(left: AppSizes.padding),
-                      padding: const EdgeInsets.symmetric(
-                        vertical: AppSizes.padding,
-                        horizontal: AppSizes.paddingTriple,
-                      ),
+                      padding: const EdgeInsets.all(AppSizes.padding),
                       decoration: BoxDecoration(
                         color: Theme.of(context)
                             .colorScheme
@@ -89,20 +86,25 @@ class FloatingUI extends StatelessWidget {
                         borderRadius: BorderRadius.circular(AppSizes.radius),
                       ),
                       child: Center(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              "${tr('$l10n.labels.been')}: ${_cubit.beenCountries.length}",
-                            ),
-                            Text(
-                              "${tr('$l10n.labels.want')}: ${_cubit.wantCountries.length}",
-                            ),
-                            Text(
-                              "${tr('$l10n.labels.lived')}: ${_cubit.livedCountries.length}",
-                            ),
-                          ],
+                        child: FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                "${tr('$l10n.labels.been')}: ${_cubit.beenCountries.length}",
+                              ),
+                              const SizedBox(width: 5),
+                              Text(
+                                "${tr('$l10n.labels.want')}: ${_cubit.wantCountries.length}",
+                              ),
+                              const SizedBox(width: 5),
+                              Text(
+                                "${tr('$l10n.labels.lived')}: ${_cubit.livedCountries.length}",
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
