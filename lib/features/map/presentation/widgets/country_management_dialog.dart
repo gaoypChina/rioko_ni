@@ -268,7 +268,7 @@ class _CountryManagementDialogState extends State<CountryManagementDialog>
               const SizedBox(height: AppSizes.paddingDouble),
               Icon(
                 icon,
-                color: Theme.of(context).primaryColor,
+                color: Theme.of(context).colorScheme.primary,
                 size: 35,
               ),
               const SizedBox(height: AppSizes.paddingHalf),

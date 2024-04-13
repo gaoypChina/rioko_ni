@@ -335,7 +335,8 @@
             "shareStatistics": "Share your statistics",
             "changeTheme": "Change theme",
             "privacyPolicy": "Privacy policy",
-            "aboutApp": "About app"
+            "aboutApp": "About app",
+            "buyPremium": "Buy Rioko Premium"
         }
     },
     "changeThemeDialog": {

@@ -7,6 +7,7 @@ import 'package:rioko_ni/core/config/app_sizes.dart';
 import 'package:rioko_ni/core/extensions/iterable2.dart';
 import 'package:rioko_ni/core/injector.dart';
 import 'package:rioko_ni/core/presentation/about_app_dialog.dart';
+import 'package:rioko_ni/core/presentation/cubit/revenue_cat_cubit.dart';
 import 'package:rioko_ni/core/presentation/cubit/theme_cubit.dart';
 import 'package:rioko_ni/core/presentation/widgets/change_theme_dialog.dart';
 import 'package:rioko_ni/core/presentation/widgets/toast.dart';
@@ -16,22 +17,32 @@ import 'package:rioko_ni/features/map/presentation/widgets/share_dialog.dart';
 import 'package:rioko_ni/main.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class RiokoDrawer extends StatelessWidget {
+class RiokoDrawer extends StatefulWidget {
   final bool showWorldStatistics;
   final void Function() openTopBehindDrawer;
   final void Function() updateMap;
 
-  RiokoDrawer({
+  const RiokoDrawer({
     required this.openTopBehindDrawer,
     required this.showWorldStatistics,
     required this.updateMap,
     super.key,
   });
 
+  @override
+  State<RiokoDrawer> createState() => _RiokoDrawerState();
+}
+
+class _RiokoDrawerState extends State<RiokoDrawer> {
   String get l10n => 'drawer';
 
   final _cubit = locator<MapCubit>();
+
   final _themeCubit = locator<ThemeCubit>();
+
+  final _revenueCatCubit = locator<RevenueCatCubit>();
+
+  bool loadingPurchase = false;
 
   Widget get divider => const Divider(
         endIndent: AppSizes.paddingDouble,
@@ -77,6 +88,25 @@ class RiokoDrawer extends StatelessWidget {
                       .reduceOrNull((value, element) => {...value, ...element}),
                 ),
               ),
+              if (!_revenueCatCubit.isPremium) ...[
+                divider,
+                ListTile(
+                  leading: const Icon(FontAwesomeIcons.gem),
+                  title: Text(
+                    tr('$l10n.labels.buyPremium'),
+                    style: Theme.of(context).textTheme.headlineMedium,
+                  ),
+                  trailing: loadingPurchase
+                      ? const CircularProgressIndicator.adaptive()
+                      : null,
+                  onTap: () {
+                    setState(() => loadingPurchase = true);
+                    _revenueCatCubit.purchasePremium().then((_) => setState(
+                          () => loadingPurchase = false,
+                        ));
+                  },
+                ),
+              ],
               divider,
               ListTile(
                 leading: const Icon(FontAwesomeIcons.chartPie),
@@ -86,7 +116,7 @@ class RiokoDrawer extends StatelessWidget {
                 ),
                 onTap: () {
                   Navigator.of(context).pop();
-                  openTopBehindDrawer();
+                  widget.openTopBehindDrawer();
                 },
               ),
               ListTile(
@@ -113,7 +143,7 @@ class RiokoDrawer extends StatelessWidget {
                 ),
                 onTap: () {
                   Navigator.of(context).pop();
-                  ChangeThemeDialog(updateMap: updateMap).show(context);
+                  ChangeThemeDialog(updateMap: widget.updateMap).show(context);
                 },
               ),
               divider,
