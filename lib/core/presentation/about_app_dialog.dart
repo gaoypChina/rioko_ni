@@ -1,4 +1,5 @@
 import 'package:about/about.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -26,6 +27,7 @@ class _AboutAppDialogState extends State<AboutAppDialog> {
 
   void getAppInfo() async {
     packageInfo = await PackageInfo.fromPlatform();
+    setState(() {});
   }
 
   @override
@@ -46,7 +48,8 @@ class _AboutAppDialogState extends State<AboutAppDialog> {
                 radius: 50,
               ),
             ),
-            Text('Author', style: Theme.of(context).textTheme.bodySmall),
+            Text(tr('aboutAppDialog.labels.author'),
+                style: Theme.of(context).textTheme.bodySmall),
             Text('Patryk Bożek', style: Theme.of(context).textTheme.bodyLarge),
             Divider(
               indent: size.width / 10,
@@ -64,7 +67,7 @@ class _AboutAppDialogState extends State<AboutAppDialog> {
                   color: Theme.of(context).iconTheme.color,
                 ),
                 title: Text(
-                  'Licences',
+                  tr('aboutAppDialog.labels.licences'),
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
                 trailing: Icon(
@@ -72,6 +75,14 @@ class _AboutAppDialogState extends State<AboutAppDialog> {
                   color: Theme.of(context).iconTheme.color,
                   size: 12,
                 ),
+              ),
+            ),
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(vertical: AppSizes.paddingDouble),
+              child: ElevatedButton(
+                onPressed: Navigator.of(context).pop,
+                child: Text(tr('core.dialog.back')),
               ),
             ),
           ],

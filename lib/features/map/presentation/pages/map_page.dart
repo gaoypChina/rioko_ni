@@ -111,14 +111,15 @@ class _MapPageState extends State<MapPage> {
                   FloatingUI(
                     lowerTopUI: showTopBehindDrawer,
                     openTopBehindDrawer: () {
-                      showTopBehindDrawer = true;
-                      showWorldStatistics = true;
-                      setState(() {});
+                      if (showTopBehindDrawer) return _closeTopDrawer();
+                      _showTopDrawer();
                     },
                     openDrawer: () {
                       _closeTopDrawer();
                       Scaffold.of(context).openDrawer();
                     },
+                    onDragDown: _showTopDrawer,
+                    onDragUp: _closeTopDrawer,
                   ),
                 ],
               );
@@ -185,5 +186,11 @@ class _MapPageState extends State<MapPage> {
       showWorldStatistics = showTopBehindDrawer;
       setState(() {});
     });
+  }
+
+  void _showTopDrawer() {
+    showTopBehindDrawer = true;
+    showWorldStatistics = true;
+    setState(() {});
   }
 }

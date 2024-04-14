@@ -70,6 +70,12 @@ class _CountryManagementDialogState extends State<CountryManagementDialog>
     super.initState();
   }
 
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
   final GlobalKey _dialogKey = GlobalKey();
 
   final _cubit = locator<MapCubit>();
@@ -200,8 +206,8 @@ class _CountryManagementDialogState extends State<CountryManagementDialog>
             ),
             const SizedBox(height: AppSizes.paddingDouble),
             OutlinedButton(
-              onPressed: () => pop(context),
-              child: Text(tr('core.dialog.ok')),
+              onPressed: () => pop(context, short: true),
+              child: Text(tr('core.dialog.back')),
             ),
           ],
         ),
@@ -228,14 +234,14 @@ class _CountryManagementDialogState extends State<CountryManagementDialog>
     if (!inside) pop(context);
   }
 
-  void pop(BuildContext context) {
+  void pop(BuildContext context, {bool short = false}) {
     if (isPopping) return;
     _cubit.updateCountryStatus(
         country: widget.country, status: widget.country.status);
     isPopping = true;
     _controller.reverse();
     Future.delayed(
-        const Duration(milliseconds: 450), Navigator.of(context).pop);
+        Duration(milliseconds: short ? 100 : 300), Navigator.of(context).pop);
   }
 
   Widget _buildButton(
@@ -247,7 +253,10 @@ class _CountryManagementDialogState extends State<CountryManagementDialog>
     required bool selected,
   }) {
     return GestureDetector(
-      onTap: onPressed,
+      onTap: () {
+        onPressed();
+        pop(context);
+      },
       child: AspectRatio(
         aspectRatio: 1,
         child: AnimatedContainer(

@@ -23,7 +23,8 @@
         },
         "purchaseSuccessfullMessage": "Zakupiono Rioko Premium!",
         "dialog": {
-            "ok": "OK"
+            "ok": "OK",
+            "back": "Wróć"
         },
         "themes": {
             "classic": "Klasyczny",
@@ -341,5 +342,11 @@
     },
     "changeThemeDialog": {
         "buttonName": "Wybierz ten motyw"
+    },
+    "aboutAppDialog": {
+        "labels": {
+            "author": "Autor",
+            "licences": "Licencje"
+        }
     }
 }

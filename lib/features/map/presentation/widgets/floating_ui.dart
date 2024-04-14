@@ -12,10 +12,16 @@ class FloatingUI extends StatelessWidget {
 
   final void Function() openDrawer;
 
+  final void Function() onDragDown;
+
+  final void Function() onDragUp;
+
   FloatingUI({
     required this.lowerTopUI,
     required this.openTopBehindDrawer,
     required this.openDrawer,
+    required this.onDragDown,
+    required this.onDragUp,
     super.key,
   });
 
@@ -70,6 +76,20 @@ class FloatingUI extends StatelessWidget {
                 Expanded(
                   child: GestureDetector(
                     onTap: openTopBehindDrawer,
+                    onVerticalDragDown: (details) {
+                      if (details.globalPosition.dy > 90) {
+                        // onDragDown();
+                      }
+                    },
+                    onVerticalDragUpdate: (details) {
+                      debugPrint('${details.delta}');
+                      if (details.delta.dy > 90) {
+                        onDragDown();
+                      }
+                      if (details.delta.dy < -30) {
+                        onDragUp();
+                      }
+                    },
                     child: Container(
                       height: 50,
                       alignment: Alignment.topCenter,
@@ -91,15 +111,16 @@ class FloatingUI extends StatelessWidget {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.max,
                             children: [
                               Text(
                                 "${tr('$l10n.labels.been')}: ${_cubit.beenCountries.length}",
                               ),
-                              const SizedBox(width: 5),
+                              const SizedBox(width: 12),
                               Text(
                                 "${tr('$l10n.labels.want')}: ${_cubit.wantCountries.length}",
                               ),
-                              const SizedBox(width: 5),
+                              const SizedBox(width: 12),
                               Text(
                                 "${tr('$l10n.labels.lived')}: ${_cubit.livedCountries.length}",
                               ),
