@@ -206,10 +206,6 @@ class _CountryManagementDialogState extends State<CountryManagementDialog>
                 const Expanded(child: SizedBox()),
               ],
             ),
-            OutlinedButton(
-              onPressed: () => widget.fetchRegions(widget.country.alpha3),
-              child: const Text('Fetch regions'),
-            ),
             const SizedBox(height: AppSizes.paddingDouble),
             OutlinedButton(
               onPressed: () => pop(context, short: true),

@@ -861,7 +861,7 @@
     },
     "ALA": {
         "area": 4,
-        "more_data_available": true
+        "more_data_available": false
     },
     "SJM": {
         "area": 4,

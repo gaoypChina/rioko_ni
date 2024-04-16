@@ -57,12 +57,6 @@ class MapCubit extends Cubit<MapState> {
     _getCurrentPosition();
     await _getCountryPolygons().then((_) {
       _getLocalCountryData();
-      int countriesWithout = 0;
-      countries.forEach((c) {
-        if (!c.moreDataAvailable) countriesWithout++;
-      });
-      debugPrint(
-          'No regions: $countriesWithout\n Regions: ${countries.length - countriesWithout}');
     });
   }
 
