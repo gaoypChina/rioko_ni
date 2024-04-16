@@ -3,7 +3,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_cache/flutter_map_cache.dart';
-import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:rioko_ni/core/extensions/color2.dart';
 import 'package:rioko_ni/core/extensions/iterable2.dart';
@@ -22,13 +21,12 @@ class MapBuilder {
     InteractionOptions? interactionOptions,
     void Function(TapPosition, LatLng)? onTap,
     LatLng? center,
-    void Function(MapPosition, bool)? onPositionChanged,
   }) {
     return MapOptions(
-      interactionOptions: interactionOptions,
+      interactionOptions: interactionOptions ?? const InteractionOptions(),
       initialZoom: initialZoom ?? 5,
       backgroundColor: backgroundColor ?? const Color(0x00000000),
-      // Smallest possible number. For values of 2 and less, the polygons displayed on the map bug out -
+      // For values of 2 and less, the polygons displayed on the map bug out -
       // this is due to the fact that polygons for maximum longitude and minimum longitude are visible at the same time,
       // and flutter_map incorrectly analyzes them and tries to merge them together.
       minZoom: minZoom ?? 3.8,
@@ -38,7 +36,7 @@ class MapBuilder {
         bounds: LatLngBounds(const LatLng(85, -180), const LatLng(-85, 180)),
       ),
       initialCenter: center ?? const LatLng(50.5, 30.51),
-      onPositionChanged: onPositionChanged,
+      keepAlive: true,
     );
   }
 
@@ -76,7 +74,7 @@ class MapBuilder {
             : CachedTileProvider(
                 // maxStale keeps the tile cached for the given Duration and
                 // tries to revalidate the next time it gets requested
-                maxStale: const Duration(days: 365),
+                maxStale: const Duration(days: 30),
                 cachePolicy: CachePolicy.forceCache,
                 store: HiveCacheStore(
                   dir,
@@ -94,12 +92,14 @@ class MapBuilder {
               final pointsList = country.polygons;
               return pointsList.map((points) {
                 return Polygon(
+                  strokeCap: StrokeCap.butt,
+                  strokeJoin: StrokeJoin.miter,
                   points: points,
                   borderColor: country.status.color(context),
-                  borderStrokeWidth: 2.0,
+                  borderStrokeWidth: 0.5,
                   isFilled: true,
                   color:
-                      country.status.color(context).withMultipliedOpacity(0.3),
+                      country.status.color(context).withMultipliedOpacity(0.4),
                 );
               });
             }),
@@ -113,12 +113,14 @@ class MapBuilder {
               final pointsList = country.polygons;
               return pointsList.map((points) {
                 return Polygon(
+                  strokeCap: StrokeCap.butt,
+                  strokeJoin: StrokeJoin.miter,
                   points: points,
                   borderColor: country.status.color(context),
-                  borderStrokeWidth: 2.0,
+                  borderStrokeWidth: 0.5,
                   isFilled: true,
                   color:
-                      country.status.color(context).withMultipliedOpacity(0.3),
+                      country.status.color(context).withMultipliedOpacity(0.4),
                 );
               });
             }),
@@ -132,12 +134,14 @@ class MapBuilder {
               final pointsList = country.polygons;
               return pointsList.map((points) {
                 return Polygon(
+                  strokeCap: StrokeCap.butt,
+                  strokeJoin: StrokeJoin.miter,
                   points: points,
                   borderColor: country.status.color(context),
-                  borderStrokeWidth: 2.0,
+                  borderStrokeWidth: 0.5,
                   isFilled: true,
                   color:
-                      country.status.color(context).withMultipliedOpacity(0.3),
+                      country.status.color(context).withMultipliedOpacity(0.4),
                 );
               });
             }),
@@ -145,38 +149,48 @@ class MapBuilder {
           [],
     );
 
-    polygons.addAll(
-      regions.first.polygons.map(
-        (points) => Polygon(
-          points: points,
-          borderColor: Colors.white,
-          borderStrokeWidth: 4.0,
+    if (regions.isNotEmpty) {
+      polygons.addAll(
+        regions.first.polygons.map(
+          (points) => Polygon(
+            strokeCap: StrokeCap.butt,
+            strokeJoin: StrokeJoin.bevel,
+            points: points,
+            borderColor: Colors.white,
+            color: Colors.white24,
+            borderStrokeWidth: 1.0,
+          ),
         ),
-      ),
-    );
+      );
+    }
 
     layers.add(PolygonLayer(
       key: polygonsLayerKey,
       polygonCulling: true,
       polygons: polygons,
+      polygonLabels: false,
     ));
 
-    layers.add(
-      CurrentLocationLayer(
-        alignDirectionOnUpdate: AlignOnUpdate.never,
-        headingStream: null,
-        style: LocationMarkerStyle(
-          marker: DefaultLocationMarker(
-            color: Theme.of(RiokoNi.navigatorKey.currentContext!)
-                .colorScheme
-                .primary,
+    if (center != null) {
+      layers.add(
+        MarkerLayer(markers: [
+          Marker(
+            height: 15,
+            width: 15,
+            point: center,
+            child: Container(
+              decoration: BoxDecoration(
+                color: Theme.of(RiokoNi.navigatorKey.currentContext!)
+                    .colorScheme
+                    .primary,
+                border: Border.all(color: Colors.white, width: 2),
+                borderRadius: BorderRadius.circular(25),
+              ),
+            ),
           ),
-          markerSize: const Size.square(15),
-          headingSectorColor: Colors.transparent,
-          accuracyCircleColor: Colors.transparent,
-        ),
-      ),
-    );
+        ]),
+      );
+    }
 
     return Map(
       key: key,
