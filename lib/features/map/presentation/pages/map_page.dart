@@ -151,7 +151,6 @@ class _MapPageState extends State<MapPage> {
                 mapController.move(
                     mapController.camera.center, mapController.camera.zoom - 2);
               },
-              fetchRegions: _mapCubit.getCountryRegions,
             ),
           );
         },
@@ -182,11 +181,9 @@ class _MapPageState extends State<MapPage> {
         if (country == null) return;
         CountryManagementDialog(
           country: country,
-          fetchRegions: _mapCubit.getCountryRegions,
         ).show(context);
       },
       dir: _mapCubit.dir,
-      regions: _mapCubit.fetchedRegions,
     );
   }
 

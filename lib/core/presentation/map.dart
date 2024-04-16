@@ -9,7 +9,6 @@ import 'package:rioko_ni/core/extensions/iterable2.dart';
 import 'package:rioko_ni/core/injector.dart';
 import 'package:rioko_ni/core/presentation/cubit/theme_cubit.dart';
 import 'package:rioko_ni/features/map/domain/entities/country.dart';
-import 'package:rioko_ni/features/map/domain/entities/region.dart';
 import 'package:rioko_ni/main.dart';
 
 class MapBuilder {
@@ -52,7 +51,6 @@ class MapBuilder {
     required Key key,
     required LatLng? center,
     required Key polygonsLayerKey,
-    required List<Region> regions,
   }) {
     final mapOptions = getMapOptions(
       interactionOptions: const InteractionOptions(
@@ -148,21 +146,6 @@ class MapBuilder {
           ).reduceOrNull((value, element) => [...value, ...element]) ??
           [],
     );
-
-    if (regions.isNotEmpty) {
-      polygons.addAll(
-        regions.first.polygons.map(
-          (points) => Polygon(
-            strokeCap: StrokeCap.butt,
-            strokeJoin: StrokeJoin.bevel,
-            points: points,
-            borderColor: Colors.white,
-            color: Colors.white24,
-            borderStrokeWidth: 1.0,
-          ),
-        ),
-      );
-    }
 
     layers.add(PolygonLayer(
       key: polygonsLayerKey,

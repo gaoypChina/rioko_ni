@@ -31,7 +31,5 @@ class MapState with _$MapState {
   const factory MapState.setCurrentPosition(LatLng position) =
       _SetCurrentPosition;
 
-  const factory MapState.fetchedRegions(List<Region> regions) = _FetchedRegions;
-
   const factory MapState.error(String message) = _Error;
 }

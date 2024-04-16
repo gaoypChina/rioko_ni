@@ -7,10 +7,8 @@ import 'package:rioko_ni/core/data/gadm_client.dart';
 import 'package:rioko_ni/core/presentation/cubit/revenue_cat_cubit.dart';
 import 'package:rioko_ni/core/presentation/cubit/theme_cubit.dart';
 import 'package:rioko_ni/features/map/data/datasources/map_local_data_source_impl.dart';
-import 'package:rioko_ni/features/map/data/datasources/map_remote_data_source_impl.dart';
 import 'package:rioko_ni/features/map/data/repositories/map_repository_impl.dart';
 import 'package:rioko_ni/features/map/domain/usecases/get_countries.dart';
-import 'package:rioko_ni/features/map/domain/usecases/get_regions.dart';
 import 'package:rioko_ni/features/map/presentation/cubit/map_cubit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -58,22 +56,15 @@ Future registerDependencies() async {
   locator.registerSingleton<MapLocalDataSourceImpl>(
     MapLocalDataSourceImpl(sharedPreferences: locator<SharedPreferences>()),
   );
-  locator.registerSingleton<MapRemoteDataSourceImpl>(
-    MapRemoteDataSourceImpl(client: locator<GADMClient>()),
-  );
   locator.registerSingleton<MapRepositoryImpl>(MapRepositoryImpl(
     localDataSource: locator<MapLocalDataSourceImpl>(),
-    remoteDataSource: locator<MapRemoteDataSourceImpl>(),
   ));
   locator.registerSingleton<GetCountries>(
       GetCountries(locator<MapRepositoryImpl>()));
-  locator.registerSingleton<GetCountryRegions>(
-      GetCountryRegions(locator<MapRepositoryImpl>()));
 
   locator.registerSingleton<MapCubit>(
     MapCubit(
       getCountryPolygonUsecase: locator<GetCountries>(),
-      getCountryRegionsUsecase: locator<GetCountryRegions>(),
     ),
   );
   // Revenue cat

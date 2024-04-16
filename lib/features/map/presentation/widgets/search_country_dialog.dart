@@ -9,11 +9,9 @@ import 'package:rioko_ni/features/map/presentation/widgets/country_management_di
 
 class SearchCountryDialog extends StatefulWidget {
   final void Function(Country) onSelectCountry;
-  final void Function(String) fetchRegions;
 
   const SearchCountryDialog({
     required this.onSelectCountry,
-    required this.fetchRegions,
     super.key,
   });
 
@@ -238,7 +236,6 @@ class _SearchCountryDialogState extends State<SearchCountryDialog>
             const Duration(milliseconds: 200),
             () => CountryManagementDialog(
               country: country,
-              fetchRegions: widget.fetchRegions,
             ).show(context),
           );
         },
