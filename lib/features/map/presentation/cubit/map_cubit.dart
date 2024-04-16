@@ -13,6 +13,7 @@ import 'package:rioko_ni/core/utils/geo_utils.dart';
 import 'package:rioko_ni/core/utils/geolocation_handler.dart';
 
 import 'package:rioko_ni/features/map/domain/entities/country.dart';
+import 'package:rioko_ni/features/map/domain/entities/region.dart';
 import 'package:rioko_ni/features/map/domain/usecases/get_countries.dart';
 import 'package:collection/collection.dart';
 import 'package:rioko_ni/features/map/domain/usecases/get_regions.dart';
@@ -87,6 +88,8 @@ class MapCubit extends Cubit<MapState> {
     return result;
   }
 
+  List<Region> fetchedRegions = [];
+
   Future getCountryRegions(String countryCode) async {
     await getCountryRegionsUsecase.call(countryCode).then(
           (result) => result.fold(
@@ -96,6 +99,8 @@ class MapCubit extends Cubit<MapState> {
             },
             (data) {
               debugPrint('fetched');
+              fetchedRegions = data;
+              emit(MapState.fetchedRegions(data));
             },
           ),
         );

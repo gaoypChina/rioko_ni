@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:rioko_ni/core/utils/geo_utils.dart';
 import 'package:rioko_ni/features/map/domain/entities/region.dart';
 
 part 'region_model.freezed.dart';
@@ -23,7 +24,9 @@ class RegionModel with _$RegionModel {
         .toList();
     return Region(
       code: code,
-      polygons: poly,
+      polygons: poly
+          .map((p) => GeoUtils.simplify(p, reductionPercentage: 75))
+          .toList(),
       name: name,
       type: type,
       countryCode: countryCode,

@@ -11,9 +11,11 @@ import 'package:rioko_ni/features/map/presentation/cubit/map_cubit.dart';
 
 class CountryManagementDialog extends StatefulWidget {
   final Country country;
+  final void Function(String) fetchRegions;
 
   const CountryManagementDialog({
     required this.country,
+    required this.fetchRegions,
     super.key,
   });
 
@@ -203,6 +205,10 @@ class _CountryManagementDialogState extends State<CountryManagementDialog>
                 ),
                 const Expanded(child: SizedBox()),
               ],
+            ),
+            OutlinedButton(
+              onPressed: () => widget.fetchRegions(widget.country.alpha3),
+              child: Text('Fetch regions'),
             ),
             const SizedBox(height: AppSizes.paddingDouble),
             OutlinedButton(
