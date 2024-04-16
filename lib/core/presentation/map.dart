@@ -30,8 +30,8 @@ class MapBuilder {
       // Smallest possible number. For values of 2 and less, the polygons displayed on the map bug out -
       // this is due to the fact that polygons for maximum longitude and minimum longitude are visible at the same time,
       // and flutter_map incorrectly analyzes them and tries to merge them together.
-      minZoom: minZoom ?? 3,
-      maxZoom: maxZoom ?? 17,
+      minZoom: minZoom ?? 4,
+      maxZoom: maxZoom ?? 15,
       onTap: onTap,
       cameraConstraint: CameraConstraint.contain(
         bounds: LatLngBounds(const LatLng(85, -180), const LatLng(-85, 180)),
