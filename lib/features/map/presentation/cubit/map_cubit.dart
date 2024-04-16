@@ -9,6 +9,7 @@ import 'package:rioko_ni/core/domain/usecase.dart';
 import 'package:rioko_ni/core/errors/failure.dart';
 import 'package:rioko_ni/core/injector.dart';
 import 'package:rioko_ni/core/presentation/cubit/theme_cubit.dart';
+import 'package:rioko_ni/core/utils/geo_utils.dart';
 import 'package:rioko_ni/core/utils/geolocation_handler.dart';
 
 import 'package:rioko_ni/features/map/domain/entities/country.dart';
@@ -336,10 +337,14 @@ class MapCubit extends Cubit<MapState> {
 
   Country? getCountryFromPosition(LatLng position) {
     final watch = Stopwatch()..start();
-    final result =
-        countries.firstWhereOrNull((country) => country.contains(position));
+    final results =
+        countries.where((country) => country.contains(position)).toList();
+    if (results.length > 1) {
+      results.sort((a, b) => GeoUtils.calculateDistance(a.center, position)
+          .compareTo(GeoUtils.calculateDistance(b.center, position)));
+    }
     watch.stop();
     debugPrint('searched for: ${watch.elapsedMilliseconds / 1000}s');
-    return result;
+    return results.firstOrNull;
   }
 }

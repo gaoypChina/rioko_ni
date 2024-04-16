@@ -8,7 +8,12 @@ import 'package:rioko_ni/features/map/presentation/cubit/map_cubit.dart';
 import 'package:rioko_ni/features/map/presentation/widgets/country_management_dialog.dart';
 
 class SearchCountryDialog extends StatefulWidget {
-  const SearchCountryDialog({super.key});
+  final void Function(Country) onSelectCountry;
+
+  const SearchCountryDialog({
+    required this.onSelectCountry,
+    super.key,
+  });
 
   @override
   State<SearchCountryDialog> createState() => _SearchCountryDialogState();
@@ -224,7 +229,12 @@ class _SearchCountryDialogState extends State<SearchCountryDialog>
         borderRadius: BorderRadius.circular(AppSizes.radiusHalf),
       ),
       child: ListTile(
-        onTap: () => CountryManagementDialog(country: country).show(context),
+        onTap: () {
+          Navigator.of(context).pop();
+          widget.onSelectCountry(country);
+          Future.delayed(const Duration(milliseconds: 200),
+              () => CountryManagementDialog(country: country).show(context));
+        },
         leading: Container(
           decoration: BoxDecoration(
             border: Border.all(

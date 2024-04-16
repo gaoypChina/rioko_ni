@@ -144,7 +144,14 @@ class _MapPageState extends State<MapPage> {
             barrierLabel: '',
             context: context,
             pageBuilder: (context, animation1, animation2) =>
-                const SearchCountryDialog(),
+                SearchCountryDialog(
+              onSelectCountry: (country) {
+                mapController
+                    .fitCamera(CameraFit.bounds(bounds: country.bounds));
+                mapController.move(
+                    mapController.camera.center, mapController.camera.zoom - 2);
+              },
+            ),
           );
         },
         icon: const FaIcon(

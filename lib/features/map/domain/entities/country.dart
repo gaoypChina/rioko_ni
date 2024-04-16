@@ -131,6 +131,15 @@ class Country with _$Country {
     );
   }
 
+  fm.LatLngBounds get bounds {
+    final polygon = fm.Polygon(points: polygons.first);
+    return polygon.boundingBox;
+  }
+
+  LatLng get center {
+    return bounds.center;
+  }
+
   Widget flag({
     double scale = 1,
     double borderRadius = 0,

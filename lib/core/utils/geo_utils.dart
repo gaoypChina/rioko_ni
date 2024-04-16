@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:geobase/geobase.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:maps_toolkit/maps_toolkit.dart' as toolkit;
@@ -9,6 +11,28 @@ class GeoUtils {
             .map((p) => toolkit.LatLng(p.latitude, p.longitude))
             .toList()) /
         1000000;
+  }
+
+  // Function to calculate distance between two LatLng points
+  static double calculateDistance(LatLng from, LatLng to) {
+    const double earthRadius = 6371.0; // Earth's radius in kilometers
+
+    // Convert latitude and longitude from degrees to radians
+    double fromLatRadians = from.latitude * pi / 180;
+    double toLatRadians = to.latitude * pi / 180;
+    double latDiffRadians = (to.latitude - from.latitude) * pi / 180;
+    double lngDiffRadians = (to.longitude - from.longitude) * pi / 180;
+
+    // Haversine formula
+    double a = sin(latDiffRadians / 2) * sin(latDiffRadians / 2) +
+        cos(fromLatRadians) *
+            cos(toLatRadians) *
+            sin(lngDiffRadians / 2) *
+            sin(lngDiffRadians / 2);
+    double c = 2 * atan2(sqrt(a), sqrt(1 - a));
+    double distance = earthRadius * c;
+
+    return distance;
   }
 
   /// Simplifies the polygon's points by reducing the number of points based on a reduction percentage.
