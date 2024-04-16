@@ -150,7 +150,6 @@ class _MapPageState extends State<MapPage> {
                     .fitCamera(CameraFit.bounds(bounds: country.bounds));
                 mapController.move(
                     mapController.camera.center, mapController.camera.zoom - 2);
-                debugPrint(country.alpha3);
               },
               fetchRegions: _mapCubit.getCountryRegions,
             ),
